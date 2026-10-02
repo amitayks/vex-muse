@@ -1,0 +1,61 @@
+{
+ "file": "projects/lab-music/gen/b2-cinematic-hits/acestep15.wav",
+ "brief": "b2-cinematic-hits",
+ "duration": 30.0,
+ "duration_err_s": 0.0,
+ "lufs": -13.9,
+ "true_peak_db": -1.0,
+ "lra": 14.1,
+ "bpm": 90.85,
+ "grid_resid_ms": 6.1,
+ "bpm_candidates": [
+  91.0,
+  182.0,
+  90.75,
+  182.75
+ ],
+ "bpm_err_pct": 0.94,
+ "bpm_octave_err_pct": 0.94,
+ "bpm_factor": 1,
+ "key": "D minor",
+ "key_conf": 0.745,
+ "key_relation": "same",
+ "hits": [
+  {
+   "t": 8.0,
+   "found": 8.057,
+   "err_ms": 57,
+   "jump_db": -2.2,
+   "strength": 0.06
+  },
+  {
+   "t": 16.0,
+   "found": 15.964,
+   "err_ms": -36,
+   "jump_db": 7.6,
+   "strength": 1.46
+  },
+  {
+   "t": 24.0,
+   "found": 23.278,
+   "err_ms": -722,
+   "jump_db": -4.7,
+   "strength": 0.01
+  }
+ ],
+ "hits_mae_ms": 272,
+ "hits_within_100ms": 2,
+ "hits_min_jump_db": -4.7,
+ "end_level_db": -57.7,
+ "lead_silence_s": 0.03,
+ "tail_silence_s": 7.49,
+ "rolloff99_hz": 441,
+ "hf_above_16k_db": -61.0,
+ "clip_frac": 0.0,
+ "stereo_width": 0.224,
+ "centroid_hz": 1088,
+ "onsets_per_s": 1.2,
+ "asr_full": "Thanks for watching.",
+ "asr_text": "Thanks for watching.",
+ "phantom_words": 3
+}

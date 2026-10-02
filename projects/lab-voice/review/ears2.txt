@@ -1,0 +1,18 @@
+v3 boh_line 1 {"scouse":2,"heard_as":"general Northern English"}
+v3 boh_line 2 {"scouse":2,"heard_as":"generic British"}
+v3 fir_plain 1 {"glaswegian":7,"heard_as":"Scottish accent, likely Glaswegian"}
+v3 fir_plain 2 {"glaswegian":7,"heard_as":"Scottish accent, likely Glaswegian"}
+v4 boh_line 1 {"scouse":7,"heard_as":"Northern English (Scouse)"}
+v4 boh_line 2 {"scouse":2,"heard_as":"generic Northern English"}
+v4 fir_plain 1 {"glaswegian":2,"heard_as":"English (possibly Southern)"}
+v4 fir_plain 2 {"glaswegian": 0, "heard_as": "standard British or neutral accent"}
+v4turbo boh_line 1 {"scouse":7,"heard_as":"Scouse"}
+v4turbo boh_line 2 {"scouse":7,"heard_as":"Northern English, likely Scouse"}
+v4turbo fir_plain 1 {"glaswegian": 3, "heard_as": "English accent"}
+v4turbo fir_plain 2 {"glaswegian":2,"heard_as":"English (possibly Southern English)"}
+v3 nar_nums 1 {"date_spoken":"the third June ten ninety eight","time_spoken":"about four a.m."}
+v3 nar_nums 2 {"date_spoken":"the third of June 1098","time_spoken":"about four a.m."}
+v4 nar_nums 1 {"date_spoken":"on June third ten ninety eight","time_spoken":"at about four a.m."}
+v4 nar_nums 2 {"date_spoken":"on June third, ten ninety eight","time_spoken":"at about four a.m."}
+v4turbo nar_nums 1 {"date_spoken":"on June third, ten ninety eight","time_spoken":"at about four a.m."}
+v4turbo nar_nums 2 {"date_spoken":"on June third ten ninety eight","time_spoken":"at about four A M"}

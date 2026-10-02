@@ -1,0 +1,12 @@
+# LEARNINGS — song-map
+- 2026-09-26 Whisper word timestamps on a full sung mix were ~1 s early on the first line (0.0 vs ~1.5 s); always transcribe the vocal stem and onset-snap.
+- 2026-09-26 On the P(doom) track the detector says ~130 BPM while the source repo's guide says 88 (a 3:2 relation); a stated tempo is a claim to test, not a fact.
+- 2026-09-26 Beat tracking at hop 512 quantized the period and drifted (129.2 vs 131.75 BPM); hop 256 fixed it (132.0 / 132.5 tracked, 88 listed as the 3:2 candidate).
+- 2026-09-26 Beat tracker downbeats sat ~60 ms early vs the measured transient (7.96 vs 8.02 s); onset-snap the grid before trimming/cutting to it.
+- 2026-09-26 Root cause of the ~50 ms early grid: onset-envelope frames were stamped at their START (2048-pt window, centre 46 ms later). Fixed with LAT; vs kick transients the DP grid went from -52 ms to about -20 ms, beat_this sits +15 ms.
+- 2026-09-26 Frame-quantised IBIs bias tempo (128 read as 129.2 at hop 256; 171 as 166.67 on beat_this's 50 fps grid): tempo is a least-squares fit over the beat grid.
+- 2026-09-26 Downbeat phase from bass accent alone was wrong on Get Lucky (F 0.0); bass accent + chord change on the DRUM stem got 0.99 / 0.87 on both test songs; mix-only failed both ways. Default grid = beat_this.
+- 2026-09-26 Octave: Blinding Lights (171) reads 85.5 on the local tracker AND Essentia RhythmExtractor; beat_this read 171.
+- 2026-09-26 Key: Essentia EDMA got Blinding Lights (F minor) where KK/Temperley said A# major; Get Lucky / Levels came out as the relative/fourth-related key on every method (B minor for F# minor, E major for C# minor) — label sources disagree too; treat relative-key answers as equivalent.
+- 2026-09-26 Whisper-1 on a whole 4-min vocal stem stamped lines 2-17 s off (drifts across long silences); transcribing <=28 s chunks cut at vocal gaps fixed it. One request hung for 10+ min: 180 s timeout + retries.
+- 2026-09-26 LRCLIB line times belong to whichever edit the uploader timed: Get Lucky's are the album edit, 16.5 s late on the radio edit. Detect the offset from transcript matches before anchoring; repeated chorus lines need monotonic word consumption.

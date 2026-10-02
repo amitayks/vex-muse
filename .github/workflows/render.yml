@@ -1,0 +1,56 @@
+# Muse render farm: renders a studio page's frames in parallel chunks, one artifact per chunk.
+# Dispatched by .pi/skills/render-review/scripts/farm.py — not by hand.
+name: render
+on:
+  workflow_dispatch:
+    inputs:
+      page:      { description: "studio page (relative to studio/)", required: true, default: "studio.html" }
+      t0:        { description: "start time (s)", required: true, default: "0" }
+      t1:        { description: "end time (s)", required: true, default: "4" }
+      chunks:    { description: "parallel chunks (1-40)", required: true, default: "4" }
+      fps:       { description: "frames per second", required: true, default: "24" }
+      runs_on:   { description: "runner label (GPU label when available)", required: true, default: "ubuntu-latest" }
+      gl:        { description: "soft | gpu", required: true, default: "soft" }
+      tag:       { description: "render id (e.g. slug-v3)", required: true, default: "test" }
+jobs:
+  plan:
+    runs-on: ubuntu-latest
+    outputs: { idx: "${{ steps.p.outputs.idx }}" }
+    steps:
+      - id: p
+        run: python3 -c "import json;n=int('${{ inputs.chunks }}');print('idx='+json.dumps(list(range(max(1,min(40,n))))))" >> "$GITHUB_OUTPUT"
+  render:
+    needs: plan
+    runs-on: ${{ inputs.runs_on }}
+    strategy:
+      fail-fast: false
+      matrix: { i: "${{ fromJSON(needs.plan.outputs.idx) }}" }
+    steps:
+      - uses: actions/checkout@v4
+        with: { sparse-checkout: studio, lfs: false }
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      - name: deps
+        working-directory: studio
+        run: |
+          npm i --ignore-scripts --no-audit --no-fund
+          npx --yes @puppeteer/browsers install chrome-headless-shell@stable --path "$RUNNER_TEMP/ch" > "$RUNNER_TEMP/ch.txt"
+          echo "CHROME_PATH=$(awk '{print $2}' "$RUNNER_TEMP/ch.txt" | tail -1)" >> "$GITHUB_ENV"
+          sudo apt-get install -y -qq ffmpeg > /dev/null || true
+      - name: render chunk
+        working-directory: studio
+        run: |
+          python3 - <<'EOF' > range.txt
+          t0,t1,n,i,fps=float("${{ inputs.t0 }}"),float("${{ inputs.t1 }}"),int("${{ inputs.chunks }}"),int("${{ matrix.i }}"),float("${{ inputs.fps }}")
+          f0,f1=round(t0*fps),round(t1*fps); step=-(-(f1-f0)//n); a=f0+i*step; b=min(f1,a+step)
+          print(f"{a/fps:.6f}:{b/fps:.6f}")
+          EOF
+          GL=$([ "${{ inputs.gl }}" = "gpu" ] && echo "--gpu-angle=vulkan" || echo "--soft-gl")
+          node render.mjs --page="${{ inputs.page }}" --chrome="$CHROME_PATH" $GL --frames --range=$(cat range.txt) --fps=${{ inputs.fps }} --workers=$(nproc) 2>&1 | tee render.log
+          tar cf "frames-${{ matrix.i }}.tar" -C out frames render.log 2>/dev/null || tar cf "frames-${{ matrix.i }}.tar" -C out frames
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ inputs.tag }}-chunk-${{ matrix.i }}
+          path: studio/frames-${{ matrix.i }}.tar
+          retention-days: 3
+          compression-level: 0

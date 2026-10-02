@@ -1,0 +1,1 @@
+One note per delivered project or lab: the brief in one paragraph, what worked, what didn't, spend against the cap, and where the final render and review are. Method belongs in `.pi/skills/`; reusable technique belongs in `references/`.

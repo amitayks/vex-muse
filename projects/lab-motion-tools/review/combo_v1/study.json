@@ -1,0 +1,143 @@
+{
+ "video": "projects/lab-motion-tools/renders/combo_v1.mp4",
+ "size": [
+  1920,
+  1080
+ ],
+ "fps": 30.0,
+ "frames": 120,
+ "duration": 4.0,
+ "cuts": [
+  1.667,
+  3.1
+ ],
+ "n_shots": 3,
+ "avg_shot_s": 1.333,
+ "motion_mean": 0.0226,
+ "hold_frac": 0.167,
+ "shots": [
+  {
+   "i": 1,
+   "t0": 0.0,
+   "t1": 1.667,
+   "dur": 1.667,
+   "motion_mean": 0.011,
+   "motion_peak": 0.0855,
+   "hold_frac": 0.367,
+   "palette": [
+    {
+     "hex": "#111013",
+     "share": 0.896
+    },
+    {
+     "hex": "#c9a381",
+     "share": 0.039
+    },
+    {
+     "hex": "#c55136",
+     "share": 0.024
+    },
+    {
+     "hex": "#5e4a48",
+     "share": 0.022
+    },
+    {
+     "hex": "#ebdecc",
+     "share": 0.019
+    }
+   ]
+  },
+  {
+   "i": 2,
+   "t0": 1.667,
+   "t1": 3.1,
+   "dur": 1.433,
+   "motion_mean": 0.0157,
+   "motion_peak": 0.1091,
+   "hold_frac": 0.0,
+   "palette": [
+    {
+     "hex": "#d1ad83",
+     "share": 0.423
+    },
+    {
+     "hex": "#b95131",
+     "share": 0.295
+    },
+    {
+     "hex": "#ca8050",
+     "share": 0.123
+    },
+    {
+     "hex": "#44313f",
+     "share": 0.094
+    },
+    {
+     "hex": "#eeddc3",
+     "share": 0.065
+    }
+   ]
+  },
+  {
+   "i": 3,
+   "t0": 3.1,
+   "t1": 4.0,
+   "dur": 0.9,
+   "motion_mean": 0.0452,
+   "motion_peak": 0.1353,
+   "hold_frac": 0.038,
+   "palette": [
+    {
+     "hex": "#e1a068",
+     "share": 0.282
+    },
+    {
+     "hex": "#fb538e",
+     "share": 0.253
+    },
+    {
+     "hex": "#ead9cc",
+     "share": 0.217
+    },
+    {
+     "hex": "#c25941",
+     "share": 0.184
+    },
+    {
+     "hex": "#653d45",
+     "share": 0.065
+    }
+   ]
+  }
+ ],
+ "audio": {
+  "bpm": 136.8,
+  "beat_period": 0.4386,
+  "beat_phase": 0.11,
+  "beats": [
+   0.11,
+   0.548,
+   0.987,
+   1.425,
+   1.864,
+   2.303,
+   2.741,
+   3.18,
+   3.618
+  ],
+  "onsets": [
+   0.546,
+   0.987,
+   1.219,
+   1.242,
+   2.589,
+   3.065,
+   3.495
+  ],
+  "cuts_on_beat": "1/2",
+  "cut_offsets_ms": [
+   -197,
+   -80
+  ]
+ }
+}

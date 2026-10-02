@@ -1,0 +1,8 @@
+{"id": "b2-cinematic-hits", "title": "30 s cinematic cue with hits at 8, 16 and 24 s",
+ "prompt": "Cinematic trailer cue, orchestral hybrid: taiko and orchestral percussion, low strings, brass, sub booms, tension risers. Epic, dark, precise.",
+ "instrumental": true, "duration": 30, "bpm": 90, "key": "D minor",
+ "sections": [{"t0": 0, "t1": 8, "name": "Tension", "desc": "quiet ticking pulse, soft low strings, suspense"},
+              {"t0": 8, "t1": 16, "name": "Build", "desc": "starts with a huge BOOM impact hit at the first beat, then rising strings and brass swell with a riser into the next section"},
+              {"t0": 16, "t1": 24, "name": "Epic", "desc": "starts with a massive impact hit, full orchestra, driving taiko percussion"},
+              {"t0": 24, "t1": 30, "name": "Final hit", "desc": "one final massive impact hit at the first beat, then everything stops and the hit rings out"}],
+ "hits": [8.0, 16.0, 24.0], "measure": {"duration": 30, "hits": [8.0, 16.0, 24.0]}}

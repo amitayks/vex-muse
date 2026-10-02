@@ -1,0 +1,6 @@
+premade voices on key: 21
+using premade: Roger - Laid-Back, Casual, Resonant
+eleven_v3 TTFB median 0.83s total median 3.93s n= 3 [1.12, 0.82, 0.83]
+eleven_v4 TTFB median 0.89s total median 1.91s n= 3 [0.89, 2.46, 0.8]
+eleven_v4_turbo TTFB median 1.09s total median 1.72s n= 3 [1.92, 0.19, 1.09]
+library voice (Antioch narrator) direct on v4: {'ok': False, 'err': '400 {"detail":{"type":"invalid_request","code":"bad_request","message":"You need to be on the creator tier or above to use this voice.","status":"free_users_not_allowed","request_id":"4029ca077d3991505983'}

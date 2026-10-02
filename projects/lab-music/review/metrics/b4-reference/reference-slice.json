@@ -1,0 +1,38 @@
+{
+ "file": "projects/lab-music/tests/ref/blinding-lights-30s.mp3",
+ "brief": "b4-style-text",
+ "duration": 30.0,
+ "duration_err_s": 0.0,
+ "lufs": -15.5,
+ "true_peak_db": -4.4,
+ "lra": 1.8,
+ "bpm": 85.49,
+ "grid_resid_ms": 4.1,
+ "bpm_candidates": [
+  85.5,
+  171.0,
+  171.25,
+  171.75
+ ],
+ "bpm_err_pct": -50.01,
+ "bpm_octave_err_pct": 0.01,
+ "bpm_factor": 2,
+ "key": "C minor",
+ "key_conf": 0.116,
+ "key_relation": "fifth",
+ "end_level_db": -10.8,
+ "lead_silence_s": 0.0,
+ "tail_silence_s": 0.0,
+ "rolloff99_hz": 5663,
+ "hf_above_16k_db": -61.3,
+ "clip_frac": 0.0,
+ "stereo_width": 0.207,
+ "centroid_hz": 2387,
+ "onsets_per_s": 3.13,
+ "style": {
+  "ref_bpm": 171.02,
+  "ref_key": "F minor",
+  "key_relation_to_ref": "fifth",
+  "chroma_cos": 0.986
+ }
+}

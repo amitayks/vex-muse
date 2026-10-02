@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1920, height=1080">
+<title>Tesseract lab 2/2 — slice (the Flatland visitor)</title>
+<script src="assets/js/gsap.min.js"></script>
+<script src="assets/js/nd4.js"></script>
+<style>
+  @font-face { font-family: "Unb"; src: url("assets/fonts/Unbounded.ttf"); }
+  /* off the trend fingerprint: sage stock, ink, two riso inks (teal, fluorescent pink) */
+  :root { --paper:#CDD1C4; --ink:#1C1D1A; --teal:#00838A; --pink:#FF48B0; }
+  body { margin:0; background:var(--paper); }
+  #root { position:relative; width:100%; height:100%; overflow:hidden; background:var(--paper); }
+  .clip { position:absolute; inset:0; }
+  svg.full { position:absolute; inset:0; width:100%; height:100%; }
+  .lab { position:absolute; font-family:"Unb"; font-weight:500; color:var(--ink); white-space:nowrap; }
+  .head { top:90px; font-size:30px; }
+  .name { top:900px; font-size:40px; font-weight:600; transform:translateX(-50%); }
+  #hL { left:120px; } #hR { left:880px; }
+  #nL { left:410px; } #nR { left:1300px; }
+</style>
+</head>
+<body>
+<div id="root" data-composition-id="main" data-start="0" data-width="1920" data-height="1080" data-duration="8.1" data-fps="30">
+  <audio id="bgm" data-start="0" data-duration="8.1" data-track-index="9" data-volume="1" src="assets/beat128.wav"></audio>
+  <section id="stage" class="clip" data-start="0" data-duration="8.1" data-track-index="0">
+    <svg class="full" viewBox="0 0 1920 1080">
+      <line x1="780" y1="150" x2="780" y2="960" stroke="#1C1D1A" stroke-width="2" stroke-opacity=".25" />
+      <path id="poly" fill="#00838A" stroke="#1C1D1A" stroke-width="4" stroke-linejoin="round" />
+      <g id="faces" stroke="#1C1D1A" stroke-width="3.5" stroke-linejoin="round"></g>
+    </svg>
+    <div class="lab head" id="hL">a cube crossing a flat world</div>
+    <div class="lab head" id="hR">a tesseract crossing ours</div>
+    <div class="lab name" id="nL"></div>
+    <div class="lab name" id="nR"></div>
+  </section>
+</div>
+<script>
+const BPM = 128, B = 60 / BPM, FPS = 30, DUR = 8.1;
+const at = (bar, beat = 0) => (bar * 4 + beat) * B;
+const clamp = x => Math.max(0, Math.min(1, x));
+const easeOut = x => 1 - Math.pow(1 - clamp(x), 4);
+const NS = "http://www.w3.org/2000/svg";
+const T = ND4.tesseract();
+const n4 = [1, 1, 1, 1];                                   // slice perpendicular to the long diagonal: vertex-first
+
+// travel c in [-1, 1]: one step per beat, 16 beats; bar downbeats land on the landmark shapes
+// (bar 2 = tetrahedron through 4 vertices, bar 3 = octahedron, bar 4 = the mirrored tetrahedron, end = gone)
+function travel(t) {
+  let c = -1;
+  for (let k = 1; k <= 16; k++) c += 0.125 * easeOut((t - at(0, k)) / (0.42 * B));   // beat 0 is the empty stage
+  return c;
+}
+// a cube's slice by the plane perpendicular to (1,1,1): 2D polygon in the plane's own coordinates
+const CV = []; for (let k = 0; k < 8; k++) CV.push([0, 1, 2].map(b => (k >> b) & 1 ? 1 : -1));
+const CE = []; for (let a = 0; a < 8; a++) for (let b = 0; b < 3; b++) { const c = a ^ (1 << b); if (a < c) CE.push([a, c]); }
+function cubeSlice(s) {
+  const n = [1, 1, 1].map(x => x / Math.sqrt(3)), e1 = [1 / Math.SQRT2, -1 / Math.SQRT2, 0], e2 = [1, 1, -2].map(x => x / Math.sqrt(6));
+  const d = CV.map(v => v[0] * n[0] + v[1] * n[1] + v[2] * n[2] - s), P = [];
+  CE.forEach(([i, j]) => { if (d[i] * d[j] > 0 || d[i] === d[j]) return;
+    const u = d[i] / (d[i] - d[j]), p = CV[i].map((x, k) => x + (CV[j][k] - x) * u);
+    const q = [p[0] * e1[0] + p[1] * e1[1] + p[2] * e1[2], p[0] * e2[0] + p[1] * e2[1] + p[2] * e2[2]];
+    if (!P.some(r => Math.hypot(r[0] - q[0], r[1] - q[1]) < 1e-6)) P.push(q); });
+  const m = P.reduce((a, p) => [a[0] + p[0] / P.length, a[1] + p[1] / P.length], [0, 0]);
+  return P.sort((a, b) => Math.atan2(a[1] - m[1], a[0] - m[0]) - Math.atan2(b[1] - m[1], b[0] - m[0]));
+}
+const faceEls = [];
+for (let k = 0; k < 8; k++) { const p = document.createElementNS(NS, "path"); document.getElementById("faces").appendChild(p); faceEls.push(p); }
+const L = (() => { const v = [-0.45, 0.7, 0.55], m = Math.hypot(...v); return v.map(x => x / m); })();
+const mix = (a, b, k) => a.map((x, i) => Math.round(x + (b[i] - x) * k));
+const COB = [0, 131, 138], AMB = [255, 72, 176], INK = [28, 29, 26];      // teal side / pink side of the tesseract
+
+function render(t) {
+  const c = travel(t);
+  // ---- left: the flatlander's view of a cube ----
+  const poly = cubeSlice(Math.sqrt(3) * c), spin = 0.25 * t / DUR;
+  const LX = 410, LY = 520, LS = 165;
+  document.getElementById("poly").setAttribute("d", poly.length >= 3 ? "M" + poly.map(([x, y]) => {
+    const xr = x * Math.cos(spin) - y * Math.sin(spin), yr = x * Math.sin(spin) + y * Math.cos(spin);
+    return (LX + xr * LS).toFixed(1) + "," + (LY - yr * LS).toFixed(1); }).join("L") + "Z" : "");
+  document.getElementById("nL").textContent = poly.length === 3 ? "triangle" : poly.length === 6 ? "hexagon" : "";
+
+  // ---- right: our view of a tesseract — its 3D cross-section, flat-shaded, turning slowly ----
+  const faces = ND4.slice(T.V, T.E, T.cells, n4, 2 * c);
+  // camera chosen by search so the octahedron beat (bar 3) shows 4 equal faces — the blue/orange checker
+  const yaw = 5.05 + 1.1 * t / DUR, pitch = -0.40, RX = 1300, RY = 505, S = 175, D3 = 7;
+  const all = faces.flatMap(f => f.pts); const g = all.length ? [0, 1, 2].map(k => all.reduce((a, p) => a + p[k], 0) / all.length) : [0, 0, 0];
+  const drawn = faces.map(f => {
+    const q = f.pts.map(p => ND4.view3(p, yaw, pitch)), m = ND4.view3(f.center, yaw, pitch), gc = ND4.view3(g, yaw, pitch);
+    const a = q[1].map((x, i) => x - q[0][i]), b = q[2].map((x, i) => x - q[0][i]);
+    let nr = [a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0]];
+    const out = m.map((x, i) => x - gc[i]); if (nr[0] * out[0] + nr[1] * out[1] + nr[2] * out[2] < 0) nr = nr.map(x => -x);
+    const nl = Math.hypot(...nr) || 1; nr = nr.map(x => x / nl);
+    const cam = [-m[0], -m[1], D3 - m[2]];                                 // toward the eye at z = D3
+    const front = nr[0] * cam[0] + nr[1] * cam[1] + nr[2] * cam[2] > 0;
+    const lam = Math.max(0, nr[0] * L[0] + nr[1] * L[1] + nr[2] * L[2]);
+    const fam = T.cells[f.cell].sign < 0 ? COB : AMB;                      // which side of the tesseract the face comes from
+    const col = mix(mix(fam, INK, 0.28), mix(fam, [255, 255, 255], 0.18), lam);
+    const s2 = q.map(p => ND4.project3(p, D3, S * D3, RX, RY));
+    return { front, depth: m[2], d: "M" + s2.map(p => p[0].toFixed(1) + "," + p[1].toFixed(1)).join("L") + "Z", col };
+  }).filter(f => f.front).sort((a, b) => a.depth - b.depth);
+  faceEls.forEach((el, k) => {
+    const f = drawn[k];
+    el.setAttribute("d", f ? f.d : "");
+    if (f) el.setAttribute("fill", `rgb(${f.col.join(",")})`);
+  });
+  // name from the depth itself (vertex levels at |c| = 0.5 and 0), with a tolerance so a step's last frames can't flicker
+  const ac = Math.abs(c);
+  document.getElementById("nR").textContent = !faces.length || ac > 0.999 ? "" : ac < 0.01 ? "octahedron" :
+    ac > 0.49 ? "tetrahedron" : "truncated tetrahedron";
+}
+
+const tl = gsap.timeline({ paused: true });
+const clock = { t: 0 };
+tl.to(clock, { t: DUR, duration: DUR, ease: "none", onUpdate() { render(clock.t); } }, 0);
+render(0);
+window.__timelines = window.__timelines || {};
+window.__timelines["main"] = tl;
+</script>
+</body>
+</html>

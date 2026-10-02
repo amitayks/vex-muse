@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1920, height=1080" />
+<title>Muse lab — combination test</title>
+<script src="assets/js/gsap.min.js"></script>
+<script src="assets/js/MorphSVGPlugin.min.js"></script>
+<style>
+  @font-face { font-family: "MuseMono"; src: url("assets/fonts/IBMPlexMono-Medium.ttf"); }
+  :root { --ink:#111013; --red:#EA4032; --cream:#EEE8E0; }
+  body { margin:0; background:var(--ink); }
+  #root { position:relative; width:100%; height:100%; overflow:hidden; background:var(--ink); }
+  #plate-mask { position:absolute; inset:0; clip-path:path("M0,0 Z"); }
+  #plate-move { position:absolute; inset:0; }
+  #plate { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+  #lyr { position:absolute; inset:0; width:100%; height:100%; z-index:6; }
+  svg.full { position:absolute; inset:0; width:100%; height:100%; }
+  #flash { position:absolute; inset:0; background:var(--cream); opacity:0; z-index:8; }
+  #grain { position:absolute; inset:-64px; background:url("assets/grain.png"); opacity:.08; mix-blend-mode:overlay; z-index:9; }
+  .hud { position:absolute; z-index:10; font-family:"MuseMono"; font-size:16px; letter-spacing:.16em; color:rgba(238,232,224,.85); }
+  #h1 { left:56px; top:44px; } #h2 { right:56px; top:44px; } #h3 { left:56px; bottom:40px; } #h4 { right:56px; bottom:40px; }
+  .stack span { display:block; line-height:1.7; } .stack .k { color:var(--red); }
+</style>
+</head>
+<body>
+<div id="root" data-composition-id="combo" data-start="0" data-width="1920" data-height="1080" data-duration="4" data-fps="30">
+  <audio id="song" data-start="0" data-duration="4" data-track-index="9" data-volume="1" src="assets/song_s1.wav"></audio>
+
+  <!-- the reveal window: a clipPath whose single path morphs spark -> circle and grows past the frame -->
+  <svg class="full" width="0" height="0" style="position:absolute">
+    <path id="win-p" fill="none" stroke="none" />
+  </svg>
+
+  <!-- GENERATED PLATE (Seedance 2.5, P(doom) S1) seen only through the window -->
+  <div id="plate-mask"><div id="plate-move">
+    <video id="plate" data-start="0" data-duration="4" data-track-index="0" data-volume="0" src="assets/plate_s1.mp4" muted playsinline></video>
+  </div></div>
+
+  <!-- SVG layer: the red spark before the reveal + FOOM shockwave stamps -->
+  <svg class="full" viewBox="0 0 1920 1080" style="z-index:5">
+    <g id="spark-g"><path id="spark" fill="#EA4032" /></g>
+    <g id="waves" fill="none" stroke="#EA4032" stroke-width="10"></g>
+  </svg>
+
+  <!-- REMOTION layer: transparent VP9 kinetic lyrics (words on their sung onsets) -->
+  <video id="lyr" data-start="0" data-duration="4" data-track-index="2" data-volume="0" src="assets/lyric.webm" muted playsinline></video>
+
+  <div id="flash"></div>
+  <div id="grain"></div>
+  <div class="hud" id="h1">MUSE / LAB — COMBINATION</div>
+  <div class="hud" id="h2">132 BPM · CHORUS 1</div>
+  <div class="hud" id="h3">TC 00:00:00:00</div>
+  <div class="hud stack" id="h4"><span><i class="k">■</i></span></div>
+</div>
+
+<script>
+gsap.registerPlugin(MorphSVGPlugin);
+const FPS = 30, DUR = 4, B = 60 / 132;
+// word onsets (song.json, local to the 22.60 s slice) — the only clock the choreography reads
+const ON = { im: 0.063, upping: 0.53, my: 0.98, pdoom: 1.36, cause: 1.711, future: 2.129, goes: 2.58, foom: 3.08 };
+const tl = gsap.timeline({ paused: true });
+const spark = (() => { let d = ""; const n = 11; for (let i = 0; i < n; i++) { const a = -Math.PI / 2 + i * 2 * Math.PI / n, a2 = a + Math.PI / n, R = 195 - (i % 3) * 16, r = 62;
+  const p = (ang, rad) => `${(200 + rad * Math.cos(ang)).toFixed(1)},${(200 + rad * Math.sin(ang)).toFixed(1)}`;
+  d += (i ? "L" : "M") + p(a - 0.09, R) + " L" + p(a + 0.09, R) + " L" + p(a2, r) + " "; } return d + "Z"; })();
+const circle = "M200,20 C299.4,20 380,100.6 380,200 C380,299.4 299.4,380 200,380 C100.6,380 20,299.4 20,200 C20,100.6 100.6,20 200,20 Z";
+["spark", "win-p"].forEach(id => document.getElementById(id).setAttribute("d", spark));
+// both groups share one transform: centred on frame, scaled + rotated together
+const T = { s: 0, r: -30 };
+// url(#clipPath) references do not survive HyperFrames capture; a CSS path() rebuilt every frame does.
+const winP = document.getElementById("win-p"), mask = document.getElementById("plate-mask");
+const xform = d => { const a = T.r * Math.PI / 180, c = Math.cos(a) * T.s, n = Math.sin(a) * T.s, out = []; let buf = [];
+  for (const tok of d.match(/[A-Za-z]|-?\d*\.?\d+(?:e[-+]?\d+)?/g)) {
+    if (/[A-Za-z]/.test(tok)) { out.push(tok); continue; } buf.push(+tok);
+    if (buf.length === 2) { const x = buf[0] - 200, y = buf[1] - 200; out.push((960 + c * x - n * y).toFixed(1) + "," + (540 + n * x + c * y).toFixed(1)); buf = []; } }
+  return out.join(" "); };
+const apply = () => { document.getElementById("spark-g").setAttribute("transform", `translate(960 540) rotate(${T.r}) scale(${T.s}) translate(-200 -200)`);
+  mask.style.clipPath = T.s > 0 ? `path("${xform(winP.getAttribute("d"))}")` : 'path("M0,0 Z")'; };
+apply();
+tl.to(T, { s: 0.55, r: 0, duration: 0.3, ease: "back.out(2.5)", onUpdate: apply }, ON.im);
+// "upping": the spark stops being paint and becomes a window onto the plate
+tl.set("#spark", { opacity: 0 }, ON.upping);
+tl.to(T, { s: 1.25, r: 40, duration: 0.3, ease: "expo.out", onUpdate: apply }, ON.upping);
+tl.to(T, { s: 2.0, r: 70, duration: 0.3, ease: "expo.out", onUpdate: apply }, ON.my);
+// "P(doom)": spark morphs to circle and irises past the frame edge (half-diagonal 1101 px = 6.2x)
+tl.to("#win-p", { morphSVG: { shape: circle, shapeIndex: "auto" }, duration: 0.28, ease: "power3.inOut", onUpdate: apply }, ON.pdoom);
+tl.to(T, { s: 7.2, r: 110, duration: 0.34, ease: "expo.in", onUpdate: apply }, ON.pdoom);
+// held section: slow push-in on the plate while the words land
+tl.fromTo("#plate-move", { scale: 1 }, { scale: 1.07, duration: ON.foom - ON.pdoom, ease: "none" }, ON.pdoom);
+// FOOM: flash, shockwave sparks, camera shake (seeded, deterministic)
+tl.set("#flash", { opacity: 0.85 }, ON.foom - 0.01);
+tl.to("#flash", { opacity: 0, duration: 0.14, ease: "power2.out" }, ON.foom);
+const waves = document.getElementById("waves"), wv = [];
+for (let k = 0; k < 3; k++) { const g = document.createElementNS("http://www.w3.org/2000/svg", "path"); g.setAttribute("d", spark); g.setAttribute("opacity", 0); waves.appendChild(g); wv.push(g); }
+// custom effects are pure functions of time (called from the HUD proxy every frame) — no pre-roll surprises
+const wavesAt = t => wv.forEach((g, k) => { const l = (t - ON.foom - k * 0.05) / 0.55;
+  if (l < 0 || l > 1) { g.setAttribute("opacity", 0); return; }
+  const sc = 0.2 + (4.8 + k * 1.6) * (1 - Math.pow(2, -10 * l));
+  g.setAttribute("transform", `translate(960 540) rotate(${k * 11}) scale(${sc}) translate(-200 -200)`); g.setAttribute("opacity", 1 - l); g.setAttribute("stroke-width", 10 / sc); });
+const shake = { t: 0 };
+tl.to(shake, { t: 1, duration: 0.3, ease: "none", onUpdate() { const a = 26 * (1 - shake.t), h = n => { const x = Math.sin(n * 91.7 + 3.1) * 43758.5; return x - Math.floor(x) - 0.5; };
+  const f = Math.round(shake.t * 9); gsap.set("#plate-move", { x: a * h(f), y: a * h(f + 17) }); } }, ON.foom);
+tl.set("#plate-move", { x: 0, y: 0 }, ON.foom + 0.31);
+tl.to("#plate-move", { scale: 1.16, duration: 0.25, ease: "expo.out" }, ON.foom);
+// HUD: timecode + which tool made which layer (the combination, labelled on screen)
+const hud = { t: 0 }, grain = document.getElementById("grain");
+const layers = ["PLATE · SEEDANCE 2.5", "MASK · SVG MORPH", "TYPE · REMOTION ALPHA", "COMP · HYPERFRAMES"];
+tl.to(hud, { t: DUR, duration: DUR, ease: "none", onUpdate() {
+  wavesAt(hud.t);
+  const f = Math.round(hud.t * FPS); document.getElementById("h3").textContent = `TC 00:00:${String(Math.floor(f / FPS)).padStart(2, "0")}:${String(f % FPS).padStart(2, "0")}`;
+  const n = hud.t < ON.upping ? 1 : hud.t < ON.pdoom ? 2 : hud.t < ON.foom ? 3 : 4;
+  document.getElementById("h4").innerHTML = layers.slice(0, n).map((l, i) => `<span>${i === n - 1 ? '<i class="k">▸</i> ' : "  "}${l}</span>`).join("");
+  const h = Math.sin(f * 12.9898) * 43758.5453, r = h - Math.floor(h); grain.style.backgroundPosition = `${Math.floor(r * 512)}px ${Math.floor((r * 7.13 % 1) * 512)}px`;
+} }, 0);
+window.__timelines = window.__timelines || {};
+window.__timelines["combo"] = tl;
+</script>
+</body>
+</html>

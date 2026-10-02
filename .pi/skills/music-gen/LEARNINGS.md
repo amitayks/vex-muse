@@ -1,0 +1,9 @@
+# LEARNINGS — music-gen
+- 2026-09-26 Music models structure on their own bar/phrase grid, never on absolute timestamps: requested hits at 8/16/24 s landed as section changes at 10-12 / 16-17 / 21-25 s. Put hits on bar lines by choosing the BPM, then design the hits in code.
+- 2026-09-26 Lyria 3.5 ignores "exactly N seconds" (30 → 62 s); MiniMax Music 3 treats duration as an upper bound and stopped an instrumental at 17 s; ACE-Step 1.5 honours duration but one take went silent for its last 7 s — always 2 takes and a spectrogram look.
+- 2026-09-26 Whisper on a full mix dropped whole verses (WER 0.3-0.6 on songs whose vocal stems score 0.00): score lyrics on the vocal stem.
+- 2026-09-26 ElevenLabs `audio_reference` refused a Blinding Lights instrumental slice (copyright screen, 422, not billed) and accepted our own beat: "style of <famous song>" goes through analysis-to-words or an open model.
+- 2026-09-26 Whisper hallucinates "you" on instrumentals; 1-3 phantom words are not vocals.
+- 2026-09-26 ACE-Step 1.5 on Modal L4: cold start ~75 s (weights baked in the image), LM "thinking" ~26 s with the pt backend, DiT 5 s for 2×30 s; ≈$0.02-0.03 per call.
+- 2026-09-26 YuE2 (open, Sep 2026) ran first try on a Modal L40S: 60 s song in 30 s, ~$0.04; lyrics decide the length and it plans its own key in an ABC score (E major for a C-major brief) — supply `abc` to control key/melody. Vocal WER 0.13.
+- 2026-09-26 The principal listened: ACE-Step 1.5's vocal beat ElevenLabs' (cleaner, more natural high/low) although both scored WER ~0 — metrics can't rank voice character; his ear sets the default. ACE-Step ends early in ~2/5 takes, so draft 3 and reject by duration.

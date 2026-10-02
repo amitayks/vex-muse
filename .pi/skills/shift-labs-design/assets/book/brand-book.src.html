@@ -1,0 +1,512 @@
+<!doctype html>
+<html lang="en" data-theme="light" data-mode="published">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Shift Labs design · brand book</title>
+<!-- job: anyone making a Shift Labs deck, report or figure can see every rule, token and shape, in both modes. -->
+<!-- shift:head -->
+<style>
+.bk-grid { display: grid; grid-template-columns: repeat(var(--cols, 2), minmax(0, 1fr)); gap: calc(12.8 * var(--u)); }
+.bk-grid.is-wide { grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); }
+.bk-mark { display: flex; align-items: flex-end; justify-content: center; gap: 28px; min-height: 200px; border-radius: calc(8 * var(--u)); background: var(--s-bg); border: 1px solid var(--s-line); padding: 24px; }
+.bk-mark .s-logo { --s-logo: 132px; }
+.bk-mark .s-logo.is-sm { --s-logo: 48px; }
+.bk-mark .s-logo.is-xs { --s-logo: 22px; }
+.bk-anat { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-top: calc(16 * var(--u)); }
+.bk-anat > div { background: var(--s-well); border-radius: 6px; padding: 12px 14px; }
+.bk-anat b { display: block; font: 700 calc(22 * var(--u))/1 var(--s-f-display); color: var(--s-ink); margin-bottom: 6px; }
+.bk-anat span { font-size: 13.5px; line-height: 1.4; color: var(--s-muted); }
+.bk-ways { display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 10px; }
+.bk-way { display: grid; justify-items: center; gap: 8px; background: var(--s-well); border: 1px solid var(--s-line); border-radius: 6px; padding: 12px 4px 8px; }
+.bk-way .s-logo { --s-logo: 44px; }
+.bk-way span { font-size: 12px; color: var(--s-muted); }
+.bk-swatches { display: grid; gap: 6px; }
+.bk-sw { display: grid; grid-template-columns: 40px minmax(0, 1fr) auto; gap: 12px; align-items: center; font-size: 13px; }
+.bk-sw i { width: 40px; height: 28px; border-radius: 5px; border: 1px solid var(--s-line); }
+.bk-sw code { font-size: 12px; }
+.bk-sw b { font-weight: 700; }
+.bk-sw small { color: var(--s-muted); font-size: 12.5px; display: block; }
+.bk-pal { background: var(--s-bg); color: var(--s-ink); border: 1px solid var(--s-line); border-radius: calc(8 * var(--u)); padding: calc(14 * var(--u)); }
+.bk-type { display: grid; gap: 14px; }
+.bk-type > div { display: grid; grid-template-columns: 170px minmax(0, 1fr); gap: 16px; align-items: baseline; border-top: 1px solid var(--s-line); padding-top: 12px; }
+.bk-type small { color: var(--s-muted); font-size: 12.5px; line-height: 1.4; }
+.bk-shape { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: calc(16 * var(--u)); align-items: start; border-top: 1px solid var(--s-line); padding-top: calc(16 * var(--u)); margin-top: calc(16 * var(--u)); }
+.bk-shape .s-code { font-size: 12.5px; white-space: pre-wrap; word-break: break-word; }
+.bk-dd { display: grid; gap: 10px; }
+.bk-do { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.bk-do > div { border-radius: 6px; padding: 12px 14px; background: var(--s-card); border: 1px solid var(--s-line); font-size: 14.5px; line-height: 1.45; color: var(--s-ink); }
+.bk-do > div::before { display: block; font: 700 12px/1.2 var(--s-f-sans); letter-spacing: .14em; text-transform: uppercase; margin-bottom: 6px; }
+.bk-do .is-do::before { content: "Write"; color: var(--s-ink); }
+.bk-do .is-dont::before { content: "Not"; color: var(--s-signal-ink); }
+.bk-do .is-dont { color: var(--s-muted); }
+.bk-legend { margin: 0; padding-left: 1.3em; display: grid; gap: 6px; font-size: 14.5px; color: var(--s-muted); }
+.bk-legend b { color: var(--s-ink); }
+.bk-forms { width: 100%; border-collapse: collapse; font-size: 14px; }
+.bk-forms th, .bk-forms td { text-align: left; vertical-align: top; padding: 10px 12px 10px 0; border-top: 1px solid var(--s-line); }
+.bk-forms th { font: 700 12px/1.2 var(--s-f-sans); letter-spacing: .12em; text-transform: uppercase; color: var(--s-muted); border-top: 0; }
+.bk-forms td { color: var(--s-muted); }
+.bk-forms td:first-child { color: var(--s-ink); font-weight: 700; white-space: nowrap; }
+.bk-ladder { margin: 0; display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 10px 16px; align-items: center; font-size: 14.5px; line-height: 1.4; color: var(--s-muted); }
+.bk-ladder dd { margin: 0; }
+.bk-ladder > div { display: contents; }
+.bk-chain { font: 700 12px/1.6 var(--s-f-sans); letter-spacing: .1em; text-transform: uppercase; color: var(--s-ink); background: var(--s-well); border-radius: 6px; padding: 12px 14px; margin: 0 0 calc(16 * var(--u)); }
+.bk-chain span { color: var(--s-signal-label); }
+.bk-shape.is-wide { grid-template-columns: minmax(0, 1fr); }
+@media (max-width: 760px) { .bk-ladder { grid-template-columns: minmax(0, 1fr); gap: 4px; } .bk-ladder dd { margin-bottom: 10px; } }
+@media (max-width: 760px) {
+  .bk-grid, .bk-grid.is-wide, .bk-shape, .bk-do { grid-template-columns: minmax(0, 1fr); }
+  .bk-ways { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .bk-anat { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .bk-type > div { grid-template-columns: minmax(0, 1fr); gap: 4px; }
+  .bk-mark { flex-direction: column; }
+  .bk-forms thead { display: none; }
+  .bk-forms tr { display: grid; gap: 4px; padding: 12px 0; border-top: 1px solid var(--s-line); }
+  .bk-forms td { display: block; border: 0; padding: 0; }
+}
+</style>
+</head>
+<body class="s-page">
+<header class="s-head">
+  <div class="s-wrap">
+    <img data-brand="logo" class="s-logo" alt="Shift Labs">
+    <span class="s-head__brand">Shift Labs</span>
+    <span class="s-head__doc">Design · brand book 1.4</span>
+    <div class="s-head__end"><span data-theme-toggle></span></div>
+  </div>
+</header>
+
+<main>
+  <section class="s-hero">
+    <div class="s-wrap">
+      <span class="s-eyebrow">Shift Labs design · Brand book 1.4 · September 2026</span>
+      <h1 class="s-title">Orange means it fired</h1>
+      <p class="s-lede">This is how Shift Labs documents look: research decks, reports, notes and figures. The language comes from the Agent Work Index decks. Warm paper, ink type, simple shapes, and one orange that marks the thing that happened. <b>Every document works in light and dark</b>, and dark mode is the Vex dashboard’s charcoal.</p>
+      <div class="s-stats" style="--cols:3">
+        <p class="s-stat is-signal"><b>1</b><span>signal colour. Orange marks what fired, the key bar and the one number to read.</span></p>
+        <p class="s-stat"><b>2</b><span>modes, same tokens: paper from the Agent Work Index, charcoal from the Vex dashboard.</span></p>
+        <p class="s-stat"><b>15</b><span>shapes, drawn from JSON, that explain a system or a number without a chart library.</span></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 1 · mark -->
+  <section class="s-sec" id="mark">
+    <div class="s-wrap">
+      <div class="s-sec__head">
+        <span class="s-eyebrow is-sm">1 · The logo</span>
+        <h2 class="s-h2">The logo, without a background</h2>
+        <p class="s-lede">The logo is the Shift keycap: a pink face, a navy up arrow, and a darker lip that forms its border. <b>We use it without any background, framed at its own border.</b> The artwork itself is never changed.</p>
+      </div>
+      <div class="bk-grid">
+        <div class="bk-mark" data-theme="light"><img data-brand="logo" class="s-logo" alt="Shift Labs logo on paper"><img data-brand="logo" class="s-logo is-sm" alt="Shift Labs logo on paper, 48 px"><img data-brand="logo" class="s-logo is-xs" alt="Shift Labs logo on paper, 22 px"></div>
+        <div class="bk-mark" data-theme="dark"><img data-brand="logo" class="s-logo" alt="Shift Labs logo on charcoal"><img data-brand="logo" class="s-logo is-sm" alt="Shift Labs logo on charcoal, 48 px"><img data-brand="logo" class="s-logo is-xs" alt="Shift Labs logo on charcoal, 22 px"></div>
+      </div>
+      <div class="bk-anat">
+        <div><b>45%</b><span>of the official square’s width is logo. The rest was a white background, off-centre: 163 left, 117 right, 131 top, 149 bottom (of 512).</span></div>
+        <div><b>232 × 233</b><span>the logo’s own frame in the official file. Its border is the outer edge of the lip.</span></div>
+        <div><b>22 : 2</b><span>the lip border: 22 units along the bottom, 2 on the right, a hairline on the left, and it rises at the top-right corner.</span></div>
+        <div><b>80 · 11 · 9</b><span>percent of the logo that is face, lip and arrow.</span></div>
+      </div>
+      <div class="bk-grid" style="margin-top:calc(16 * var(--u))">
+        <ol class="s-examples">
+          <li><b>No background, ever.</b> No white square, no chip, no tile behind it. It sits directly on paper or charcoal.</li>
+          <li><b>Never change the artwork.</b> Do not recolour, redraw, round, mask, rotate, stretch, add a shadow, or build a lockup or wordmark from it.</li>
+          <li><b>Size by height only.</b> 16 px or larger. Keep a quarter of its width clear on every side.</li>
+        </ol>
+        <ol class="s-examples" start="4">
+          <li><b>Where it goes.</b> The page header and footer, the deck cover and the closing slide. It is never decoration inside content.</li>
+          <li><b>How it ships.</b> <code>&lt;img data-brand="logo"&gt;</code>. The build embeds the pinned file byte for byte, and the lint checks its hash and rejects any white background.</li>
+          <li><b>Colourways are for avatars.</b> The 16 official colourways below are trimmed the same way. Documents use the original pink.</li>
+        </ol>
+      </div>
+      <div class="bk-ways" style="margin-top:calc(16 * var(--u))">
+        <div class="bk-way"><img data-brand="avatar-original" class="s-logo" alt="original avatar"><span>original</span></div>
+        <div class="bk-way"><img data-brand="avatar-midnight" class="s-logo" alt="midnight avatar"><span>midnight</span></div>
+        <div class="bk-way"><img data-brand="avatar-eggplant" class="s-logo" alt="eggplant avatar"><span>eggplant</span></div>
+        <div class="bk-way"><img data-brand="avatar-rose" class="s-logo" alt="rose avatar"><span>rose</span></div>
+        <div class="bk-way"><img data-brand="avatar-coral" class="s-logo" alt="coral avatar"><span>coral</span></div>
+        <div class="bk-way"><img data-brand="avatar-peach" class="s-logo" alt="peach avatar"><span>peach</span></div>
+        <div class="bk-way"><img data-brand="avatar-amber" class="s-logo" alt="amber avatar"><span>amber</span></div>
+        <div class="bk-way"><img data-brand="avatar-mint" class="s-logo" alt="mint avatar"><span>mint</span></div>
+        <div class="bk-way"><img data-brand="avatar-emerald" class="s-logo" alt="emerald avatar"><span>emerald</span></div>
+        <div class="bk-way"><img data-brand="avatar-sky" class="s-logo" alt="sky avatar"><span>sky</span></div>
+        <div class="bk-way"><img data-brand="avatar-ocean" class="s-logo" alt="ocean avatar"><span>ocean</span></div>
+        <div class="bk-way"><img data-brand="avatar-ocean-dark" class="s-logo" alt="ocean-dark avatar"><span>ocean-dark</span></div>
+        <div class="bk-way"><img data-brand="avatar-lavender" class="s-logo" alt="lavender avatar"><span>lavender</span></div>
+        <div class="bk-way"><img data-brand="avatar-slate" class="s-logo" alt="slate avatar"><span>slate</span></div>
+        <div class="bk-way"><img data-brand="avatar-charcoal" class="s-logo" alt="charcoal avatar"><span>charcoal</span></div>
+        <div class="bk-way"><img data-brand="avatar-white" class="s-logo" alt="white avatar"><span>white</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 · colour -->
+  <section class="s-sec" id="colour">
+    <div class="s-wrap">
+      <div class="s-sec__head">
+        <span class="s-eyebrow is-sm">2 · Colour</span>
+        <h2 class="s-h2">Paper and charcoal, one orange</h2>
+        <p class="s-lede">Light mode is the paper of the Agent Work Index decks. Dark mode is the Vex dashboard’s charcoal. Both share one set of token names, so a document switches with one attribute.</p>
+      </div>
+      <div class="bk-grid">
+        <div class="bk-pal" data-theme="light">
+          <span class="s-label">Light · paper</span>
+          <div class="bk-swatches" style="margin-top:10px">
+            <div class="bk-sw"><i style="background:var(--s-bg)"></i><span><b>Paper</b> <code>--s-bg</code><small>the page</small></span><code>#fbfaf8</code></div>
+            <div class="bk-sw"><i style="background:var(--s-well)"></i><span><b>Stone</b> <code>--s-well</code><small>figure wells and cards</small></span><code>#efece6</code></div>
+            <div class="bk-sw"><i style="background:var(--s-card)"></i><span><b>Card</b> <code>--s-card</code><small>boxes inside a well</small></span><code>#fdfcfa</code></div>
+            <div class="bk-sw"><i style="background:var(--s-rule)"></i><span><b>Rule</b> <code>--s-rule</code><small>ticks, strokes, outlines</small></span><code>#b9bcc2</code></div>
+            <div class="bk-sw"><i style="background:var(--s-muted)"></i><span><b>Muted</b> <code>--s-muted</code><small>ledes, body, captions</small></span><code>#63666f</code></div>
+            <div class="bk-sw"><i style="background:var(--s-ink)"></i><span><b>Ink</b> <code>--s-ink</code><small>titles, bold, code wells</small></span><code>#15171c</code></div>
+            <div class="bk-sw"><i style="background:var(--s-signal)"></i><span><b>Signal</b> <code>--s-signal</code><small>marks, bars, rules</small></span><code>#ff5a1f</code></div>
+            <div class="bk-sw"><i style="background:var(--s-signal-tint)"></i><span><b>Signal tint</b> <code>--s-signal-tint</code><small>the box that fired</small></span><code>#ffe1d7</code></div>
+          </div>
+        </div>
+        <div class="bk-pal" data-theme="dark">
+          <span class="s-label">Dark · charcoal</span>
+          <div class="bk-swatches" style="margin-top:10px">
+            <div class="bk-sw"><i style="background:var(--s-bg)"></i><span><b>Charcoal</b> <code>--s-bg</code><small>dashboard --bg</small></span><code>#181818</code></div>
+            <div class="bk-sw"><i style="background:var(--s-well)"></i><span><b>Panel</b> <code>--s-well</code><small>dashboard --panel</small></span><code>#212121</code></div>
+            <div class="bk-sw"><i style="background:var(--s-card)"></i><span><b>Panel 2</b> <code>--s-card</code><small>dashboard --panel-2</small></span><code>#2b2b2b</code></div>
+            <div class="bk-sw"><i style="background:var(--s-rule)"></i><span><b>Rule</b> <code>--s-rule</code><small>ticks, strokes, outlines</small></span><code>#5d6066</code></div>
+            <div class="bk-sw"><i style="background:var(--s-muted)"></i><span><b>Muted</b> <code>--s-muted</code><small>dashboard --muted</small></span><code>#aaaaaa</code></div>
+            <div class="bk-sw"><i style="background:var(--s-ink)"></i><span><b>Text</b> <code>--s-ink</code><small>dashboard --text</small></span><code>#dfdfdf</code></div>
+            <div class="bk-sw"><i style="background:var(--s-signal)"></i><span><b>Signal</b> <code>--s-signal</code><small>the same orange</small></span><code>#ff5a1f</code></div>
+            <div class="bk-sw"><i style="background:var(--s-signal-tint)"></i><span><b>Signal tint</b> <code>--s-signal-tint</code><small>16% signal on panel</small></span><code>#442a21</code></div>
+          </div>
+        </div>
+      </div>
+      <div class="bk-grid" style="margin-top:calc(16 * var(--u))">
+        <p class="s-rule">Orange is a signal, not a decoration. It marks the run that fired, the key bar, the eyebrow and one number per slide.</p>
+        <ol class="s-examples">
+          <li><b>Three orange tiers for text.</b> <code>--s-signal</code> fills marks and large numbers. <code>--s-signal-label</code> sets bold caps labels. <code>--s-signal-ink</code> sets small orange text on tints, at 4.5:1 or better.</li>
+          <li><b>Greys carry everything else.</b> Rule grey for structure, muted for reading text, ink for what matters.</li>
+          <li><b>Categories, not colours.</b> Shapes show difference with position, outline and one signal. There is no rainbow palette.</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 · type -->
+  <section class="s-sec" id="type">
+    <div class="s-wrap">
+      <div class="s-sec__head">
+        <span class="s-eyebrow is-sm">3 · Type</span>
+        <h2 class="s-h2">One grotesque, one mono</h2>
+        <p class="s-lede">Inter is the face of the “shift” wordmark in the official lockup, so it sets everything: <b>Shift Display</b> for titles, <b>Shift Sans</b> for text. <b>Shift Mono</b> is DejaVu Sans Mono, the base of Menlo in the decks’ code. All three are open fonts and are embedded in every document.</p>
+      </div>
+      <div class="bk-type">
+        <div><small>Cover title · Display Bold · 52 pt · −0.03 em</small><span class="s-title is-cover" style="font-size:min(calc(40 * var(--u)), 10vw)">Sensor patterns</span></div>
+        <div><small>Title · Display Bold · 30 pt · −0.022 em</small><span class="s-title">What a sensor is</span></div>
+        <div><small>Eyebrow · Sans Bold · 9 pt caps · +0.18 em · signal</small><span class="s-eyebrow">Pattern 1 of 8</span></div>
+        <div><small>Lede · Sans · 13 pt · muted, bold in ink</small><span class="s-lede">The sensor reads a list and fires once for each item it has <b>not seen before</b>.</span></div>
+        <div><small>Rule · Sans Bold · 12 pt · orange bar</small><p class="s-rule">Keep a cursor and fire only for items after it.</p></div>
+        <div><small>Stat · Display Bold · 22 pt + caption</small><p class="s-stat is-signal"><b>45%</b><span>of sensors fire on new items</span></p></div>
+        <div><small>Body · Sans · 9.8 pt · bold lead-in</small><span class="s-body"><b>Invoice requests.</b> Guest messages asking for an invoice go to the agent that handles accounting.</span></div>
+        <div><small>Label · Sans Bold · 6.8 pt caps · +0.12 em</small><span class="s-label">Compare with the last run</span></div>
+        <div><small>Code · Mono · 6.6 pt on ink</small><pre class="s-code">const fresh = await inbox.list({ since: cursor })  // new items only</pre></div>
+        <div><small>How we counted · Sans · 8.5 pt</small><p class="s-counted">Each organization counts equally. Codes seen at too few organizations are not shown.</p></div>
+      </div>
+      <p class="s-note" style="margin-top:14px">Sizes are the deck’s, in points on a 960 × 540 pt slide. On a page the kit scales them with the screen and never sets reading text under 12 px.</p>
+    </div>
+  </section>
+
+  <!-- 4 · layout -->
+  <section class="s-sec" id="layout">
+    <div class="s-wrap">
+      <div class="s-sec__head">
+        <span class="s-eyebrow is-sm">4 · Layout</span>
+        <h2 class="s-h2">The slide</h2>
+        <p class="s-lede">A 960 × 540 pt page with 68 pt margins. Every slide says one pattern in the same order: what it is, what it looks like, the rule, the number, and how we counted.</p>
+      </div>
+      <div class="bk-grid is-wide">
+        <div class="s-embed">
+          <section class="s-slide">
+            <header class="s-slide__head">
+              <span class="s-eyebrow">Pattern 3 of 8</span>
+              <h2 class="s-title">A state changed</h2>
+              <p class="s-lede">The sensor fires when something it already tracks is in a different state from the last run.</p>
+            </header>
+            <div class="s-slide__body is-split">
+              <div class="s-slide__col">
+                <div class="s-well"><figure class="s-shape" data-shape="diff"><script type="application/json">{"before":{"label":"Last look","rows":[["status","Scheduled"],["gate","B4"],["landing","14:05"]]},"after":{"label":"This look","rows":[["status","Delayed"],["gate","B9"],["landing","14:50"]]}}</script></figure></div>
+                <p class="s-rule">Save the fields you care about as one string, and fire when the string changes.</p>
+                <p class="s-stat is-signal"><b>10%</b><span>of sensors fire on a change</span></p>
+              </div>
+              <div class="s-slide__col">
+                <span class="s-kicker">Examples</span>
+                <ol class="s-examples"><li><b>A flight.</b> The status, gate or landing time changed. The agent tells the person waiting.</li><li><b>A deployment.</b> A server is running a new build, so the agent checks what shipped.</li></ol>
+<pre class="s-code">const print = [f.status, f.gate, f.eta].join('|')
+if (print === cursor) return { events: [] }
+return { newCursor: print, events: [{ id: print, prompt }] }</pre>
+              </div>
+            </div>
+            <p class="s-counted">Sensors rebuilt from agents’ reads of their own sensor lists. Each organization counts equally.</p>
+            <div class="s-runfoot" data-decor><span>Shift Labs Agent Work Index · September 2026</span></div>
+          </section>
+        </div>
+        <ol class="bk-legend">
+          <li><b>Eyebrow</b> at 51.5 pt: where we are (“Pattern 3 of 8”).</li>
+          <li><b>Title</b>: the name of the thing, not a claim about it.</li>
+          <li><b>Lede</b>: one or two plain sentences that define it.</li>
+          <li><b>Body</b> from 149 pt: a well with the shape on the left, examples and a code sketch on the right.</li>
+          <li><b>Rule</b>: the instruction to copy, behind an orange bar.</li>
+          <li><b>Stat</b>: one orange number with its plain-language denominator.</li>
+          <li><b>How we counted</b> above a hairline at 458.8 pt, on every slide with a number.</li>
+          <li><b>Running footer</b> at 506 pt: the publication and the page number.</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 · shapes -->
+  <section class="s-sec" id="shapes">
+    <div class="s-wrap">
+      <div class="s-sec__head">
+        <span class="s-eyebrow is-sm">5 · Shapes</span>
+        <h2 class="s-h2">Ten shapes that explain a system</h2>
+        <p class="s-lede">A shape is a small diagram drawn from JSON. Grey is structure. Orange is the event. Each one below is live: switch the mode and it redraws.</p>
+      </div>
+
+      <div class="bk-shape">
+        <div class="s-well is-card"><figure class="s-shape" id="sh-ticks" data-shape="ticks"><script type="application/json">{"runs":"......1..........11.........1....","alt":"33 runs; 4 fired"}</script></figure><p class="s-caption">Each tick is one run. Orange runs fired.</p></div>
+        <div class="bk-dd"><h3 class="s-h3">ticks</h3><p class="s-small">Runs over time; the ones that fired are ringed. <code>"style":"check"</code> shows ✓ and ✗ with notes for alerts and recovery.</p><pre class="s-code" data-spec-of="sh-ticks"></pre></div>
+      </div>
+      <div class="bk-shape">
+        <div class="s-well"><figure class="s-shape" id="sh-axis" data-shape="axis"><script type="application/json">{"points":[{"label":"Guest wrote","kind":"start"},{"label":"5 min","above":"1 / 5"},{"label":"15 min","size":0.5,"above":"2 / 5"},{"label":"35 min","size":1,"above":"3 / 5"},{"label":"75 min","size":1.5,"above":"4 / 5"}]}</script></figure></div>
+        <div class="bk-dd"><h3 class="s-h3">axis</h3><p class="s-small">Points on a line: reminders, a deadline window (<code>spans</code>, <code>lines</code>), or a day (<code>"scale":"linear"</code> with <code>ticks</code>).</p><pre class="s-code" data-spec-of="sh-axis"></pre></div>
+      </div>
+      <div class="bk-shape">
+        <div class="s-well"><figure class="s-shape" id="sh-line" data-shape="line"><script type="application/json">{"values":[58,52,60,49,57,63,55,66,82,88,79,70,61,58,62],"band":[45,72],"height":50}</script></figure></div>
+        <div class="bk-dd"><h3 class="s-h3">line</h3><p class="s-small">A value over time. With a <code>band</code> it becomes “a number out of range”: the part outside turns orange, and the leave and return are marked.</p><pre class="s-code" data-spec-of="sh-line"></pre></div>
+      </div>
+      <div class="bk-shape">
+        <div class="s-well is-card"><figure class="s-shape" id="sh-shares" data-shape="shares"><script type="application/json">{"rows":[["New items",45],["A set time",22],["A state changed",10],["Something is down",7],["Two systems disagree",4],["Messages a person",null]]}</script></figure></div>
+        <div class="bk-dd"><h3 class="s-h3">shares</h3><p class="s-small">Ranked shares, high to low. The key bar is orange; <code>null</code> prints n/a, never a guess.</p><pre class="s-code" data-spec-of="sh-shares"></pre></div>
+      </div>
+      <div class="bk-shape">
+        <div class="s-well is-card"><figure class="s-shape" id="sh-flow" data-shape="flow"><script type="application/json">{"steps":[{"kind":"list","label":"Reads","items":["Inbox","Sheet"]},{"kind":"event","text":"{ id, prompt }","tag":"One event per item"},{"kind":"agent","label":"Agent"}]}</script></figure></div>
+        <div class="bk-dd"><h3 class="s-h3">flow</h3><p class="s-small">Left to right: <code>list</code>, <code>code</code>, <code>store</code>, <code>event</code> (with an <code>else</code> branch), <code>agent</code>, <code>chip</code>, <code>box</code>. Arrows turn orange after the event.</p><pre class="s-code" data-spec-of="sh-flow"></pre></div>
+      </div>
+      <div class="bk-shape">
+        <div class="s-well"><figure class="s-shape" id="sh-queue" data-shape="queue"><script type="application/json">{"seen":3,"fresh":2,"note":"Older items do not fire.","result":"2 events → one turn"}</script></figure></div>
+        <div class="bk-dd"><h3 class="s-h3">queue</h3><p class="s-small">A list with a cursor. Items after the cursor are new and fire.</p><pre class="s-code" data-spec-of="sh-queue"></pre></div>
+      </div>
+      <div class="bk-shape">
+        <div class="s-well"><figure class="s-shape" id="sh-diff" data-shape="diff"><script type="application/json">{"before":{"label":"Last look","rows":[["status","Scheduled"],["gate","B4"]]},"after":{"label":"This look","rows":[["status","Delayed"],["gate","B4"]]}}</script></figure></div>
+        <div class="bk-dd"><h3 class="s-h3">diff</h3><p class="s-small">The fields you track, last look against this look. Changed values turn orange and the sign becomes ≠.</p><pre class="s-code" data-spec-of="sh-diff"></pre></div>
+      </div>
+      <div class="bk-shape">
+        <div class="s-well"><figure class="s-shape" id="sh-match" data-shape="match"><script type="application/json">{"left":{"label":"Arrivals","rows":["104","207","311"]},"right":{"label":"Cleaning","rows":["104","207",null]}}</script></figure></div>
+        <div class="bk-dd"><h3 class="s-h3">match</h3><p class="s-small">Two systems that should agree. Each record without a partner gets a dashed orange link and fires once.</p><pre class="s-code" data-spec-of="sh-match"></pre></div>
+      </div>
+      <div class="bk-shape">
+        <div class="s-well"><figure class="s-shape" id="sh-stairs" data-shape="stairs"><script type="application/json">{"steps":[["Shadow","logs only"],["Notify first","a person acts"],["Propose only","a person approves"],["Live","acts, then reports"]],"active":3}</script></figure></div>
+        <div class="bk-dd"><h3 class="s-h3">stairs</h3><p class="s-small">Stages that take on more. One step is active.</p><pre class="s-code" data-spec-of="sh-stairs"></pre></div>
+      </div>
+      <div class="bk-shape">
+        <div class="s-well is-card"><figure class="s-shape" id="sh-fanout" data-shape="fanout"><script type="application/json">{"from":"one sensor","to":["group 1","group 2","group 3","group 4","group 5","group 6"],"cols":3}</script></figure></div>
+        <div class="bk-dd"><h3 class="s-h3">fanout</h3><p class="s-small">One thing split into stages (<code>"tone":"signal"</code>) or copied per group (<code>cols</code>).</p><pre class="s-code" data-spec-of="sh-fanout"></pre></div>
+      </div>
+      <p class="s-counted" style="margin-top:calc(18 * var(--u))">Specimen figures are from the Agent Work Index sensor study, September 2026. Shares are of sensors at a typical organization; n/a means seen at too few organizations to show.</p>
+    </div>
+  </section>
+
+  <!-- 6 · components -->
+  <section class="s-sec" id="components">
+    <div class="s-wrap">
+      <div class="s-sec__head">
+        <span class="s-eyebrow is-sm">6 · Components</span>
+        <h2 class="s-h2">Wells, cards and the parts of a page</h2>
+        <p class="s-lede">Radii follow the Vex dashboard: 10 for a well, 6 for a card, 4 for a mark. Flat fills; no shadows inside a document.</p>
+      </div>
+      <div class="s-cards" style="--cols:4">
+        <article class="s-card">
+          <div class="s-card__head"><h3 class="s-card__title">Card with a number</h3><span class="s-card__meta">72%</span></div>
+          <p class="s-card__body"><code>.s-card</code> with <code>.s-card__meta</code>. The number is small orange text, so it uses the signal-ink tier.</p>
+        </article>
+        <article class="s-card">
+          <span class="s-tag">Every minute</span>
+          <h3 class="s-card__title">Tagged card</h3>
+          <p class="s-card__body"><code>.s-tag</code> puts a frequency or a category above the title.</p>
+        </article>
+        <article class="s-card">
+          <h3 class="s-card__title">Log</h3>
+<pre class="s-log">would approve · 08:12
+<span class="is-sig">would flag · 08:31</span>
+<span class="is-faint">dropped · 08:40</span></pre>
+          <p class="s-card__body"><code>.s-log</code> for what a rule would do. Orange marks the line that matters.</p>
+        </article>
+        <article class="s-card">
+          <h3 class="s-card__title">Data mode</h3>
+          <p><span class="s-mode" data-mode="sample">Sample data</span></p>
+          <p class="s-card__body"><code>&lt;html data-mode&gt;</code> fills the badge: published, snapshot, live, sample or synthetic. Sample and synthetic also mark every deck footer.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7 · voice -->
+  <section class="s-sec" id="voice">
+    <div class="s-wrap">
+      <div class="s-sec__head">
+        <span class="s-eyebrow is-sm">7 · Voice</span>
+        <h2 class="s-h2">Plain words, one idea per sentence</h2>
+        <p class="s-lede">The decks read like a field guide. Short present-tense sentences, the same term every time, and the reader’s job in the rule.</p>
+      </div>
+      <div class="bk-do">
+        <div class="is-do">The sensor fires when an expected reply has not arrived within a set time.</div>
+        <div class="is-dont">Our intelligent monitoring seamlessly detects stalled conversations!</div>
+        <div class="is-do">Keep a cursor and fire only for items after it.</div>
+        <div class="is-dont">It is recommended that cursors be leveraged to avoid duplicates.</div>
+        <div class="is-do">45% of sensors fire on new items.</div>
+        <div class="is-dont">Over half of sensors (a majority!) are item-driven.</div>
+      </div>
+      <ol class="s-examples" style="margin-top:calc(16 * var(--u))">
+        <li><b>Titles name the thing.</b> “New items”, “What a sensor is”. A finding may lead a report title only when the number beside it proves it.</li>
+        <li><b>One term per idea.</b> Sensor, run, turn, fire, cursor. Define each once, then never swap it for a synonym.</li>
+        <li><b>Examples are real and anonymous.</b> Paraphrase, remove names, rewrite code sketches, and say so in How we counted.</li>
+        <li><b>No hype, no exclamation marks, no emoji.</b> Sentence case in the source; the kit sets eyebrows and labels in capitals.</li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- 8 · numbers -->
+  <section class="s-sec" id="numbers">
+    <div class="s-wrap">
+      <div class="s-sec__head">
+        <span class="s-eyebrow is-sm">8 · Honest numbers</span>
+        <h2 class="s-h2">Every number says how it was counted</h2>
+        <p class="s-lede">A reader should be able to trust a number without asking for the spreadsheet.</p>
+      </div>
+      <div class="bk-grid">
+        <ol class="s-examples">
+          <li><b>A denominator in words.</b> “of sensors”, “of the agent turns that sensors start”. A percentage without one fails review.</li>
+          <li><b>How we counted, on every slide with a number.</b> Unit, source, weighting, exclusions, and any coding check.</li>
+          <li><b>Suppress, do not guess.</b> Too few cases prints n/a. Never an estimate in its place.</li>
+        </ol>
+        <ol class="s-examples" start="4">
+          <li><b>Round visibly.</b> Whole percentages in decks; when shares do not sum to 100, say it is rounding.</li>
+          <li><b>Recompute what you derive.</b> Put <code>data-calc="(1180-1000)/1000*100"</code> on a derived number; the lint checks it.</li>
+          <li><b>State the data mode.</b> Published, snapshot, live, sample or synthetic. Sample data never looks like published data.</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9 · decision-ready -->
+  <section class="s-sec" id="decisions">
+    <div class="s-wrap">
+      <div class="s-sec__head">
+        <span class="s-eyebrow is-sm">9 · Decision-ready</span>
+        <h2 class="s-h2">A report is an argument for a decision</h2>
+        <p class="s-lede">A report is not a decorated dataset. It helps a named reader make a named decision, and it claims no more than its data supports. <b>The method is Dio’s; lint enforces what a machine can check.</b></p>
+      </div>
+      <div class="bk-chain">Decision <span>→</span> metric contract <span>→</span> data QA <span>→</span> metric validation <span>→</span> matched comparison <span>→</span> decomposition <span>→</span> evidence ladder <span>→</span> chart by job <span>→</span> action gate <span>→</span> visible trust <span>→</span> artifact check</div>
+      <div class="bk-grid">
+        <ol class="s-examples">
+          <li><b>Decision first.</b> Write the job: reader, decision, what changes it. The first screen answers what changed, whether it is material, what moved it, what is at risk, what decision is required and what is still missing.</li>
+          <li><b>Every metric is a contract.</b> Meaning, source, grain, calculation, exclusions, comparison, owner and action. If two people could compute it differently, it is not defined.</li>
+          <li><b>Arithmetic is not meaning.</b> Totals that reconcile across every dimension say nothing about a claim the source holds no data for.</li>
+          <li><b>Compare like with like.</b> Each KPI shows its matched prior period, plan or target. A missing cutoff is written “Not captured”.</li>
+        </ol>
+        <ol class="s-examples" start="5">
+          <li><b>Decompose the change.</b> Rank parts by their share of the change, not their size, and make them sum exactly to the headline. <q data-example="good">A made two thirds of the rise</q> is arithmetic; <q data-example="bad">X caused A’s growth</q> needs its own evidence.</li>
+          <li><b>Every claim carries its level.</b> Claims the source cannot settle go to the claims ledger as data requests.</li>
+          <li><b>Learning before intervention.</b> A costly or irreversible action with evidence missing becomes an investigation.</li>
+          <li><b>Trust is visible.</b> Mode, source, generated, period, cutoff, checks, definitions, access and caveats, on the page.</li>
+        </ol>
+      </div>
+
+      <div class="bk-grid" style="margin-top:calc(20 * var(--u))">
+        <div class="s-well is-card">
+          <span class="s-label">The evidence ladder</span>
+          <dl class="bk-ladder">
+            <div><dt><span class="s-claim" data-evidence="confirmed"></span></dt><dd>Direct evidence connects the population, the timing and the mechanism.</dd></div>
+            <div><dt><span class="s-claim" data-evidence="likely"></span></dt><dd>Strong support; the mechanism is not proven.</dd></div>
+            <div><dt><span class="s-claim" data-evidence="suspected"></span></dt><dd>A pattern worth investigating.</dd></div>
+            <div><dt><span class="s-claim" data-evidence="correlated"></span></dt><dd>Two movements overlap with no proven mechanism.</dd></div>
+            <div><dt><span class="s-claim" data-evidence="unknown"></span></dt><dd>The available source cannot answer it.</dd></div>
+          </dl>
+          <p class="s-caption">Pips are ink, never orange: the level is read, not signalled.</p>
+        </div>
+        <div class="s-decisions">
+          <article class="s-decision is-signal" data-kind="investigate">
+            <h3 class="s-decision__title">Diagnose the rise in errors</h3>
+            <dl>
+              <div data-field="evidence"><dt>Evidence</dt><dd>Error rate over its target this period.</dd></div>
+              <div data-field="missing"><dt>Missing</dt><dd>Error reasons by segment and hour.</dd></div>
+              <div data-field="owner"><dt>Owner</dt><dd>A named person or role</dd></div>
+              <div data-field="review"><dt>Review</dt><dd>Next review</dd></div>
+              <div data-field="status"><dt>Status</dt><dd>Proposed</dd></div>
+              <div data-field="source"><dt>Source</dt><dd>Where the evidence is</dd></div>
+            </dl>
+          </article>
+        </div>
+      </div>
+
+      <div class="bk-shape">
+        <div class="s-well is-card"><div class="s-fig-head"><h3 class="s-h3">Change by segment</h3><p class="s-small">Against the matched prior period.</p></div><figure class="s-shape" id="sh-variance" data-shape="variance"><script type="application/json">{"rows":[["Segment A",1200,1560],["Segment B",800,880],["Segment C",500,470]],"total":410,"fmt":"int"}</script></figure></div>
+        <div class="bk-dd"><h3 class="s-h3">variance</h3><p class="s-small">Contribution to a change. Parts sum exactly to <code>total</code>; the zero line sits where zero falls, so a drag extends left. Shares of the change print only when every part moves the same way.</p><pre class="s-code" data-spec-of="sh-variance"></pre></div>
+      </div>
+      <div class="bk-shape">
+        <div class="s-well is-card"><div class="s-fig-head"><h3 class="s-h3">Units by day</h3><p class="s-small">This week beside the matched prior week.</p></div><figure class="s-shape" id="sh-columns" data-shape="columns"><script type="application/json">{"x":["Mon","Tue","Wed","Thu","Fri"],"series":[{"name":"This week","values":[410,452,470,431,388]},{"name":"Matched prior week","role":"prior","values":[380,401,415,409,377]}],"key":2}</script></figure></div>
+        <div class="bk-dd"><h3 class="s-h3">columns</h3><p class="s-small">A few periods, always from zero. The outlined bar is the comparison period; one period alone cannot say whether it is good.</p><pre class="s-code" data-spec-of="sh-columns"></pre></div>
+      </div>
+      <div class="bk-shape is-wide">
+        <div class="s-well is-card"><div class="s-fig-head"><h3 class="s-h3">Units by segment</h3><p class="s-small">Exact values with their movement.</p></div><figure class="s-shape" id="sh-tablegraph" data-shape="tablegraph"><script type="application/json">{"rows":[["Segment A",1560,1200],["Segment B",880,800],["Segment C",470,500]],"labelHead":"Segment","valueLabel":"This period","priorLabel":"Prior","fmt":"int"}</script></figure></div>
+        <div class="bk-dd"><h3 class="s-h3">tablegraph</h3><p class="s-small">The answer to a pie: value with a bar, share, prior, change, change % and contribution. It scrolls inside its own box on a phone.</p><pre class="s-code" data-spec-of="sh-tablegraph"></pre></div>
+      </div>
+      <div class="bk-shape">
+        <div class="s-well is-card"><div class="s-fig-head"><h3 class="s-h3">Error rate and on-time share against target</h3><p class="s-small">Orange misses its target.</p></div><figure class="s-shape" id="sh-bullet" data-shape="bullet"><script type="application/json">{"rows":[{"label":"Error rate","value":2.9,"target":2.5,"band":[0,2.5],"max":4,"unit":"%","fmt":"pct1","better":"lower"},{"label":"On-time share","value":96.4,"target":95,"band":[95,100],"max":100,"unit":"%","fmt":"pct1","better":"higher"}]}</script></figure></div>
+        <div class="bk-dd"><h3 class="s-h3">bullet</h3><p class="s-small">Actual against target: the tick is the target, the calm band the target range, and the bar turns orange when it misses.</p><pre class="s-code" data-spec-of="sh-bullet"></pre></div>
+      </div>
+      <div class="bk-shape">
+        <div class="s-well is-card"><div class="s-fig-head"><h3 class="s-h3">Units by day and hour</h3><p class="s-small">Orange cells reach the threshold.</p></div><figure class="s-shape" id="sh-heatmap" data-shape="heatmap"><script type="application/json">{"rows":["Mon","Tue","Wed","Thu","Fri"],"cols":["08","10","12","14","16","18"],"values":[[40,62,55,48,51,30],[44,71,60,52,58,33],[46,74,63,55,61,35],[42,66,57,50,54,31],[38,58,50,44,47,26]],"threshold":70,"thresholdLabel":"70 or more"}</script></figure></div>
+        <div class="bk-dd"><h3 class="s-h3">heatmap</h3><p class="s-small">Two ordered dimensions. Grey by intensity; cells at or over the threshold are orange.</p><pre class="s-code" data-spec-of="sh-heatmap"></pre></div>
+      </div>
+      <div class="bk-shape">
+        <div class="s-well is-card"><div class="s-fig-head"><h3 class="s-h3">Units by segment over time</h3><p class="s-small">The discussed series is orange; the others are context.</p></div><figure class="s-shape" id="sh-series" data-shape="line"><script type="application/json">{"x":["W1","W2","W3","W4","W5","W6"],"series":[{"name":"Segment A","tone":"key","values":[1180,1210,1195,1230,1200,1560]},{"name":"Segment B","tone":"ink","values":[790,805,810,798,800,880]},{"name":"Segment C","values":[510,495,505,500,500,470]}],"height":70}</script></figure></div>
+        <div class="bk-dd"><h3 class="s-h3">line with series</h3><p class="s-small">Straight segments, a dot on every observation, names at the line ends. Never smoothed.</p><pre class="s-code" data-spec-of="sh-series"></pre></div>
+      </div>
+      <p class="s-counted" style="margin-top:calc(18 * var(--u))">Specimen figures in this section are synthetic and show the shapes only. The full pattern, with brief, ledger, decisions, trust panel and metric contracts, is <code>templates/report.src.html</code>.</p>
+    </div>
+  </section>
+
+  <!-- 10 · making -->
+  <section class="s-sec" id="making">
+    <div class="s-wrap">
+      <div class="s-sec__head">
+        <span class="s-eyebrow is-sm">10 · Making a document</span>
+        <h2 class="s-h2">Copy a template, build, lint, look</h2>
+      </div>
+      <div class="s-table-wrap" style="overflow-x:auto">
+        <table class="bk-forms" data-reflow>
+          <thead><tr><th>Form</th><th>Use it for</th><th>Start from</th><th>Delivered as</th></tr></thead>
+          <tbody>
+            <tr><td>Deck</td><td>Research findings, patterns, briefings, anything presented</td><td><code>templates/deck.src.html</code></td><td>One HTML file, and a PDF with one 960 × 540 pt page per slide, light or dark</td></tr>
+            <tr><td>Page</td><td>Research notes, one-pagers, docs read on a phone</td><td><code>templates/page.src.html</code></td><td>One HTML file with a light and dark toggle</td></tr>
+            <tr><td>Report</td><td>Weekly or metric reviews, briefs, anything whose job is a decision</td><td><code>templates/report.src.html</code></td><td>One HTML file: brief, KPIs with benchmarks, decomposition, claims ledger, decisions, trust panel</td></tr>
+            <tr><td>Figure</td><td>A single shape for a post, a doc or a slide elsewhere</td><td>any element with <code>data-figure</code></td><td>PNG in light and dark from <code>shoot.mjs --figures</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+<pre class="s-code" style="margin-top:calc(14 * var(--u))">python3 scripts/build.py work/report.src.html       # fonts, kit and marks inlined
+python3 scripts/lint.py work/report.html            # brand, numbers, claims, decisions, voice
+node scripts/shoot.mjs work/report.html --pdf       # light + dark + reduced motion, fit, contrast, PDF
+python3 scripts/lint_selftest.py                    # after changing the kit or lint: every planted fault caught</pre>
+    </div>
+  </section>
+</main>
+
+<footer class="s-foot">
+  <div class="s-wrap">
+    <img data-brand="logo" class="s-logo" alt="Shift Labs">
+    <span>Shift Labs design · brand book 1.4 · September 2026</span>
+    <span class="s-foot__end">Skill <code>shift-labs-design</code></span>
+  </div>
+</footer>
+<!-- shift:js -->
+</body>
+</html>

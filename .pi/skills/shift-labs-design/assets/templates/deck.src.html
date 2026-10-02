@@ -1,0 +1,525 @@
+<!doctype html>
+<html lang="en" data-theme="light" data-mode="published">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sensor patterns · Shift Labs Agent Work Index</title>
+<!-- job: readers who build agents learn the eight patterns that make a sensor fire, and copy the one that fits. -->
+<!-- shift:head -->
+</head>
+<body class="s-deck" data-runfoot="Shift Labs Agent Work Index · September 2026">
+
+<!-- ============ 1 · cover ============ -->
+<section class="s-slide is-cover" aria-label="Cover">
+  <img data-brand="logo" class="s-logo" alt="Shift Labs">
+  <span class="s-eyebrow">Shift Labs Agent Work Index · Companion · September 2026</span>
+  <h1 class="s-title is-cover">Sensor patterns</h1>
+  <p class="s-lede is-cover">Agents write small programs, called sensors, that check a system on a timer and wake the agent when something needs attention. We read every sensor we could find and sorted them into eight patterns. This deck shows each pattern with real examples and a code sketch.</p>
+  <div class="s-slide__foot">
+    <figure class="s-shape" data-shape="ticks"><script type="application/json">{"runs":"........1...........11............1...........1.....1.........","alt":"64 runs of a sensor; 6 fired"}</script></figure>
+    <p class="s-caption">Each tick is one run of a sensor’s code. Orange runs found something and fired.</p>
+  </div>
+</section>
+
+<!-- ============ 2 · the basics: flow + three numbers ============ -->
+<section class="s-slide">
+  <header class="s-slide__head">
+    <span class="s-eyebrow">The basics</span>
+    <h2 class="s-title">What a sensor is</h2>
+    <p class="s-lede">Schedules fire on the clock, people chat, and <b>sensors trigger on change</b>. A sensor is a few lines of code the agent writes for itself. The platform runs it every few seconds up to once a day.</p>
+  </header>
+  <div class="s-slide__body">
+    <div class="s-well is-card">
+      <figure class="s-shape" data-shape="flow"><script type="application/json">{"steps":[
+        {"kind":"list","label":"Systems it can read","items":["Inbox","Bookings","Sheet","Web page","Chat group"]},
+        {"kind":"code","label":"Code the agent wrote","code":"// runs every 10 s … 24 h\nconst items = await look()\nconst fresh = past(cursor)\nreturn {\n  newCursor,\n  events: fresh.map(toPrompt)\n}"},
+        {"kind":"store","label":"Compare with the last run","note":"The platform keeps the cursor and fired ids."},
+        {"kind":"event","grow":true,"text":"{ id, prompt: “Guest in 207 is still waiting” }","tag":"One event per new item","else":{"text":"nothing new → sleep.","note":"The run ends without calling the agent."}},
+        {"kind":"agent","label":"Agent"},
+        {"kind":"chip","text":"work","check":true}
+      ]}</script></figure>
+    </div>
+    <div class="s-stats" style="margin-top:6pt">
+      <p class="s-stat"><b>61%</b><span>of sensors run every five minutes or more often. 22% run every minute.</span></p>
+      <p class="s-stat"><b>71%</b><span>of the agent turns that sensors start end with nothing to do.</span></p>
+      <p class="s-stat"><b>44%</b><span>of those turns happen outside office hours or at the weekend.</span></p>
+    </div>
+  </div>
+  <p class="s-counted">A run is one execution of the sensor’s code. A turn is the agent’s work after a sensor fires. Turn outcomes come from the Agent Work Index task codes. Each organization counts equally, and codes seen at too few organizations are not shown.</p>
+</section>
+
+<!-- ============ 3 · the codebook: three share columns ============ -->
+<section class="s-slide">
+  <header class="s-slide__head">
+    <span class="s-eyebrow">The codebook</span>
+    <h2 class="s-title">How we describe a sensor</h2>
+    <p class="s-lede">We describe each sensor by what it checks, what makes it fire, and what happens after it fires. This deck is organized by what makes a sensor fire.</p>
+  </header>
+  <div class="s-slide__body is-3">
+    <div>
+      <div class="s-shares-head"><h3 class="s-h3">What it checks</h3><p class="s-small">The source it reads</p></div>
+      <figure class="s-shape" data-shape="shares"><script type="application/json">{"rows":[["Conversations",22],["Email",17],["Business records",14],["Agents’ own queues and runs",12],["System health",11],["Files and sheets",8],["The public web",7],["Only the time",6],["Calendars",3]],"total":100}</script></figure>
+    </div>
+    <div>
+      <div class="s-shares-head"><h3 class="s-h3">What makes it fire</h3><p class="s-small">The condition in its code</p></div>
+      <figure class="s-shape" data-shape="shares"><script type="application/json">{"rows":[["New items",45],["A set time",22],["A state changed",10],["Something is down",7],["A number out of range",6],["No reply in time",4],["Two systems disagree",4],["A deadline is near",2]],"total":100}</script></figure>
+    </div>
+    <div>
+      <div class="s-shares-head"><h3 class="s-h3">What happens next</h3><p class="s-small">Who acts</p></div>
+      <figure class="s-shape" data-shape="shares"><script type="application/json">{"rows":[["Wakes the agent",72],["Does the work in code",24],["Records only",null],["Messages a person",null]]}</script></figure>
+    </div>
+  </div>
+  <p class="s-counted">Share of sensors at a typical organization. Tests and empty stubs are left out. Codes checked by the AI analyst on a fresh random sample: 93% for what it checks, 96% for what makes it fire, 90% for what happens next. n/a: seen at too few organizations to show.</p>
+</section>
+
+<!-- ============ 4 · pattern slide: well + rule + stat | examples + code ============ -->
+<section class="s-slide">
+  <header class="s-slide__head">
+    <span class="s-eyebrow">Pattern 1 of 8</span>
+    <h2 class="s-title">New items</h2>
+    <p class="s-lede">The most common pattern. The sensor reads a list and fires once for each item it has not seen before.</p>
+  </header>
+  <div class="s-slide__body is-split">
+    <div class="s-slide__col">
+      <div class="s-well">
+        <span class="s-label">An inbox</span>
+        <figure class="s-shape" data-shape="queue"><script type="application/json">{"seen":4,"fresh":2,"note":"On the first run the sensor only sets the cursor, so older mail does not fire.","result":"2 events → one turn\ncursor moves past them"}</script></figure>
+        <figure class="s-shape" data-shape="ticks" style="margin-top:6pt"><script type="application/json">{"runs":".......................1....","pad":4}</script></figure>
+      </div>
+      <p class="s-rule">Keep a cursor and fire only for items after it. On the first run, set the cursor without firing.</p>
+      <p class="s-stat is-signal"><b>45%</b><span>of sensors fire on new items</span></p>
+    </div>
+    <div class="s-slide__col">
+      <span class="s-kicker">Examples</span>
+      <ol class="s-examples">
+        <li><b>Photos from kitchen stations.</b> Each station posts goods-received notes in its own chat group. One sensor per group sends new photos to the agent that records them.</li>
+        <li><b>Invoice requests.</b> Guest messages asking for an invoice go to the agent that handles accounting.</li>
+        <li><b>Comments on a shared sheet.</b> A new comment wakes the assistant that maintains the sheet.</li>
+        <li><b>Merged pull requests.</b> Everything merged since the last run goes into one hourly summary.</li>
+      </ol>
+<pre class="s-code">if (!cursor) return { newCursor: Date.now(), events: [] }  // first run
+
+const fresh = await inbox.list({ since: cursor })
+return {
+  newCursor: fresh.at(-1)?.receivedAt ?? cursor,
+  events: fresh.map(m => ({
+    id: m.id,                                   // dedup key
+    prompt: `New mail from ${m.from}: ${m.subject}`,
+  })),
+}</pre>
+    </div>
+  </div>
+  <p class="s-counted">Sensors rebuilt from agents’ reads of their own sensor lists; fires from conversation logs. Each organization counts equally. Examples are paraphrased with names removed, and code sketches are rewritten.</p>
+</section>
+
+<!-- ============ 5 · axis: reminders ============ -->
+<section class="s-slide">
+  <header class="s-slide__head">
+    <span class="s-eyebrow">Pattern 2 of 8</span>
+    <h2 class="s-title">No reply in time</h2>
+    <p class="s-lede">The sensor fires when an expected reply or update has not arrived within a set time.</p>
+  </header>
+  <div class="s-slide__body is-split">
+    <div class="s-slide__col">
+      <div class="s-well">
+        <span class="s-label">A guest message with no reply</span>
+        <span class="s-label" style="font-weight:400">Five reminders</span>
+        <figure class="s-shape" data-shape="axis" style="margin-top:4pt"><script type="application/json">{"points":[
+          {"label":"Guest wrote","kind":"start"},
+          {"label":"5 min","size":0,"above":"1 / 5"},{"label":"15 min","size":0.4,"above":"2 / 5"},{"label":"35 min","size":0.8,"above":"3 / 5"},
+          {"label":"75 min","size":1.2,"above":"4 / 5"},{"label":"155 min","size":1.6,"above":"5 / 5"}]}</script></figure>
+        <p class="s-note" style="margin-top:8pt">Before each reminder it checks the thread again and <b>stops if staff have replied</b>. Each reminder has its own id, so it fires once.</p>
+      </div>
+      <p class="s-rule">Check the thread again before each reminder, and send each reminder only once.</p>
+      <p class="s-stat is-signal"><b>4%</b><span>of sensors fire when a reply is overdue</span></p>
+    </div>
+    <div class="s-slide__col">
+      <span class="s-kicker">Examples</span>
+      <ol class="s-examples">
+        <li><b>Unanswered guest messages.</b> Reminders at 5, 15, 35, 75 and 155 minutes until someone replies in the booking inbox.</li>
+        <li><b>Reception chat.</b> A minute after a guest writes, the sensor checks whether staff replied. If nobody did, it asks the agent to reply.</li>
+        <li><b>An email question.</b> Someone was asked by email for visit times. The sensor fires if they have not answered.</li>
+        <li><b>Overnight emergencies.</b> An emergency reported between 02:00 and 07:00 wakes a person as well as the agent.</li>
+      </ol>
+<pre class="s-code">const REMINDERS = [5, 15, 35, 75, 155]          // minutes
+const events = []
+for (const t of await guestInbox.threads()) {
+  if (t.lastFrom !== 'guest') continue          // staff replied
+  const waited = minutesSince(t.lastAt)
+  const n = REMINDERS.filter(m => waited >= m).length
+  if (n) events.push({
+    id: `${t.id}:${n}`,                         // one fire per reminder
+    prompt: `Guest waiting ${waited} min (reminder ${n}/5)`,
+  })
+}
+return { events }</pre>
+    </div>
+  </div>
+  <p class="s-counted">Sensors rebuilt from agents’ reads of their own sensor lists; fires from conversation logs. Each organization counts equally. Examples are paraphrased with names removed, and code sketches are rewritten.</p>
+</section>
+
+<!-- ============ 6 · diff ============ -->
+<section class="s-slide">
+  <header class="s-slide__head">
+    <span class="s-eyebrow">Pattern 3 of 8</span>
+    <h2 class="s-title">A state changed</h2>
+    <p class="s-lede">The sensor fires when something it already tracks is in a different state from the last run.</p>
+  </header>
+  <div class="s-slide__body is-split">
+    <div class="s-slide__col">
+      <div class="s-well">
+        <figure class="s-shape" data-shape="diff"><script type="application/json">{"before":{"label":"Last look","rows":[["status","Scheduled"],["gate","B4"],["landing","14:05"]]},"after":{"label":"This look","rows":[["status","Delayed"],["gate","B9"],["landing","14:50"]]}}</script></figure>
+        <p class="s-note" style="margin-top:8pt">The sensor saves the fields it cares about as <b>one string</b>. If the string is the same as last time, it does not fire.</p>
+        <figure class="s-shape" data-shape="ticks" style="margin-top:4pt"><script type="application/json">{"runs":"...............1.............","pad":4}</script></figure>
+      </div>
+      <p class="s-rule">Save the fields you care about as one string, and fire when the string changes.</p>
+      <p class="s-stat is-signal"><b>10%</b><span>of sensors fire on a change</span></p>
+    </div>
+    <div class="s-slide__col">
+      <span class="s-kicker">Examples</span>
+      <ol class="s-examples">
+        <li><b>A flight.</b> The status, gate or landing time changed. The agent tells the person waiting.</li>
+        <li><b>A deployment.</b> A server is running a new build, so the agent checks what shipped.</li>
+        <li><b>A bank account.</b> The balance changed or new transactions appeared.</li>
+        <li><b>A map.</b> The list of buildings in an area changed, so the agent updates the map.</li>
+      </ol>
+<pre class="s-code">const f = await flights.status({ number, date })
+const print = [f.status, f.gate, f.eta].join('|')
+if (print === cursor) return { events: [] }       // unchanged
+
+return {
+  newCursor: print,
+  events: [{
+    id: print,
+    prompt: `Flight ${number}: ${f.status}, gate ${f.gate}, lands ${f.eta}`,
+  }],
+}</pre>
+    </div>
+  </div>
+  <p class="s-counted">Sensors rebuilt from agents’ reads of their own sensor lists; fires from conversation logs. Each organization counts equally. Examples are paraphrased with names removed, and code sketches are rewritten.</p>
+</section>
+
+<!-- ============ 7 · match ============ -->
+<section class="s-slide">
+  <header class="s-slide__head">
+    <span class="s-eyebrow">Pattern 4 of 8</span>
+    <h2 class="s-title">Two systems disagree</h2>
+    <p class="s-lede">The sensor compares two systems that should agree and fires once for each record where they do not.</p>
+  </header>
+  <div class="s-slide__body is-split">
+    <div class="s-slide__col">
+      <div class="s-well">
+        <figure class="s-shape" data-shape="match"><script type="application/json">{"left":{"label":"Arrivals today","rows":["104","207","311","402"]},"right":{"label":"Cleaning plan","rows":["104","207",null,"402"]}}</script></figure>
+        <p class="s-note" style="margin-top:8pt">Rooms that match do not fire. <b>Each room that does not match fires once.</b></p>
+      </div>
+      <p class="s-rule">Read both systems in the sensor and fire once per record that does not match.</p>
+      <p class="s-stat is-signal"><b>4%</b><span>of sensors compare two systems</span></p>
+    </div>
+    <div class="s-slide__col">
+      <span class="s-kicker">Examples</span>
+      <ol class="s-examples">
+        <li><b>Arrivals and cleaning.</b> A last-minute booking is for a room with no cleaning scheduled.</li>
+        <li><b>Guest requests and housekeeping.</b> A guest asked for a sofa bed or a crib, and it is missing from the housekeeping plan.</li>
+        <li><b>A closed deal.</b> The CRM marks a deal as won, but its folder is missing required documents.</li>
+        <li><b>A transcription.</b> The transcription finished but was never logged in the tracking sheet.</li>
+      </ol>
+<pre class="s-code">const arrivals = await bookings.arrivals({ day })
+const planned = new Set(
+  (await housekeeping.plan({ day })).map(c => c.room))
+
+return {
+  events: arrivals
+    .filter(a => !planned.has(a.room))          // no cleaning planned
+    .map(a => ({
+      id: `${day}:${a.room}`,
+      prompt: `Room ${a.room} has an arrival but no cleaning`,
+    })),
+}</pre>
+    </div>
+  </div>
+  <p class="s-counted">Sensors rebuilt from agents’ reads of their own sensor lists; fires from conversation logs. Each organization counts equally. Examples are paraphrased with names removed, and code sketches are rewritten.</p>
+</section>
+
+<!-- ============ 8 · axis: deadline window ============ -->
+<section class="s-slide">
+  <header class="s-slide__head">
+    <span class="s-eyebrow">Pattern 5 of 8</span>
+    <h2 class="s-title">A deadline is near</h2>
+    <p class="s-lede">The sensor fires at set points before a due date.</p>
+  </header>
+  <div class="s-slide__body is-split">
+    <div class="s-slide__col">
+      <div class="s-well">
+        <span class="s-label">Reminders before a due date</span>
+        <figure class="s-shape" data-shape="axis" style="margin-top:4pt"><script type="application/json">{"scale":"linear","domain":[-17,2.4],
+          "spans":[{"from":-14,"to":0,"label":"Reminder window"}],
+          "lines":[{"at":0,"label":"Due"}],
+          "points":[{"at":-17,"label":"Now","kind":"now"},{"at":-14,"label":"14 d","kind":"dot"},{"at":-7,"label":"7 d","kind":"dot"},{"at":-3,"label":"3 d","kind":"dot"},{"at":-1,"label":"1 d","kind":"dot"},{"at":1.4,"label":"Overdue","size":0.6}]}</script></figure>
+        <p class="s-note" style="margin-top:8pt">Each reminder’s id is the item plus the number of days, so each reminder fires once.</p>
+      </div>
+      <p class="s-rule">Pick the reminder points in advance, and give each one its own id so it fires once.</p>
+      <p class="s-stat is-signal"><b>2%</b><span>of sensors watch a deadline</span></p>
+    </div>
+    <div class="s-slide__col">
+      <span class="s-kicker">Examples</span>
+      <ol class="s-examples">
+        <li><b>Leases.</b> Office leases ending within twelve months are flagged for the broker.</li>
+        <li><b>A money transfer.</b> Reminders 14, 7, 3 and 1 days before the due date, then an overdue notice.</li>
+        <li><b>Policy reviews.</b> Security policies due for review are flagged six weeks ahead.</li>
+        <li><b>Onboarding.</b> Overdue checklist items for a new hire.</li>
+      </ol>
+<pre class="s-code">const DAYS_BEFORE = [14, 7, 3, 1, 0]
+const events = []
+for (const d of await crm.openTransfers()) {
+  const left = daysUntil(d.dueDate)
+  const mark = DAYS_BEFORE.find(m => left <= m)
+  if (mark === undefined) continue
+  events.push({
+    id: `${d.id}:${mark}`,                      // one fire per reminder
+    prompt: left < 0 ? `Overdue: ${d.name}` : `${left} days left: ${d.name}`,
+  })
+}
+return { events }</pre>
+    </div>
+  </div>
+  <p class="s-counted">Sensors rebuilt from agents’ reads of their own sensor lists; fires from conversation logs. Each organization counts equally. Examples are paraphrased with names removed, and code sketches are rewritten.</p>
+</section>
+
+<!-- ============ 9 · line with a band ============ -->
+<section class="s-slide">
+  <header class="s-slide__head">
+    <span class="s-eyebrow">Pattern 6 of 8</span>
+    <h2 class="s-title">A number out of range</h2>
+    <p class="s-lede">The sensor checks a number against a range. It fires when the number leaves the range and again when it comes back.</p>
+  </header>
+  <div class="s-slide__body is-split">
+    <div class="s-slide__col">
+      <div class="s-well">
+        <span class="s-label">A value with a normal range</span>
+        <figure class="s-shape" data-shape="line"><script type="application/json">{"values":[58,52,60,49,57,63,55,66,82,88,79,70,61,58,62],"band":[45,72],"height":42}</script></figure>
+        <p class="s-note" style="margin-top:6pt">It fires when the value <b>leaves the range</b> and once when it comes back. It does not fire on every run in between.</p>
+        <figure class="s-shape" data-shape="ticks" style="margin-top:4pt"><script type="application/json">{"runs":".......1...1...","pad":4}</script></figure>
+      </div>
+      <p class="s-rule">Save the last level in the cursor, and fire only when the level changes.</p>
+      <p class="s-stat is-signal"><b>6%</b><span>of sensors watch a number</span></p>
+    </div>
+    <div class="s-slide__col">
+      <span class="s-kicker">Examples</span>
+      <ol class="s-examples">
+        <li><b>Daily spend.</b> The day’s AI spend goes over a set amount.</li>
+        <li><b>A server.</b> Disk, memory and CPU have warning and critical levels, with a message when they return to normal.</li>
+        <li><b>A trading position.</b> The price approaches the level at which the position would be closed.</li>
+        <li><b>Records behind a report.</b> Records changed too much since the report’s snapshot. It fires at most once a day.</li>
+      </ol>
+<pre class="s-code">const disk = (await host.stats()).diskPct
+const level = disk >= 83 ? 'critical' : disk >= 78 ? 'warning' : 'ok'
+if (level === cursor?.level) return { events: [] }
+
+return {
+  newCursor: { level },
+  events: [{
+    id: `${level}@${hourKey()}`,
+    prompt: level === 'ok' ? `Disk back to ${disk}%` : `Disk ${level}: ${disk}%`,
+  }],
+}</pre>
+    </div>
+  </div>
+  <p class="s-counted">Sensors rebuilt from agents’ reads of their own sensor lists; fires from conversation logs. Each organization counts equally. Examples are paraphrased with names removed, and code sketches are rewritten.</p>
+</section>
+
+<!-- ============ 10 · axis: a day ============ -->
+<section class="s-slide">
+  <header class="s-slide__head">
+    <span class="s-eyebrow">Pattern 7 of 8</span>
+    <h2 class="s-title">A set time</h2>
+    <p class="s-lede">About one sensor in six reads only the time. It works like a schedule that remembers whether it has already run.</p>
+  </header>
+  <div class="s-slide__body is-split">
+    <div class="s-slide__col">
+      <div class="s-well">
+        <span class="s-label">Reads only the time</span>
+        <figure class="s-shape" data-shape="axis" style="margin-top:4pt"><script type="application/json">{"scale":"linear","domain":[0,24],"dotted":[0,6.67],
+          "ticks":[{"at":0,"label":"00:00"},{"at":3,"label":"03:00"},{"at":6,"label":"06:00"},{"at":9,"label":"09:00"},{"at":12,"label":"12:00"},{"at":15,"label":"15:00"},{"at":18,"label":"18:00"},{"at":21,"label":"21:00"},{"at":24,"label":"24:00"}],
+          "points":[{"at":6.67,"size":0.5,"above":"06:40 · once","aboveTone":"signal"}]}</script></figure>
+        <p class="s-note" style="margin-top:8pt">The cursor records that today’s run happened. A one-time reminder <b>deletes itself</b> after it fires.</p>
+      </div>
+      <p class="s-rule">Record in the cursor that the run happened. Make one-time reminders one-shot so they delete themselves.</p>
+      <p class="s-stat is-signal"><b>22%</b><span>of sensors fire at a set time</span></p>
+    </div>
+    <div class="s-slide__col">
+      <span class="s-kicker">Examples</span>
+      <ol class="s-examples">
+        <li><b>Personal reminders.</b> A reminder at a set date and time, deleted once it is sent.</li>
+        <li><b>Morning jobs.</b> A housekeeping pass each morning that wakes the agent only if something needs a decision.</li>
+        <li><b>A nightly refresh.</b> A map of open tasks rebuilt once a day at midnight.</li>
+        <li><b>A morning plan check.</b> Every few minutes, a check that today’s plan was sent on time.</li>
+      </ol>
+<pre class="s-code">const due = Date.parse('2026-09-12T06:40:00+03:00')
+if (cursor?.sent || Date.now() < due) return { events: [] }
+
+await messages.send({ to: me, text: 'Take the running shoes' })
+return { newCursor: { sent: true }, events: [] }
+// one-shot: the runtime deletes it after it fires</pre>
+    </div>
+  </div>
+  <p class="s-counted">Sensors rebuilt from agents’ reads of their own sensor lists; fires from conversation logs. Each organization counts equally. Examples are paraphrased with names removed, and code sketches are rewritten.</p>
+</section>
+
+<!-- ============ 11 · ticks, check style ============ -->
+<section class="s-slide">
+  <header class="s-slide__head">
+    <span class="s-eyebrow">Pattern 8 of 8</span>
+    <h2 class="s-title">Something is down</h2>
+    <p class="s-lede">The sensor checks that a service, connection, login or agent is working, and fires when it is not.</p>
+  </header>
+  <div class="s-slide__body is-split">
+    <div class="s-slide__col">
+      <div class="s-well">
+        <span class="s-label">Probe a service every minute</span>
+        <figure class="s-shape" data-shape="ticks" style="margin-top:6pt"><script type="application/json">{"style":"check","runs":"...1..1111...","pad":8,
+          "notes":[{"at":3,"text":"One failure:\nno alert","tone":"muted"},{"at":7,"text":"Second failure:\nalert","mark":"ring"},{"at":10,"text":"Back up: one\nmessage","mark":"hollow"}]}</script></figure>
+        <p class="s-note" style="margin-top:8pt">It alerts after two failures in a row and sends one message when the service is back. The failure count is kept in the cursor.</p>
+      </div>
+      <p class="s-rule">Alert after two failures in a row, send one message on recovery, and keep the failure count in the cursor.</p>
+      <p class="s-stat is-signal"><b>7%</b><span>of sensors check that something is working</span></p>
+    </div>
+    <div class="s-slide__col">
+      <span class="s-kicker">Examples</span>
+      <ol class="s-examples">
+        <li><b>A website.</b> Checked every minute. It alerts after two failed checks in a row and again when the site is back.</li>
+        <li><b>Connections.</b> A network link and a WhatsApp sync are restarted when they drop.</li>
+        <li><b>A shared model account.</b> Several agents run on one account. If it disconnects they all fail, so a sensor checks it.</li>
+        <li><b>Lost runs.</b> Runs that stopped before doing anything are found and restarted.</li>
+      </ol>
+<pre class="s-code">const ok = await probe(url, { timeoutMs: 12_000 })
+const fails = ok ? 0 : (cursor?.fails ?? 0) + 1
+const down = fails >= 2 || (cursor?.down && !ok)
+const events = []
+if (fails === 2)
+  events.push({ id: `down@${Date.now()}`, prompt: `${url} is down` })
+if (ok && cursor?.down)
+  events.push({ id: `up@${Date.now()}`, prompt: `${url} recovered` })
+return { newCursor: { fails, down }, events }</pre>
+    </div>
+  </div>
+  <p class="s-counted">Sensors rebuilt from agents’ reads of their own sensor lists; fires from conversation logs. Each organization counts equally. Examples are paraphrased with names removed, and code sketches are rewritten.</p>
+</section>
+
+<!-- ============ 12 · four cards with a number each ============ -->
+<section class="s-slide">
+  <header class="s-slide__head">
+    <span class="s-eyebrow">After a fire</span>
+    <h2 class="s-title">What happens when a sensor fires</h2>
+    <p class="s-lede">Most sensors wake the agent. About one in six does the work in its own code and wakes the agent only when something fails.</p>
+  </header>
+  <div class="s-slide__body is-4">
+    <article class="s-card">
+      <div class="s-card__head"><h3 class="s-card__title">Wakes the agent</h3><span class="s-card__meta">72%</span></div>
+      <div class="s-card__art"><figure class="s-shape" data-shape="flow"><script type="application/json">{"steps":[{"kind":"agent","label":"Agent"},{"kind":"chip","text":"decides","tone":"plain"}]}</script></figure></div>
+      <p class="s-card__body">The sensor sends the agent a message describing what happened, and the agent decides what to do. This is the only option that uses a model call.</p>
+    </article>
+    <article class="s-card">
+      <div class="s-card__head"><h3 class="s-card__title">Does the work in code</h3><span class="s-card__meta">24%</span></div>
+      <div class="s-card__art"><pre class="s-code">drive.upload(photo)
+sheet.append(row)
+return { events: [] }</pre></div>
+      <p class="s-card__body">The sensor uploads the file, adds the row or updates the ticket itself. It wakes the agent only if that fails.</p>
+    </article>
+    <article class="s-card">
+      <div class="s-card__head"><h3 class="s-card__title">Messages a person</h3><span class="s-card__meta is-na">n/a</span></div>
+      <div class="s-card__art"><figure class="s-shape" data-shape="flow"><script type="application/json">{"steps":[{"kind":"box","text":"Take the running shoes"}]}</script></figure></div>
+      <p class="s-card__body">The sensor sends a reminder or alert straight to a person. The agent is not involved.</p>
+    </article>
+    <article class="s-card">
+      <div class="s-card__head"><h3 class="s-card__title">Records only</h3><span class="s-card__meta is-na">n/a</span></div>
+      <div class="s-card__art"><pre class="s-log">would approve · 08:12 · room 104
+<span class="is-sig">would flag · 08:31 · room 311</span>
+would approve · 09:02 · room 207</pre></div>
+      <p class="s-card__body">The sensor runs a rule and logs what it would have done, without acting. This is used to test a rule before switching it on.</p>
+    </article>
+  </div>
+  <p class="s-counted">Share of sensors at a typical organization. n/a means seen at too few organizations to show. Each organization counts equally.</p>
+</section>
+
+<!-- ============ 13 · stairs + fanout ============ -->
+<section class="s-slide">
+  <header class="s-slide__head">
+    <span class="s-eyebrow">Over time</span>
+    <h2 class="s-title">How sensors change</h2>
+    <p class="s-lede">Many sensors start in a cautious mode and take on more over time. Some are split into stages or copied for new groups.</p>
+  </header>
+  <div class="s-slide__body is-split" style="grid-template-columns:420pt minmax(0,1fr)">
+    <div class="s-slide__col">
+      <div class="s-well">
+        <span class="s-label">Stages named in sensor names and code comments</span>
+        <figure class="s-shape" data-shape="stairs"><script type="application/json">{"steps":[["Shadow","logs what it would do"],["Notify first","alerts; a person acts"],["Propose only","drafts; a person approves"],["Live","acts, then reports"],["Autonomous","reports only problems"]],"active":3}</script></figure>
+      </div>
+      <p class="s-small">One approval rule runs in <b>shadow</b> mode next to a <b>live</b> copy. Others are labelled notify-first, propose-only or read-only.</p>
+      <p class="s-stat is-signal"><b>36%</b><span>of sensors had their code rewritten at least once.</span></p>
+    </div>
+    <div class="s-slide__col">
+      <span class="s-kicker">Split</span>
+      <figure class="s-shape" data-shape="fanout"><script type="application/json">{"from":"one sensor","to":["5 min","15 min","35 and 75 min","155 min"],"tone":"signal"}</script></figure>
+      <p class="s-note">A sensor with five reminder steps was split into four sensors, so each step can be adjusted separately.</p>
+      <span class="s-kicker" style="margin-top:8pt">Copied</span>
+      <figure class="s-shape" data-shape="fanout"><script type="application/json">{"from":"one sensor","to":["group 1","group 2","group 3","group 4","group 5","group 6","group 7","group 8","group 9","group 10","group 11","group 12"],"cols":4}</script></figure>
+      <p class="s-note">The same code, copied once per chat group.</p>
+    </div>
+  </div>
+  <p class="s-counted">Stages were read from sensor names and code comments, not coded. A rewrite is a new version of a sensor’s code. Each organization counts equally.</p>
+</section>
+
+<!-- ============ 14 · technique cards with code ============ -->
+<section class="s-slide">
+  <header class="s-slide__head">
+    <span class="s-eyebrow">Techniques · 1</span>
+    <h2 class="s-title">Avoiding duplicate and unwanted fires</h2>
+    <p class="s-lede">Agents at different organizations, with no shared code, arrived at the same four techniques.</p>
+  </header>
+  <div class="s-slide__body is-4">
+    <article class="s-card">
+      <h3 class="s-card__title">Set a baseline first</h3>
+      <p class="s-card__body">On its first run the sensor records the current state and fires nothing, so old items are not reported.</p>
+      <div class="s-card__art"><figure class="s-shape" data-shape="queue"><script type="application/json">{"seen":3,"fresh":1,"cursor":"First run: set cursor"}</script></figure></div>
+<pre class="s-code">if (!cursor)
+  return { newCursor: now(), events: [] }</pre>
+    </article>
+    <article class="s-card">
+      <h3 class="s-card__title">Give each event an id</h3>
+      <p class="s-card__body">The id combines the item and the step, such as a thread and a reminder number. The platform drops ids it has already fired.</p>
+      <div class="s-card__art"><pre class="s-log"><span class="is-sig">t42:1  fired</span>
+<span class="is-faint">t42:1  dropped</span>
+<span class="is-sig">t42:2  fired</span>
+<span class="is-faint">t42:2  dropped</span>
+<span class="is-sig">t42:3  fired</span></pre></div>
+<pre class="s-code">{ id: `${thread}:${step}`, prompt }</pre>
+    </article>
+    <article class="s-card">
+      <h3 class="s-card__title">Wait for a second failure</h3>
+      <p class="s-card__body">A single failed check does not alert. The sensor alerts on the second failure in a row and sends one message when things recover.</p>
+      <div class="s-card__art"><figure class="s-shape" data-shape="ticks"><script type="application/json">{"style":"check","runs":".1..11.","pad":6,"notes":[{"at":5,"text":"Alert","mark":"ring"},{"at":6,"text":"Back","mark":"hollow","row":1}]}</script></figure></div>
+<pre class="s-code">fails = ok ? 0 : fails + 1
+if (fails === 2) alert()
+if (ok && wasDown) recovered()</pre>
+    </article>
+    <article class="s-card">
+      <h3 class="s-card__title">Hold alerts overnight</h3>
+      <p class="s-card__body">Routine alerts that come in overnight are held and sent together in the morning. Urgent ones go out immediately.</p>
+      <div class="s-card__art"><figure class="s-shape" data-shape="axis"><script type="application/json">{"scale":"linear","domain":[20,33],"pad":6,"spans":[{"from":22,"to":31.5,"label":"22:00 – 07:30"}],"points":[{"at":24,"kind":"dot","label":"Held"},{"at":27.5,"size":0.2,"label":"Urgent"},{"at":31.5,"kind":"hollow","label":"Sent"}]}</script></figure></div>
+<pre class="s-code">if (night() && !urgent)
+  return { newCursor: queue(e), events: [] }</pre>
+    </article>
+  </div>
+  <p class="s-counted">Found by reading every sensor’s code. Each technique appears at more than one organization.</p>
+</section>
+
+<!-- ============ 15 · close ============ -->
+<section class="s-slide is-close" data-no-foot aria-label="Close">
+  <img data-brand="logo" class="s-logo" alt="Shift Labs">
+  <p class="s-lede" style="margin-top:22pt;max-width:520pt">Sensors are how an agent notices that something happened. Start in shadow mode, give every event an id, and let the sensor sleep when nothing is new.</p>
+  <span class="s-eyebrow" style="margin-top:22pt">Shift Labs Agent Work Index · September 2026</span>
+</section>
+
+<!-- shift:js -->
+</body>
+</html>

@@ -1,0 +1,16 @@
+{
+ "id": "b4-style-text",
+ "title": "30 s instrumental in the style of Blinding Lights, from a text description derived from its song map (no audio reference)",
+ "prompt": "80s synthwave night-drive track: driving gated-reverb snare, pulsing arpeggiated synth bass, bright analog lead hook, shimmering pads, urgent retro energy. New original melody.",
+ "instrumental": true,
+ "duration": 30,
+ "bpm": 171,
+ "key": "F minor",
+ "sections": [],
+ "hits": [],
+ "measure": {
+  "bpm": 171,
+  "duration": 30,
+  "ref_song": "projects/lab-music/analysis/the-weeknd-blinding-lights.song.json"
+ }
+}

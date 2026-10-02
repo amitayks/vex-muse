@@ -1,0 +1,7 @@
+{
+ "repo": "OWNER/REPO",
+ "runs_on": "ubuntu-latest",
+ "gl": "soft",
+ "max_chunks": 20,
+ "note": "set repo to this workspace's own git remote; runs_on switches to a GPU runner label (and gl to gpu) once one is provisioned"
+}

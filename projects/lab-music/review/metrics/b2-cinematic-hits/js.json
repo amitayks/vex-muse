@@ -1,0 +1,61 @@
+{
+ "file": "projects/lab-music/gen/b2-cinematic-hits/js.wav",
+ "brief": "b2-cinematic-hits",
+ "duration": 30.0,
+ "duration_err_s": 0.0,
+ "lufs": -21.0,
+ "true_peak_db": 0.2,
+ "lra": 13.9,
+ "bpm": 60.03,
+ "grid_resid_ms": 3.8,
+ "bpm_candidates": [
+  60.0,
+  90.25,
+  179.75,
+  179.0
+ ],
+ "bpm_err_pct": -33.3,
+ "bpm_octave_err_pct": 0.05,
+ "bpm_factor": 1.5,
+ "key": "D major",
+ "key_conf": 0.935,
+ "key_relation": "parallel",
+ "hits": [
+  {
+   "t": 8.0,
+   "found": 7.988,
+   "err_ms": -12,
+   "jump_db": 16.0,
+   "strength": 1.31
+  },
+  {
+   "t": 16.0,
+   "found": 15.999,
+   "err_ms": -1,
+   "jump_db": 8.1,
+   "strength": 1.17
+  },
+  {
+   "t": 24.0,
+   "found": 23.998,
+   "err_ms": -2,
+   "jump_db": 13.1,
+   "strength": 1.36
+  }
+ ],
+ "hits_mae_ms": 5,
+ "hits_within_100ms": 3,
+ "hits_min_jump_db": 8.1,
+ "end_level_db": -115.5,
+ "lead_silence_s": 0.62,
+ "tail_silence_s": 3.22,
+ "rolloff99_hz": 13738,
+ "hf_above_16k_db": -21.5,
+ "clip_frac": 0.0,
+ "stereo_width": 0.116,
+ "centroid_hz": 4550,
+ "onsets_per_s": 0.17,
+ "asr_full": "Thanks for watching!",
+ "asr_text": "Thanks for watching!",
+ "phantom_words": 3
+}

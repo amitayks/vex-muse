@@ -1,0 +1,61 @@
+{
+ "file": "projects/lab-music/gen/b2-cinematic-hits/sa25.wav",
+ "brief": "b2-cinematic-hits",
+ "duration": 30.0,
+ "duration_err_s": 0.0,
+ "lufs": -14.3,
+ "true_peak_db": -0.0,
+ "lra": 14.9,
+ "bpm": 120.19,
+ "grid_resid_ms": 0.0,
+ "bpm_candidates": [
+  120.25,
+  119.75,
+  180.25,
+  179.5
+ ],
+ "bpm_err_pct": 33.54,
+ "bpm_octave_err_pct": 10.97,
+ "bpm_factor": 0.6666666666666666,
+ "key": "D major",
+ "key_conf": 0.909,
+ "key_relation": "parallel",
+ "hits": [
+  {
+   "t": 8.0,
+   "found": 8.359,
+   "err_ms": 359,
+   "jump_db": -4.0,
+   "strength": 0.26
+  },
+  {
+   "t": 16.0,
+   "found": 16.01,
+   "err_ms": 10,
+   "jump_db": 2.4,
+   "strength": 0.65
+  },
+  {
+   "t": 24.0,
+   "found": 23.998,
+   "err_ms": -2,
+   "jump_db": 3.5,
+   "strength": 1.31
+  }
+ ],
+ "hits_mae_ms": 124,
+ "hits_within_100ms": 2,
+ "hits_min_jump_db": -4.0,
+ "end_level_db": -65.1,
+ "lead_silence_s": 0.0,
+ "tail_silence_s": 1.22,
+ "rolloff99_hz": 2863,
+ "hf_above_16k_db": -55.7,
+ "clip_frac": 0.0,
+ "stereo_width": 0.655,
+ "centroid_hz": 1529,
+ "onsets_per_s": 1.23,
+ "asr_full": " You",
+ "asr_text": " You",
+ "phantom_words": 1
+}

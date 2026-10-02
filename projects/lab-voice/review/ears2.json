@@ -1,0 +1,110 @@
+[
+ {
+  "model": "v3",
+  "item": "boh_line",
+  "take": 1,
+  "ear": "{\"scouse\":2,\"heard_as\":\"general Northern English\"}"
+ },
+ {
+  "model": "v3",
+  "item": "boh_line",
+  "take": 2,
+  "ear": "{\"scouse\":2,\"heard_as\":\"generic British\"}"
+ },
+ {
+  "model": "v3",
+  "item": "fir_plain",
+  "take": 1,
+  "ear": "{\"glaswegian\":7,\"heard_as\":\"Scottish accent, likely Glaswegian\"}"
+ },
+ {
+  "model": "v3",
+  "item": "fir_plain",
+  "take": 2,
+  "ear": "{\"glaswegian\":7,\"heard_as\":\"Scottish accent, likely Glaswegian\"}"
+ },
+ {
+  "model": "v4",
+  "item": "boh_line",
+  "take": 1,
+  "ear": "{\"scouse\":7,\"heard_as\":\"Northern English (Scouse)\"}"
+ },
+ {
+  "model": "v4",
+  "item": "boh_line",
+  "take": 2,
+  "ear": "{\"scouse\":2,\"heard_as\":\"generic Northern English\"}"
+ },
+ {
+  "model": "v4",
+  "item": "fir_plain",
+  "take": 1,
+  "ear": "{\"glaswegian\":2,\"heard_as\":\"English (possibly Southern)\"}"
+ },
+ {
+  "model": "v4",
+  "item": "fir_plain",
+  "take": 2,
+  "ear": "{\"glaswegian\": 0, \"heard_as\": \"standard British or neutral accent\"}"
+ },
+ {
+  "model": "v4turbo",
+  "item": "boh_line",
+  "take": 1,
+  "ear": "{\"scouse\":7,\"heard_as\":\"Scouse\"}"
+ },
+ {
+  "model": "v4turbo",
+  "item": "boh_line",
+  "take": 2,
+  "ear": "{\"scouse\":7,\"heard_as\":\"Northern English, likely Scouse\"}"
+ },
+ {
+  "model": "v4turbo",
+  "item": "fir_plain",
+  "take": 1,
+  "ear": "{\"glaswegian\": 3, \"heard_as\": \"English accent\"}"
+ },
+ {
+  "model": "v4turbo",
+  "item": "fir_plain",
+  "take": 2,
+  "ear": "{\"glaswegian\":2,\"heard_as\":\"English (possibly Southern English)\"}"
+ },
+ {
+  "model": "v3",
+  "item": "nar_nums",
+  "take": 1,
+  "ear": "{\"date_spoken\":\"the third June ten ninety eight\",\"time_spoken\":\"about four a.m.\"}"
+ },
+ {
+  "model": "v3",
+  "item": "nar_nums",
+  "take": 2,
+  "ear": "{\"date_spoken\":\"the third of June 1098\",\"time_spoken\":\"about four a.m.\"}"
+ },
+ {
+  "model": "v4",
+  "item": "nar_nums",
+  "take": 1,
+  "ear": "{\"date_spoken\":\"on June third ten ninety eight\",\"time_spoken\":\"at about four a.m.\"}"
+ },
+ {
+  "model": "v4",
+  "item": "nar_nums",
+  "take": 2,
+  "ear": "{\"date_spoken\":\"on June third, ten ninety eight\",\"time_spoken\":\"at about four a.m.\"}"
+ },
+ {
+  "model": "v4turbo",
+  "item": "nar_nums",
+  "take": 1,
+  "ear": "{\"date_spoken\":\"on June third, ten ninety eight\",\"time_spoken\":\"at about four a.m.\"}"
+ },
+ {
+  "model": "v4turbo",
+  "item": "nar_nums",
+  "take": 2,
+  "ear": "{\"date_spoken\":\"on June third ten ninety eight\",\"time_spoken\":\"at about four A M\"}"
+ }
+]

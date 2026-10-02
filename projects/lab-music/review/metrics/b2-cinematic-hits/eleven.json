@@ -1,0 +1,61 @@
+{
+ "file": "projects/lab-music/gen/b2-cinematic-hits/eleven.mp3",
+ "brief": "b2-cinematic-hits",
+ "duration": 30.04,
+ "duration_err_s": 0.04,
+ "lufs": -16.7,
+ "true_peak_db": -0.2,
+ "lra": 18.1,
+ "bpm": 90.15,
+ "grid_resid_ms": 12.1,
+ "bpm_candidates": [
+  90.0,
+  180.25,
+  90.5,
+  179.5
+ ],
+ "bpm_err_pct": 0.17,
+ "bpm_octave_err_pct": 0.17,
+ "bpm_factor": 1,
+ "key": "D major",
+ "key_conf": 0.933,
+ "key_relation": "parallel",
+ "hits": [
+  {
+   "t": 8.0,
+   "found": 7.198,
+   "err_ms": -802,
+   "jump_db": 1.9,
+   "strength": 0.35
+  },
+  {
+   "t": 16.0,
+   "found": 16.533,
+   "err_ms": 533,
+   "jump_db": 2.8,
+   "strength": 0.54
+  },
+  {
+   "t": 24.0,
+   "found": 24.52,
+   "err_ms": 520,
+   "jump_db": 0.5,
+   "strength": 0.56
+  }
+ ],
+ "hits_mae_ms": 618,
+ "hits_within_100ms": 0,
+ "hits_min_jump_db": 0.5,
+ "end_level_db": -47.1,
+ "lead_silence_s": 1.38,
+ "tail_silence_s": 0.23,
+ "rolloff99_hz": 2293,
+ "hf_above_16k_db": -41.9,
+ "clip_frac": 0.0,
+ "stereo_width": 0.475,
+ "centroid_hz": 1747,
+ "onsets_per_s": 0.4,
+ "asr_full": "Thanks for watching!",
+ "asr_text": "Thanks for watching!",
+ "phantom_words": 3
+}

@@ -1,0 +1,114 @@
+{
+ "video": "projects/lab-motion-tools/renders/rm_test_v1.mp4",
+ "size": [
+  1920,
+  1080
+ ],
+ "fps": 30.0,
+ "frames": 125,
+ "duration": 4.167,
+ "cuts": [
+  1.9
+ ],
+ "n_shots": 2,
+ "avg_shot_s": 2.083,
+ "motion_mean": 0.008,
+ "hold_frac": 0.376,
+ "shots": [
+  {
+   "i": 1,
+   "t0": 0.0,
+   "t1": 1.9,
+   "dur": 1.9,
+   "motion_mean": 0.0049,
+   "motion_peak": 0.027,
+   "hold_frac": 0.339,
+   "palette": [
+    {
+     "hex": "#111012",
+     "share": 0.943
+    },
+    {
+     "hex": "#303ee5",
+     "share": 0.022
+    },
+    {
+     "hex": "#e53e30",
+     "share": 0.02
+    },
+    {
+     "hex": "#eec43f",
+     "share": 0.009
+    },
+    {
+     "hex": "#71352e",
+     "share": 0.006
+    }
+   ]
+  },
+  {
+   "i": 2,
+   "t0": 1.9,
+   "t1": 4.167,
+   "dur": 2.267,
+   "motion_mean": 0.0056,
+   "motion_peak": 0.0277,
+   "hold_frac": 0.403,
+   "palette": [
+    {
+     "hex": "#e83f31",
+     "share": 0.952
+    },
+    {
+     "hex": "#141012",
+     "share": 0.024
+    },
+    {
+     "hex": "#c3362b",
+     "share": 0.012
+    },
+    {
+     "hex": "#762521",
+     "share": 0.01
+    },
+    {
+     "hex": "#ebb3aa",
+     "share": 0.002
+    }
+   ]
+  }
+ ],
+ "audio": {
+  "bpm": 128.0,
+  "beat_period": 0.4688,
+  "beat_phase": 0.015,
+  "beats": [
+   0.015,
+   0.483,
+   0.952,
+   1.421,
+   1.89,
+   2.358,
+   2.827,
+   3.296,
+   3.765
+  ],
+  "onsets": [
+   0.244,
+   0.488,
+   0.952,
+   1.416,
+   2.125,
+   2.357,
+   2.589,
+   3.065,
+   3.297,
+   3.529,
+   3.994
+  ],
+  "cuts_on_beat": "1/1",
+  "cut_offsets_ms": [
+   10
+  ]
+ }
+}

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1920, height=1080">
+<title>Tesseract lab 1/2 — turn</title>
+<script src="assets/js/gsap.min.js"></script>
+<script src="assets/js/nd4.js"></script>
+<style>
+  @font-face { font-family: "Unb"; src: url("assets/fonts/Unbounded.ttf"); }
+  /* palette kept OFF the current trend fingerprint (cobalt/vermilion on cream or near-black): sage stock, ink, one riso pink */
+  :root { --paper:#CDD1C4; --ink:#1C1D1A; --pink:#FF48B0; }
+  body { margin:0; background:var(--paper); }
+  #root { position:relative; width:100%; height:100%; overflow:hidden; background:var(--paper); }
+  .clip { position:absolute; inset:0; }
+  svg.full { position:absolute; inset:0; width:100%; height:100%; }
+  #cap { position:absolute; left:120px; top:910px; font-family:"Unb"; font-weight:500; font-size:34px; color:var(--ink); letter-spacing:-.01em; white-space:nowrap; }
+  #cap b { font-weight:700; color:var(--ink); box-shadow: inset 0 -8px 0 var(--pink); }
+  .ax { font-family:"Unb"; font-weight:600; font-size:54px; fill:var(--ink); text-anchor:middle; }
+</style>
+</head>
+<body>
+<div id="root" data-composition-id="main" data-start="0" data-width="1920" data-height="1080" data-duration="8.1" data-fps="30">
+  <audio id="bgm" data-start="0" data-duration="8.1" data-track-index="9" data-volume="1" src="assets/beat128.wav"></audio>
+  <section id="stage" class="clip" data-start="0" data-duration="8.1" data-track-index="0">
+    <svg class="full" viewBox="0 0 1920 1080">
+      <path id="cellfill" fill="#FF48B0" fill-opacity="0" stroke="none" />
+      <g id="edges" fill="none" stroke-linecap="round"></g>
+      <g id="planes">
+        <text class="ax" x="1500" y="930">X</text><text class="ax" x="1590" y="930">Y</text>
+        <text class="ax" x="1680" y="930">Z</text><text class="ax" x="1770" y="930">W</text>
+        <path id="arcA" fill="none" stroke="#FF48B0" stroke-width="6" stroke-linecap="round" />
+        <path id="arcB" fill="none" stroke="#FF48B0" stroke-width="6" stroke-linecap="round" />
+      </g>
+    </svg>
+    <div id="cap"></div>
+  </section>
+</div>
+<script>
+const BPM = 128, B = 60 / BPM, BAR = 4 * B, FPS = 30, DUR = 8.1;
+const at = (bar, beat = 0) => (bar * 4 + beat) * B;
+const clamp = x => Math.max(0, Math.min(1, x));
+const ease = x => { x = clamp(x); return x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2; };   // cubic in-out
+const easeOut = x => 1 - Math.pow(1 - clamp(x), 3);
+const NS = "http://www.w3.org/2000/svg";
+const { V, E, cells } = ND4.tesseract();
+const X = 0, Y = 1, Z = 2, W = 3;
+const tracked = cells.find(c => c.axis === W && c.sign === -1);            // the inner cube at rest
+const inTracked = new Set(tracked.edges);
+const group = E.map(([i, j]) => V[i][W] !== V[j][W] ? "ray" : V[i][W] < 0 ? "inner" : "outer");
+const edgeEls = E.map(() => { const p = document.createElementNS(NS, "path"); document.getElementById("edges").appendChild(p); return p; });
+// scale/centre measured over every frame: the swing stays inside y 107..866, clear of the caption at y 910 (v1 hit it at 6.5 s)
+const CX = 820, CY = 480, D4 = 3.5, D3 = 4, F = 560 * D3;
+
+// one rotation per bar; each turn runs 3 beats and lands ON beat 4, then holds (fast action, slow meaning)
+const turns = [ { bar: 1, planes: [[X, W]] }, { bar: 2, planes: [[Y, W]] }, { bar: 3, planes: [[X, Y], [Z, W]] } ];
+const caps = [
+  [0, "a tesseract, seen from its <b>fourth</b> direction"],
+  [at(1), "turn in X–W: the <b>inner</b> cube comes outside"],
+  [at(2), "turn in Y–W: back in, by another way"],
+  [at(3), "X–Y and Z–W at once: a turn no 3D thing can make"],
+];
+const axX = [1500, 1590, 1680, 1770];
+const arc = (i, j, p) => {                                                 // semicircle over two axis letters, drawn to p
+  const x0 = axX[i], x1 = axX[j], r = (x1 - x0) / 2, cx = x0 + r, y = 872, a = Math.PI * clamp(p);
+  if (p <= 0) return "";
+  return `M${x0},${y} A${r},${r * .8} 0 0 1 ${cx - r * Math.cos(a)},${y - r * .8 * Math.sin(a)}`;
+};
+
+function render(t) {
+  // ---- 4D pose: completed turns stay applied, the active one interpolates ----
+  const rots = []; let active = null, prog = 0;
+  for (const tr of turns) {
+    const p = ease((t - at(tr.bar)) / (3 * B));
+    if (p > 0) tr.planes.forEach(([i, j]) => rots.push([i, j, Math.PI * p]));
+    if (t >= at(tr.bar)) { active = tr; prog = p; }                          // last started turn stays lit through the tail
+  }
+  const R = ND4.rotAll(V, rots);
+  const yaw = 0.55 + 0.16 * t / DUR, pitch = -0.38;
+  const P = R.map(v => { const q = ND4.view3(ND4.project4(v, D4), yaw, pitch); const s = ND4.project3(q, D3, F, CX, CY); return [s[0], s[1], s[2], v[3]]; });
+
+  // ---- bar 1: build by beats — inner cube, outer cube, the 8 rays into the 4th direction, then the fill ----
+  const grow = { inner: easeOut((t - at(0, 0)) / (0.7 * B)), outer: easeOut((t - at(0, 1)) / (0.7 * B)), ray: easeOut((t - at(0, 2)) / (0.7 * B)) };
+  const fillIn = easeOut((t - at(0, 3)) / (0.5 * B));
+
+  const order = E.map((e, k) => k).sort((a, b) => (P[E[a][0]][2] + P[E[a][1]][2]) - (P[E[b][0]][2] + P[E[b][1]][2]));
+  const host = document.getElementById("edges");
+  order.forEach(k => {
+    const [i, j] = E[k], g = grow[group[k]], el = edgeEls[k];
+    host.appendChild(el);
+    if (g <= 0) { el.setAttribute("d", ""); return; }
+    const a = P[i], b = P[j], w4 = (a[3] + b[3]) / 2;                       // 4D depth -> pen weight
+    const x1 = a[0] + (b[0] - a[0]) * g, y1 = a[1] + (b[1] - a[1]) * g;
+    el.setAttribute("d", `M${a[0].toFixed(2)},${a[1].toFixed(2)}L${x1.toFixed(2)},${y1.toFixed(2)}`);
+    const blue = inTracked.has(k) && fillIn > 0;
+    el.setAttribute("stroke", blue ? "#E0258F" : "#1C1D1A");
+    el.setAttribute("stroke-width", (1.4 + 1.45 * (w4 + 2) + (blue ? 1.2 : 0)).toFixed(2));
+  });
+  const hull = ND4.hull2(tracked.verts.map(i => [P[i][0], P[i][1]]));
+  document.getElementById("cellfill").setAttribute("d", "M" + hull.map(p => p[0].toFixed(1) + "," + p[1].toFixed(1)).join("L") + "Z");
+  document.getElementById("cellfill").setAttribute("fill-opacity", (0.42 * fillIn).toFixed(3));
+
+  // ---- plane indicator: the active plane's arc draws with the turn; bar 4 draws two arcs at once ----
+  const pl = active ? active.planes : [];
+  document.getElementById("arcA").setAttribute("d", pl[0] ? arc(pl[0][0], pl[0][1], prog) : "");
+  document.getElementById("arcB").setAttribute("d", pl[1] ? arc(pl[1][0], pl[1][1], prog) : "");
+  document.getElementById("planes").style.opacity = clamp((t - at(0, 3)) / B).toFixed(3);
+
+  // ---- caption: swaps on each downbeat with a short rise ----
+  const c = caps.filter(x => t >= x[0]).pop(), k2 = easeOut((t - c[0]) / (0.5 * B));
+  const cap = document.getElementById("cap");
+  if (cap.dataset.i !== String(c[0])) { cap.innerHTML = c[1]; cap.dataset.i = String(c[0]); }
+  cap.style.opacity = k2.toFixed(3); cap.style.transform = `translateY(${(1 - k2) * 18}px)`;
+}
+
+const tl = gsap.timeline({ paused: true });
+const clock = { t: 0 };
+tl.to(clock, { t: DUR, duration: DUR, ease: "none", onUpdate() { render(clock.t); } }, 0);
+render(0);
+window.__timelines = window.__timelines || {};
+window.__timelines["main"] = tl;
+</script>
+</body>
+</html>

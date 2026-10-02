@@ -1,0 +1,109 @@
+# vex-managed:v2
+# user entries below this block are preserved
+
+# credentials & machine-local runtime
+.pi/auth.json
+.pi/settings.json
+.pi/agent/
+.env
+.env.*
+!.env.example
+
+# generated plugin bundles (sources live alongside)
+.dripline/plugins/
+.runline/plugins/
+
+# package/build caches
+node_modules/
+.pnpm-store/
+.npm/
+.bun-cache/
+.bun/
+.duckdb/
+dist/
+build/
+coverage/
+.turbo/
+.next/
+
+# language/tool caches
+.local/
+.cache/
+.config/
+__pycache__/
+*.pyc
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+
+# knowledge-base local state
+knowledge/.napkin/
+knowledge/.obsidian/
+knowledge/.trash/
+
+# agent-generated artifacts & inbound uploads
+outbox/
+inbox/
+
+# logs, temp & sync debris
+*.log
+*.tmp
+tmp/
+temp/
+.DS_Store
+*.conflict-*
+
+# IDE
+.vscode/
+.idea/
+*.swp
+# /vex-managed
+
+# Muse studio: machine-local toolchain + heavy/generated media (rebuilt by tools/bootstrap.sh)
+tools/chrome/
+tools/libs/
+tools/py/
+tools/bin/
+tools/env.sh
+studio/out/
+projects/*/renders/frames/
+projects/*/**/frames/
+*.tar
+knowledge/references/media/**/*.mp4
+knowledge/references/media/**/*.mp3
+research/x/**/*.mp4
+projects/*/research/x/**/*.mp4
+
+# xpost plugin token/draft store (never sync)
+.xpost/
+
+# handwritten plugin sources — sync them (bundles above stay ignored)
+!.runline/plugins/
+!.runline/plugins/xpost/
+!.runline/plugins/xpost/**
+
+# Muse music: audio media stays local (index.json, song.json, briefs, metrics and scripts sync)
+library/music/**/audio.*
+projects/*/analysis/stems/
+projects/*/**/*.wav
+projects/*/**/*.webm
+projects/*/**/*.m4a
+projects/lab-music/**/*.mp3
+
+# Audio never syncs (studio policy): all audio stays local, anywhere in the workspace
+*.mp3
+*.wav
+*.flac
+*.m4a
+*.aac
+*.ogg
+*.opus
+*.aif
+*.aiff
+*.wma
+
+# unlicensed upstream references, fetched locally by tools/fetch-vendor.sh
+vendor/PDoomVideo/

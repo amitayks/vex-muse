@@ -1,0 +1,61 @@
+{
+ "file": "projects/lab-music/gen/b2-cinematic-hits/minimax3.wav",
+ "brief": "b2-cinematic-hits",
+ "duration": 30.02,
+ "duration_err_s": 0.02,
+ "lufs": -15.5,
+ "true_peak_db": -0.2,
+ "lra": 24.0,
+ "bpm": 162.14,
+ "grid_resid_ms": 20.6,
+ "bpm_candidates": [
+  163.75,
+  163.25,
+  160.25,
+  160.0
+ ],
+ "bpm_err_pct": 80.16,
+ "bpm_octave_err_pct": 9.92,
+ "bpm_factor": 0.5,
+ "key": "D# major",
+ "key_conf": 0.752,
+ "key_relation": "other",
+ "hits": [
+  {
+   "t": 8.0,
+   "found": 7.094,
+   "err_ms": -906,
+   "jump_db": 1.1,
+   "strength": 0.08
+  },
+  {
+   "t": 16.0,
+   "found": 15.047,
+   "err_ms": -953,
+   "jump_db": -1.0,
+   "strength": 0.06
+  },
+  {
+   "t": 24.0,
+   "found": 24.079,
+   "err_ms": 79,
+   "jump_db": 0.8,
+   "strength": 0.39
+  }
+ ],
+ "hits_mae_ms": 646,
+ "hits_within_100ms": 1,
+ "hits_min_jump_db": -1.0,
+ "end_level_db": -34.5,
+ "lead_silence_s": 0.0,
+ "tail_silence_s": 0.03,
+ "rolloff99_hz": 2110,
+ "hf_above_16k_db": -49.3,
+ "clip_frac": 0.0,
+ "stereo_width": 0.666,
+ "centroid_hz": 1959,
+ "onsets_per_s": 0.5,
+ "asr_full": "\u7747 \u5ea6 \u55f0 \u5ea6 \u4e0a \u5fcd \u4e0b..",
+ "asr_text": "\u7747 \u5ea6 \u55f0 \u5ea6 \u4e0a \u5fcd \u4e0b..",
+ "phantom_words": 0
+}

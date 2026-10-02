@@ -1,0 +1,61 @@
+{
+ "file": "projects/lab-music/gen/b2-cinematic-hits/lyria35.mp3",
+ "brief": "b2-cinematic-hits",
+ "duration": 62.72,
+ "duration_err_s": 32.72,
+ "lufs": -12.2,
+ "true_peak_db": 0.2,
+ "lra": 8.7,
+ "bpm": 120.01,
+ "grid_resid_ms": 3.6,
+ "bpm_candidates": [
+  120.0,
+  120.5,
+  119.25,
+  119.0
+ ],
+ "bpm_err_pct": 33.34,
+ "bpm_octave_err_pct": 11.1,
+ "bpm_factor": 0.6666666666666666,
+ "key": "C# minor",
+ "key_conf": 0.925,
+ "key_relation": "other",
+ "hits": [
+  {
+   "t": 8.0,
+   "found": 8.046,
+   "err_ms": 46,
+   "jump_db": 6.9,
+   "strength": 0.91
+  },
+  {
+   "t": 16.0,
+   "found": 15.743,
+   "err_ms": -257,
+   "jump_db": 3.5,
+   "strength": 0.29
+  },
+  {
+   "t": 24.0,
+   "found": 23.545,
+   "err_ms": -455,
+   "jump_db": 0.1,
+   "strength": 0.81
+  }
+ ],
+ "hits_mae_ms": 253,
+ "hits_within_100ms": 1,
+ "hits_min_jump_db": 0.1,
+ "end_level_db": -74.7,
+ "lead_silence_s": 0.05,
+ "tail_silence_s": 2.76,
+ "rolloff99_hz": 3865,
+ "hf_above_16k_db": -44.4,
+ "clip_frac": 0.0,
+ "stereo_width": 0.461,
+ "centroid_hz": 2171,
+ "onsets_per_s": 1.04,
+ "asr_full": "\u041c\u0423\u0417\u042b\u041a\u0410\u041b\u042c\u041d\u0410\u042f \u0417\u0410\u0421\u0422\u0410\u0412\u041a\u0410 \u041c\u0423\u0417\u042b\u041a\u0410\u041b\u042c\u041d\u0410\u042f \u0417\u0410\u0421\u0422\u0410\u0412\u041a\u0410 \u0420\u0435\u0434\u0430\u043a\u0442\u043e\u0440 \u0441\u0443\u0431\u0442\u0438\u0442\u0440\u043e\u0432 \u0410.\u0421\u0438\u043d\u0435\u0446\u043a\u0430\u044f \u041a\u043e\u0440\u0440\u0435\u043a\u0442\u043e\u0440 \u0410.\u0415\u0433\u043e\u0440\u043e\u0432\u0430",
+ "asr_text": "\u041c\u0423\u0417\u042b\u041a\u0410\u041b\u042c\u041d\u0410\u042f \u0417\u0410\u0421\u0422\u0410\u0412\u041a\u0410 \u041c\u0423\u0417\u042b\u041a\u0410\u041b\u042c\u041d\u0410\u042f \u0417\u0410\u0421\u0422\u0410\u0412\u041a\u0410 \u0420\u0435\u0434\u0430\u043a\u0442\u043e\u0440 \u0441\u0443\u0431\u0442\u0438\u0442\u0440\u043e\u0432 \u0410.\u0421\u0438\u043d\u0435\u0446\u043a\u0430\u044f \u041a\u043e\u0440\u0440\u0435\u043a\u0442\u043e\u0440 \u0410.\u0415\u0433\u043e\u0440\u043e\u0432\u0430",
+ "phantom_words": 0
+}

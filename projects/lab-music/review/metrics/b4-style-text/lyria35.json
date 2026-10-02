@@ -1,0 +1,38 @@
+{
+ "file": "projects/lab-music/gen/b4-style-text/lyria35.mp3",
+ "brief": "b4-style-text",
+ "duration": 60.66,
+ "duration_err_s": 30.66,
+ "lufs": -12.6,
+ "true_peak_db": 0.4,
+ "lra": 5.8,
+ "bpm": 86.01,
+ "grid_resid_ms": 3.7,
+ "bpm_candidates": [
+  86.0,
+  115.0,
+  172.5,
+  114.5
+ ],
+ "bpm_err_pct": -49.7,
+ "bpm_octave_err_pct": 0.6,
+ "bpm_factor": 2,
+ "key": "C minor",
+ "key_conf": 0.855,
+ "key_relation": "fifth",
+ "end_level_db": -116.5,
+ "lead_silence_s": 0.07,
+ "tail_silence_s": 2.77,
+ "rolloff99_hz": 6341,
+ "hf_above_16k_db": -37.4,
+ "clip_frac": 0.0,
+ "stereo_width": 0.324,
+ "centroid_hz": 3184,
+ "onsets_per_s": 3.48,
+ "style": {
+  "ref_bpm": 171.02,
+  "ref_key": "F minor",
+  "key_relation_to_ref": "fifth",
+  "chroma_cos": 0.977
+ }
+}

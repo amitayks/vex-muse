@@ -1,0 +1,16 @@
+{
+ "id": "b4-ownref",
+ "title": "control: ElevenLabs audio_reference with our own (code-made) 128 BPM beat",
+ "prompt": "Punchy modern electronic beat in the style of the reference: four-on-the-floor kick, claps, sub bass, plucked synth hook. Bigger, more polished production.",
+ "instrumental": true,
+ "duration": 30,
+ "bpm": 128,
+ "key": "A minor",
+ "sections": [],
+ "hits": [],
+ "measure": {
+  "bpm": 128,
+  "duration": 30
+ },
+ "reference": "projects/lab-music/tests/ref/own-js-beat-30s.mp3"
+}

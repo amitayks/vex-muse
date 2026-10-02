@@ -1,0 +1,38 @@
+{
+ "file": "projects/lab-music/gen/b4-style-text/minimax3.wav",
+ "brief": "b4-style-text",
+ "duration": 30.02,
+ "duration_err_s": 0.02,
+ "lufs": -14.1,
+ "true_peak_db": 0.3,
+ "lra": 1.5,
+ "bpm": 141.77,
+ "grid_resid_ms": 4.3,
+ "bpm_candidates": [
+  141.75,
+  142.25,
+  142.5,
+  70.75
+ ],
+ "bpm_err_pct": -17.09,
+ "bpm_octave_err_pct": 17.09,
+ "bpm_factor": 1,
+ "key": "E major",
+ "key_conf": 0.944,
+ "key_relation": "other",
+ "end_level_db": -10.8,
+ "lead_silence_s": 0.0,
+ "tail_silence_s": 0.0,
+ "rolloff99_hz": 12327,
+ "hf_above_16k_db": -26.7,
+ "clip_frac": 0.0,
+ "stereo_width": 0.477,
+ "centroid_hz": 5186,
+ "onsets_per_s": 4.7,
+ "style": {
+  "ref_bpm": 171.02,
+  "ref_key": "F minor",
+  "key_relation_to_ref": "other",
+  "chroma_cos": 0.903
+ }
+}

@@ -1,0 +1,38 @@
+{
+ "file": "projects/lab-music/gen/b4-style-ref/acestep15.wav",
+ "brief": "b4-style-ref",
+ "duration": 30.0,
+ "duration_err_s": 0.0,
+ "lufs": -15.2,
+ "true_peak_db": 0.2,
+ "lra": 3.4,
+ "bpm": 84.99,
+ "grid_resid_ms": 3.7,
+ "bpm_candidates": [
+  85.0,
+  113.5,
+  170.0,
+  169.75
+ ],
+ "bpm_err_pct": -50.3,
+ "bpm_octave_err_pct": 0.6,
+ "bpm_factor": 2,
+ "key": "F minor",
+ "key_conf": 0.891,
+ "key_relation": "same",
+ "end_level_db": -56.3,
+ "lead_silence_s": 0.0,
+ "tail_silence_s": 5.91,
+ "rolloff99_hz": 5415,
+ "hf_above_16k_db": -48.4,
+ "clip_frac": 0.0,
+ "stereo_width": 0.144,
+ "centroid_hz": 3147,
+ "onsets_per_s": 3.43,
+ "style": {
+  "ref_bpm": 171.02,
+  "ref_key": "F minor",
+  "key_relation_to_ref": "same",
+  "chroma_cos": 0.975
+ }
+}

@@ -1,0 +1,32 @@
+{
+ "file": "projects/lab-music/gen/b4-ownref/eleven.mp3",
+ "brief": "b4-ownref",
+ "duration": 30.04,
+ "duration_err_s": 0.04,
+ "lufs": -19.3,
+ "true_peak_db": -1.3,
+ "lra": 0.8,
+ "bpm": 127.98,
+ "grid_resid_ms": 3.7,
+ "bpm_candidates": [
+  128.0,
+  127.5,
+  85.5,
+  64.0
+ ],
+ "bpm_err_pct": -0.02,
+ "bpm_octave_err_pct": 0.02,
+ "bpm_factor": 1,
+ "key": "C major",
+ "key_conf": 0.878,
+ "key_relation": "relative",
+ "end_level_db": -21.9,
+ "lead_silence_s": 0.02,
+ "tail_silence_s": 0.03,
+ "rolloff99_hz": 1754,
+ "hf_above_16k_db": -38.9,
+ "clip_frac": 0.0,
+ "stereo_width": 0.085,
+ "centroid_hz": 2409,
+ "onsets_per_s": 4.23
+}

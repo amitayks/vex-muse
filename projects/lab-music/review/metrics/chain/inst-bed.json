@@ -1,0 +1,32 @@
+{
+ "file": "tests/chain/draw-me-in-inst-chorus-bed-60s.master.mp3",
+ "brief": "b3-song",
+ "duration": 60.0,
+ "duration_err_s": 12.0,
+ "lufs": -14.0,
+ "true_peak_db": -0.8,
+ "lra": 5.1,
+ "bpm": 99.92,
+ "grid_resid_ms": 5.4,
+ "bpm_candidates": [
+  100.0,
+  99.5,
+  199.75,
+  198.5
+ ],
+ "bpm_err_pct": -0.08,
+ "bpm_octave_err_pct": 0.08,
+ "bpm_factor": 1,
+ "key": "C major",
+ "key_conf": 0.859,
+ "key_relation": "same",
+ "end_level_db": -56.2,
+ "lead_silence_s": 0.0,
+ "tail_silence_s": 0.38,
+ "rolloff99_hz": 4209,
+ "hf_above_16k_db": -45.1,
+ "clip_frac": 0.0,
+ "stereo_width": 0.294,
+ "centroid_hz": 2597,
+ "onsets_per_s": 2.67
+}

@@ -1,0 +1,7 @@
+{"id": "b1-beat128", "title": "30 s 128-BPM instrumental beat for a motion piece",
+ "prompt": "Punchy modern electronic beat for a tech motion-graphics video: tight four-on-the-floor kick, crisp claps on 2 and 4, rolling sub bass, bright plucked synth hook, sidechained pads. Clean, confident, minimal.",
+ "instrumental": true, "duration": 30, "bpm": 128, "key": "A minor",
+ "sections": [{"t0": 0, "t1": 7.5, "name": "Intro", "desc": "kick, hats and sub bass only, filtered pluck"},
+              {"t0": 7.5, "t1": 22.5, "name": "Main", "desc": "full groove, claps, open pluck hook, pads"},
+              {"t0": 22.5, "t1": 30, "name": "Outro", "desc": "same groove, ends on a hard stop exactly at the end"}],
+ "hits": [], "measure": {"bpm": 128, "duration": 30}}

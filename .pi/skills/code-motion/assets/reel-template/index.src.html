@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1920, height=1080">
+<title>Muse lab reel — HyperFrames test</title>
+<script src="assets/js/gsap.min.js"></script>
+<script src="assets/js/MorphSVGPlugin.min.js"></script>
+<style>
+  @font-face { font-family: "MuseDisplay"; src: url("assets/fonts/ArchivoBlack-Regular.ttf"); }
+  @font-face { font-family: "MuseSerif"; font-style: italic; src: url("assets/fonts/InstrumentSerif-Italic.ttf"); }
+  @font-face { font-family: "MuseMono"; src: url("assets/fonts/IBMPlexMono-Medium.ttf"); }
+  :root { --ink:#111013; --red:#EA4032; --blue:#3140E8; --cream:#EEE8E0; --sun:#F2C841; }
+  body { margin:0; background:var(--ink); }
+  #root { position:relative; width:100%; height:100%; overflow:hidden; background:var(--ink); }
+  .clip { position:absolute; inset:0; }
+  .center { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; }
+  svg.full { position:absolute; inset:0; width:100%; height:100%; }
+  /* HUD chrome — persistent, unifies every scene */
+  .hud { position:absolute; font-family:"MuseMono"; font-size:17px; letter-spacing:.18em; color:var(--hud,rgba(238,232,224,.8)); z-index:20; display:flex; align-items:center; gap:14px; }
+  .pip { width:11px; height:11px; border:1.5px solid currentColor; box-sizing:border-box; } .pip.on { background:currentColor; }
+  #pips { display:flex; gap:5px; }
+  #hud-tl { left:56px; top:44px; } #hud-tr { right:56px; top:44px; } #hud-bl { left:56px; bottom:40px; } #hud-br { right:56px; bottom:40px; }
+  .crop { position:absolute; width:26px; height:26px; border-color:var(--hud,rgba(238,232,224,.7)); border-style:solid; z-index:20; }
+  #c1 { left:28px; top:24px; border-width:2px 0 0 2px; } #c2 { right:28px; top:24px; border-width:2px 2px 0 0; }
+  #c3 { left:28px; bottom:24px; border-width:0 0 2px 2px; } #c4 { right:28px; bottom:24px; border-width:0 2px 2px 0; }
+  #grain { position:absolute; inset:-64px; background:url("assets/grain.png"); opacity:.09; mix-blend-mode:overlay; z-index:19; pointer-events:none; }
+  /* scene B type */
+  .line { display:flex; overflow:hidden; line-height:1; padding:0 .04em .06em; }
+  .ch { display:inline-block; font-family:"MuseDisplay"; font-size:190px; color:var(--ink); letter-spacing:-.01em; }
+  #b-block { position:absolute; left:170px; top:300px; }
+  #frame-word { position:relative; margin-left:44px; }
+  .brk { position:absolute; width:34px; height:34px; border-color:var(--ink); border-style:solid; }
+  #k1 { left:-30px; top:-6px; border-width:6px 0 0 6px; } #k2 { right:-30px; top:-6px; border-width:6px 6px 0 0; }
+  #k3 { left:-30px; bottom:-2px; border-width:0 0 6px 6px; } #k4 { right:-30px; bottom:-2px; border-width:0 6px 6px 0; }
+  #purpose { font-family:"MuseSerif"; font-style:italic; font-size:210px; color:var(--cream); line-height:1.12; margin-top:-14px; padding-bottom:10px; }
+  /* scene C */
+  #gz-wrap { position:absolute; left:585px; top:165px; width:750px; height:750px; }
+  #gz-label { position:absolute; left:1360px; top:200px; font-family:"MuseMono"; font-size:22px; letter-spacing:.14em; color:var(--cream); line-height:1.6; }
+  #gz-label .dim { color:rgba(238,232,224,.45); }
+  /* scene D */
+  #wordmark { position:absolute; left:0; right:0; top:330px; text-align:center; font-family:"MuseSerif"; font-style:italic; font-size:300px; color:var(--ink); line-height:1; }
+  #wm-dot { display:inline-block; width:44px; height:44px; border-radius:50%; background:var(--red); margin-left:10px; }
+  #sub { position:absolute; left:0; right:0; top:680px; text-align:center; font-family:"MuseMono"; font-size:24px; letter-spacing:.5em; color:var(--ink); }
+  #micro { position:absolute; left:0; right:0; top:740px; text-align:center; font-family:"MuseMono"; font-size:15px; letter-spacing:.3em; color:rgba(17,16,19,.5); }
+</style>
+</head>
+<body>
+<div id="root" data-composition-id="main" data-start="0" data-width="1920" data-height="1080" data-duration="8.1" data-fps="30">
+
+  <audio id="bgm" data-start="0" data-duration="8.1" data-track-index="9" data-volume="1" src="assets/beat128.wav"></audio>
+
+  <!-- A · ORIGIN: one dot, mitosis, collapse (0 – 1.875 = bar 1) -->
+  <section id="sA" class="clip" data-start="0" data-duration="1.875" data-track-index="0">
+    <svg class="full" viewBox="0 0 1920 1080"><g id="dots" /></svg>
+  </section>
+
+  <!-- B · THESIS: iris from the dot, kinetic type (1.875 – 3.75 = bar 2) -->
+  <section id="sB" class="clip" data-start="1.875" data-duration="1.875" data-track-index="1">
+    <svg class="full" viewBox="0 0 1920 1080">
+      <circle id="irisB" cx="960" cy="540" r="14" fill="#EA4032" />
+      <circle id="ringB" cx="960" cy="540" r="18" fill="none" stroke="#EEE8E0" stroke-width="4" />
+    </svg>
+    <div id="b-block">
+      <div id="b-scale">
+        <div id="l1" style="display:flex"><span id="every" class="line"></span><span id="frame-word"><span id="frame" class="line"></span><i class="brk" id="k1"></i><i class="brk" id="k2"></i><i class="brk" id="k3"></i><i class="brk" id="k4"></i></span></div>
+        <div class="line"><div id="purpose">on purpose.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- C · MORPH: one shape, four identities, transform gizmo (3.75 – 5.625 = bar 3) -->
+  <section id="sC" class="clip" data-start="3.75" data-duration="1.875" data-track-index="2">
+    <div id="gz-wrap">
+      <svg viewBox="-100 -100 600 600" width="750" height="750" style="overflow:visible">
+        <path id="ghost3" fill="none" stroke="#3140E8" stroke-width="2" opacity=".35" />
+        <path id="ghost2" fill="none" stroke="#EA4032" stroke-width="2" opacity=".45" />
+        <path id="ghost1" fill="none" stroke="#EEE8E0" stroke-width="2" opacity=".35" />
+        <path id="shape" fill="#EA4032" />
+        <g id="gizmo" fill="#111013" stroke="#EEE8E0" stroke-width="2">
+          <rect x="0" y="0" width="400" height="400" fill="none" />
+          <rect x="-9" y="-9" width="18" height="18" /><rect x="191" y="-9" width="18" height="18" /><rect x="391" y="-9" width="18" height="18" />
+          <rect x="-9" y="191" width="18" height="18" /><rect x="391" y="191" width="18" height="18" />
+          <rect x="-9" y="391" width="18" height="18" /><rect x="191" y="391" width="18" height="18" /><rect x="391" y="391" width="18" height="18" />
+          <circle cx="200" cy="200" r="12" fill="none" /><line x1="200" y1="180" x2="200" y2="220" /><line x1="180" y1="200" x2="220" y2="200" />
+        </g>
+      </svg>
+    </div>
+    <div id="gz-label"><div id="gz-rot">ROT 000.0°</div><div class="dim" id="gz-name">SHAPE CIRCLE</div></div>
+  </section>
+
+  <!-- D · SIGNATURE: iris to paper, the dot lands as the full stop (5.625 – 8.1) -->
+  <section id="sD" class="clip" data-start="5.625" data-duration="2.475" data-track-index="3">
+    <svg class="full" viewBox="0 0 1920 1080">
+      <circle id="irisD" cx="960" cy="540" r="10" fill="#EEE8E0" />
+    </svg>
+    <div id="wordmark"><span id="wm-text"></span><span id="wm-dot"></span></div>
+    <div id="sub">MOTION · MUSIC · MOTIVE</div>
+    <div id="micro">EVERY FRAME WRITTEN IN CODE</div>
+  </section>
+
+  <!-- the travelling dot of scene C→D lives above scenes so it can cross the cut -->
+  <svg class="full" style="z-index:15;pointer-events:none"><circle id="dotCD" cx="960" cy="540" r="0" fill="#EA4032" /></svg>
+
+  <div id="grain"></div>
+  <i class="crop" id="c1"></i><i class="crop" id="c2"></i><i class="crop" id="c3"></i><i class="crop" id="c4"></i>
+  <div class="hud" id="hud-tl">MUSE / LAB REEL</div>
+  <div class="hud" id="hud-tr"><span id="pips"><i class="pip on"></i><i class="pip"></i><i class="pip"></i><i class="pip"></i></span><span id="bar-txt">BAR 1/4 · 128 BPM</span></div>
+  <div class="hud" id="hud-bl">TC 00:00:00:00</div>
+  <div class="hud" id="hud-br">01 — ORIGIN</div>
+</div>
+
+<script>
+gsap.registerPlugin(MorphSVGPlugin);
+const BPM = 128, B = 60 / BPM, BAR = 4 * B, FPS = 30, DUR = 8.1;   // every time below is written in beats
+const at = (bar, beat = 0) => (bar * 4 + beat) * B;
+const tl = gsap.timeline({ paused: true });
+const NS = "http://www.w3.org/2000/svg";
+
+// ---------- HUD: bar counter, timecode, chapter — one seekable proxy ----------
+const chapters = [[0, "01 — ORIGIN"], [at(1), "02 — THESIS"], [at(2), "03 — MORPH"], [at(3), "04 — SIGNATURE"]];
+const hud = { t: 0 };
+const grain = document.getElementById("grain");
+tl.to(hud, { t: DUR, duration: DUR, ease: "none", onUpdate() {
+  const t = hud.t, f = Math.round(t * FPS), bar = Math.min(3, Math.floor(t / BAR));
+  document.querySelectorAll(".pip").forEach((p, i) => p.classList.toggle("on", i <= bar));
+  document.getElementById("bar-txt").textContent = `BAR ${bar + 1}/4 · ${BPM} BPM`;
+  const light = (t >= at(1) && t < at(2)) || t >= at(3) + 0.12;
+  document.getElementById("root").style.setProperty("--hud", light ? "rgba(17,16,19,.82)" : "rgba(238,232,224,.8)");
+  document.getElementById("hud-bl").textContent = `TC 00:00:${String(Math.floor(f / FPS)).padStart(2, "0")}:${String(f % FPS).padStart(2, "0")}`;
+  document.getElementById("hud-br").textContent = chapters.filter(c => t >= c[0]).pop()[1];
+  const h = Math.sin(f * 12.9898) * 43758.5453; const r = h - Math.floor(h);          // seeded per-frame grain jitter
+  grain.style.backgroundPosition = `${Math.floor(r * 512)}px ${Math.floor((r * 7.13 % 1) * 512)}px`;
+} }, 0);
+
+// ---------- A · ORIGIN ----------
+const g = document.getElementById("dots"), dots = [];
+for (let i = 0; i < 8; i++) { const c = document.createElementNS(NS, "circle"); c.setAttribute("cx", 960); c.setAttribute("cy", 540); c.setAttribute("r", 14); c.setAttribute("fill", "#EA4032"); g.appendChild(c); dots.push(c); }
+gsap.set(dots, { attr: { r: 0 } });
+tl.fromTo(dots[0], { attr: { r: 0 } }, { attr: { r: 14 }, duration: 0.28, ease: "back.out(3)" }, 0.12);
+const ring = (n, R, t, d, ease) => dots.forEach((c, i) => {
+  const k = i % n, a = -Math.PI / 2 + k * 2 * Math.PI / n;
+  tl.to(c, { attr: { cx: 960 + R * Math.cos(a), cy: 540 + R * Math.sin(a), r: i < n ? 12 : 12 }, duration: d, ease }, t);
+});
+ring(2, 70, at(0, 1), 0.3, "expo.out");
+ring(4, 110, at(0, 2), 0.3, "expo.out");
+ring(8, 150, at(0, 3), 0.3, "expo.out");
+tl.to(g, { rotation: 60, svgOrigin: "960 540", duration: 0.3, ease: "power2.inOut" }, at(0, 3) + 0.05);
+dots.forEach(c => tl.to(c, { attr: { cx: 960, cy: 540, r: 14 }, duration: 0.16, ease: "power4.in" }, BAR - 0.17));
+
+// ---------- B · THESIS ----------
+const split = (el, word, cls) => word.split("").map(ch => { const s = document.createElement("span"); s.className = "ch"; s.textContent = ch; el.appendChild(s); return s; });
+const ev = split(document.getElementById("every"), "EVERY"), fr = split(document.getElementById("frame"), "FRAME");
+const t0 = at(1);
+tl.fromTo("#irisB", { attr: { r: 14 } }, { attr: { r: 1150 }, duration: 0.16, ease: "expo.in" }, t0);
+tl.fromTo("#ringB", { attr: { r: 18 }, opacity: 1 }, { attr: { r: 1180 }, opacity: 0.2, duration: 0.18, ease: "expo.in" }, t0);
+tl.fromTo(ev, { yPercent: 110 }, { yPercent: 0, duration: 0.34, ease: "expo.out", stagger: 0.028 }, t0 + 0.1);
+tl.fromTo(fr, { yPercent: -140, rotation: -35, opacity: 0 }, { yPercent: 0, rotation: 0, opacity: 1, duration: 0.42, ease: "back.out(2.2)", stagger: 0.035 }, at(1, 1));
+tl.fromTo(".brk", { scale: 1.6, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.14, ease: "power3.out", stagger: 0.02 }, at(1, 1) + 0.3);
+tl.fromTo("#l1", { x: 0 }, { x: -46, duration: 0.18, ease: "power3.in" }, at(1, 2) - 0.1);
+tl.to("#l1", { x: 0, duration: 0.3, ease: "expo.out" }, at(1, 2) + 0.08);
+tl.fromTo("#purpose", { yPercent: 105, skewX: -12 }, { yPercent: 0, skewX: 0, duration: 0.45, ease: "expo.out" }, at(1, 2));
+tl.fromTo("#b-scale", { scale: 1, transformOrigin: "34% 40%" }, { scale: 2.3, duration: B * 1.4, ease: "power4.in" }, at(1, 2.6));
+
+// ---------- C · MORPH (GSAP MorphSVG, shapeIndex auto) ----------
+const P = {
+  circle: "M200,20 C299.4,20 380,100.6 380,200 C380,299.4 299.4,380 200,380 C100.6,380 20,299.4 20,200 C20,100.6 100.6,20 200,20 Z",
+  square: "M90,40 H310 C337.6,40 360,62.4 360,90 V310 C360,337.6 337.6,360 310,360 H90 C62.4,360 40,337.6 40,310 V90 C40,62.4 62.4,40 90,40 Z",
+  tri: "M200,34 C210,34 216,40 221,49 L366,318 C375,335 364,352 344,352 H56 C36,352 25,335 34,318 L179,49 C184,40 190,34 200,34 Z",
+};
+{ // spark: 11 tapered rays, slightly irregular — an ink asterisk, not a clip-art star
+  let d = ""; const n = 11;
+  for (let i = 0; i < n; i++) {
+    const a = -Math.PI / 2 + i * 2 * Math.PI / n, a2 = a + Math.PI / n, R = 195 - (i % 3) * 16, r = 62;
+    const p = (ang, rad) => `${(200 + rad * Math.cos(ang)).toFixed(1)},${(200 + rad * Math.sin(ang)).toFixed(1)}`;
+    d += (i ? "L" : "M") + p(a - 0.09, R) + " L" + p(a + 0.09, R) + " L" + p(a2, r) + " ";
+  }
+  P.spark = d + "Z";
+}
+["shape", "ghost1", "ghost2", "ghost3"].forEach(id => document.getElementById(id).setAttribute("d", P.circle));
+const c0 = at(2), order = [["square", "#3140E8", "SQUARE"], ["tri", "#F2C841", "TRIANGLE"], ["spark", "#EA4032", "SPARK"]];
+tl.fromTo("#gz-wrap", { scale: 0.2, rotation: -40 }, { scale: 1, rotation: 0, duration: 0.3, ease: "expo.out" }, c0);
+tl.fromTo("#gizmo", { opacity: 0 }, { opacity: 1, duration: 0.12 }, c0 + 0.12);
+const gz = { rot: 0 };
+order.forEach(([k, col, name], i) => {
+  const t = c0 + (i + 1) * B - 0.12;
+  tl.to("#shape", { morphSVG: { shape: P[k], shapeIndex: "auto" }, duration: 0.36, ease: "power3.inOut" }, t);
+  tl.set("#shape", { attr: { fill: col } }, t + 0.16);
+  [1, 2, 3].forEach(j => tl.to("#ghost" + j, { morphSVG: { shape: P[k], shapeIndex: "auto" }, duration: 0.36, ease: "power3.inOut" }, t + 0.035 * j));
+  tl.to("#gz-wrap", { rotation: `+=${90 + i * 15}`, duration: 0.36, ease: "power3.inOut" }, t);
+  tl.to(gz, { rot: (i + 1) * 101.2, duration: 0.36, ease: "power3.inOut", onUpdate() { document.getElementById("gz-rot").textContent = "ROT " + gz.rot.toFixed(1).padStart(5, "0") + "°"; } }, t);
+  tl.set("#gz-name", { textContent: "SHAPE " + name }, t + 0.18);
+});
+// spark spins down into the dot (the motif returns) exactly on the bar line
+tl.to("#gizmo", { opacity: 0, duration: 0.1 }, at(2, 3.3));
+tl.to("#gz-wrap", { rotation: "+=260", scale: 0.05, duration: 0.3, ease: "power4.in" }, at(3) - 0.3);
+tl.to(["#ghost1", "#ghost2", "#ghost3", "#gz-label"], { opacity: 0, duration: 0.1 }, at(3) - 0.3);
+
+// ---------- D · SIGNATURE ----------
+const wm = document.getElementById("wm-text"); const wmCh = split(wm, "Muse"); wmCh.forEach(s => { s.style.cssText = "font-family:inherit;font-size:inherit;color:inherit;letter-spacing:-.01em"; });
+const d0 = at(3);
+tl.fromTo("#dotCD", { attr: { r: 0 } }, { attr: { r: 16 }, duration: 0.05 }, d0 - 0.06);
+tl.fromTo("#irisD", { attr: { r: 10 } }, { attr: { r: 1150 }, duration: 0.2, ease: "expo.in" }, d0 + 0.02);
+tl.fromTo(wmCh, { yPercent: 60, opacity: 0 }, { yPercent: 0, opacity: 1, duration: 0.5, ease: "expo.out", stagger: 0.05 }, at(3, 1));
+tl.fromTo(["#sub", "#micro"], { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.4, ease: "power2.out", stagger: 0.12 }, at(3, 2.5));
+tl.set("#wm-dot", { opacity: 0 }, 0);
+
+// the full stop's position is measured per frame inside onUpdate (deterministic, font-load safe)
+const land = at(4) - 0.02, fly = { p: 0 }, dotEl = document.getElementById("dotCD");
+const target = () => { const r = document.getElementById("wm-dot").getBoundingClientRect(), root = document.getElementById("root").getBoundingClientRect(), s = root.width / 1920;
+  return [(r.left + r.width / 2 - root.left) / s, (r.top + r.height / 2 - root.top) / s]; };
+// after the iris the dot hides in the centre; it returns for ONE beat, dropping in to land on the downbeat
+tl.to("#dotCD", { attr: { r: 0 }, duration: 0.14, ease: "power3.in" }, d0 + 0.22);
+const t0f = land - B;
+tl.to(fly, { p: 1, duration: land - t0f, ease: "none", onUpdate() {
+  const [tx, ty] = target(), p = fly.p;
+  const x = tx + 140 * (1 - gsap.parseEase("power2.out")(p)), y = -40 + (ty + 40) * gsap.parseEase("power2.in")(p);
+  dotEl.setAttribute("cx", x.toFixed(2)); dotEl.setAttribute("cy", y.toFixed(2)); dotEl.setAttribute("r", p > 0 ? "22" : "0");
+} }, t0f);
+tl.to("#dotCD", { scaleX: 1.5, scaleY: 0.6, transformOrigin: "50% 100%", duration: 0.06, ease: "power2.out" }, land);
+tl.to("#dotCD", { scaleX: 1, scaleY: 1, duration: 0.35, ease: "elastic.out(1.2,0.4)" }, land + 0.06);
+window.__timelines = window.__timelines || {};
+window.__timelines["main"] = tl;
+</script>
+</body>
+</html>

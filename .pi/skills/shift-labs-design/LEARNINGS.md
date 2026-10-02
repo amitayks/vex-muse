@@ -1,0 +1,28 @@
+# LEARNINGS — shift-labs-design
+
+- 2026-09-29 Measure the brand from its sources (PDF spans/drawings, the theme CSS, the official SVGs) — the deck's exact greys, radii and pt geometry are what make a rebuild read as "the same hands".
+- 2026-09-29 The wordmark is Inter Bold at −0.025em (overlay IoU 0.87 against the official lockup); use Inter as the embedded brand sans instead of the decks' non-embeddable Helvetica Neue.
+- 2026-09-29 Inter runs ≈5% wider than Helvetica Neue: slide ledes need 700 pt, or a one-line lede wraps and pushes the body across the counted rule.
+- 2026-09-29 #ff5a1f is 2.99:1 on paper — orange text needs its own tiers (label #e6511c for bold caps and big numbers, ink #b33c10 for small text); fills keep #ff5a1f.
+- 2026-09-29 `<figure>` carries a 40 px / 1em UA margin; every shape container must reset margin to 0 or all diagrams shift and slides overflow.
+- 2026-09-29 A broad `.s-shape svg` rule also sizes icon/arrow SVGs inside HTML shapes to 100% width — scope sizing to the shape's own `.s-shape__svg`.
+- 2026-09-29 Headless screenshots of deck frames include fixed UI (nav, toggle); hide it during shoot.
+- 2026-09-29 A page opened from about:blank cannot load file:// images; write contact-sheet HTML to disk and goto it.
+- 2026-09-29 Overlap checks must compare getClientRects() per line — a wrapped inline element's bounding box spans the whole paragraph and reports false collisions.
+- 2026-09-29 `min()` is not valid as a `repeat()` count and `max-content` is not valid inside `max()`: the declaration silently drops; decide narrow layouts in JS from the container width in u.
+- 2026-09-29 Flow diagrams cannot shrink below their content; when the row is wider than its container, stack it top to bottom instead of clipping.
+- 2026-09-29 Labels on a shared baseline collide at phone widths; declutter them into rows and grow the viewBox, and thin crowded tick labels.
+- 2026-09-29 Inline style grid-template-columns beats the phone media query; use a class for any responsive grid.
+- 2026-09-29 The logo is the original file exactly as it is (the principal): never crop it to the keycap, recolour it through CSS, or rebuild a lockup/wordmark from it — embed the pinned bytes as an <img>; lint checks the hash, shoot checks it renders whole and square.
+- 2026-09-29 The logo has no background (the principal): remove only the official white square and frame it at its own border, computed from the path geometry and never guessed; the artwork stays byte-identical, colourways included. Supersedes "use the whole square"; still never redraw, recolour or re-crop.
+- 2026-09-29 Connected parts share one centre line (the principal: "this need alignment"): flex-centering a column that holds a label, a body and a note centres the whole column, not the body, so arrows missed boxes by up to 32 px. Build connectors on label · body · note grid rows (subgrid) with arrows in the body row; shoot now fails anything over 1 px off its axis.
+- 2026-09-29 A wide label or note widens its step's column and detaches the next arrow from the box; arrows must be measured to the actual box edges (equal gap at both ends), and long labels wrap — shoot checks the gaps too.
+- 2026-09-30 Dio's decision-ready method is adopted as method and intent only (the principal): never copy a client report's figures, names, partners, dates or phrasing into this skill; examples use placeholders or synthetic data, and a scan for echoes (numbers and phrases, not only names) runs before release.
+- 2026-09-30 Enforce the method, don't just describe it: every rule a machine can check lives in lint.py, and lint_selftest.py plants each fault into the report template so a lint change that stops catching one fails.
+- 2026-09-30 `.s-stat b` styled every bold inside a KPI, so the benchmark in `.s-vs` rendered at stat size in orange; a component's "value" selector must be child-scoped (`.s-stat > b`).
+- 2026-09-30 A `td` set to `display:flex` leaves the table model and its row borders drift; put the flex wrapper inside the cell.
+- 2026-09-30 Grid items default to `min-width:auto`, so a wide table in a panel widened the page even inside an overflow box; panel children that hold a `.s-table` need `min-width:0`.
+- 2026-09-30 Text spilling out of a too-narrow box (squeezed by a `max-content` sibling column) is a bare text node an element scan never sees; shoot reports boxes whose own text overflows, and label/value grids stack on phones.
+- 2026-09-30 Overlap checks clip line boxes to scrolling ancestors: cells scrolled out of sight inside a `.s-table` are not collisions.
+- 2026-09-30 Data axes use round ticks (1, 2, 2.5, 5 × 10ⁿ); raw max/2 labels like 15,016 read as noise. The fonts have no Δ: write "Change".
+- 2026-10-01 A product UI adopts the kit by embedding it, never by re-typing it: a sync tool copies tokens, fonts, the pinned logo and the shape runtime into a generated region, a residue gate proves nothing of the old look survives (colours, fonts, shadows, gradients, filters, mascots), and a look pass shoots every state in both modes before a roll.

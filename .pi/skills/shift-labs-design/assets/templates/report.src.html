@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="en" data-theme="light" data-mode="synthetic" data-doc="report">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Weekly agent operations review · Shift Labs</title>
+<!-- job: the platform lead decides which movements in last week's agent turns justify investigation now, and holds capacity or sensor changes the evidence does not support yet. It changes when turns, the failed-turn rate or empty sensor turns move. -->
+<!-- shift:head -->
+</head>
+<body class="s-page">
+<header class="s-head">
+  <div class="s-wrap">
+    <img data-brand="logo" class="s-logo" alt="Shift Labs">
+    <span class="s-head__brand">Shift Labs</span>
+    <span class="s-head__doc">Agent operations · Weekly review</span>
+    <div class="s-head__end"><span class="s-mode"></span><span data-theme-toggle></span></div>
+  </div>
+</header>
+
+<main>
+  <!-- 1 headline · 2 KPI band · the six first-screen answers -->
+  <section class="s-hero">
+    <div class="s-wrap">
+      <span class="s-eyebrow">Agent operations · Weekly review · 7–13 September 2026</span>
+      <h1 class="s-title">Agent turns rose 9.4%; failed turns crossed the 2.5% target</h1>
+      <p class="s-lede">Sensor-started turns account for about 72% of the rise. <span class="s-claim" data-evidence="confirmed"></span> <b>The failed-turn rate rose from 2.1% to 2.9%, and the source cannot say why.</b> This week’s decision is a diagnosis, not new capacity.</p>
+      <div class="s-stats">
+        <p class="s-stat is-signal" data-metric="turns"><b data-total="turns" data-v="23786">23,786</b>
+          <span>agent turns this week, <span data-calc="(23786-21742)/21742*100">+9.4%</span>
+          <small class="s-vs">Matched prior week: <b>21,742</b></small></span></p>
+        <p class="s-stat" data-metric="failed-rate"><b data-calc="690/23786*100">2.9%</b>
+          <span>of turns failed (690 of 23,786)
+          <small class="s-vs">Matched prior week: <b data-calc="457/21742*100">2.1%</b> · target 2.5%</small></span></p>
+        <p class="s-stat" data-metric="empty-share"><b data-calc="8640/13480*100">64.1%</b>
+          <span>of sensor turns ended with nothing to do
+          <small class="s-vs">Matched prior week: <b data-calc="7512/12012*100">62.5%</b> · no target set</small></span></p>
+      </div>
+      <dl class="s-brief">
+        <div data-q="changed"><dt>What changed</dt><dd>Agent turns rose to 23,786 from 21,742 in the matched prior week.</dd></div>
+        <div data-q="material"><dt>Is it material</dt><dd>Yes. The seven weekly changes before it stayed between <span data-calc="(20610-21480)/21480*100">−4.1%</span> and <span data-calc="(21330-20610)/20610*100">+3.5%</span>. <span class="s-claim" data-evidence="confirmed"></span></dd></div>
+        <div data-q="drivers"><dt>What moved it</dt><dd>Sensor-started turns: +1,468 of the +2,044, or <span data-calc="1468/2044*100">71.8%</span>. <span class="s-claim" data-evidence="confirmed"></span></dd></div>
+        <div data-q="risk"><dt>What is at risk</dt><dd>Failed turns are over the 2.5% target; the week before they were under it. Why is unknown. <span class="s-claim" data-evidence="unknown"></span></dd></div>
+        <div data-q="decision"><dt>Decision required</dt><dd>Approve a failure diagnosis now. Hold capacity and sensor-interval changes.</dd></div>
+        <div data-q="missing"><dt>Evidence still missing</dt><dd>Failure reasons, queue wait times, worker use and cost, sensor creation dates.</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <!-- 3 movement: current against the matched comparison -->
+  <section class="s-sec" data-part="movement">
+    <div class="s-wrap">
+      <div class="s-sec__head">
+        <span class="s-eyebrow is-sm">Movement</span>
+        <h2 class="s-h2">This week against the matched prior week</h2>
+        <p class="s-lede">Every weekday is higher than the same weekday a week earlier. The trend shows no week like it in the eight weeks shown.</p>
+      </div>
+      <div class="s-split">
+        <div class="s-well is-card" data-figure="turns-by-day">
+          <div class="s-fig-head"><h3 class="s-h3">Agent turns by day</h3><p class="s-small">Weekdays carry the rise; the weekend moved least.</p></div>
+          <figure class="s-shape" data-shape="columns"><script type="application/json">{"x":["Mon","Tue","Wed","Thu","Fri","Sat","Sun"],
+            "series":[{"name":"7–13 Sep","values":[3817,4194,4270,4098,3531,1986,1890]},{"name":"31 Aug – 6 Sep","role":"prior","values":[3560,3720,3810,3690,3300,1870,1792]}],
+            "reconcile":"turns","alt":"Agent turns by day, this week against the matched prior week. Every day is higher."}</script></figure>
+        </div>
+        <div class="s-well is-card" data-figure="weekly-turns">
+          <div class="s-fig-head"><h3 class="s-h3">Weekly agent turns by trigger</h3><p class="s-small">Sensor turns (orange) jump in the last week; the other triggers move less.</p></div>
+          <figure class="s-shape" data-shape="line"><script type="application/json">{"x":["20 Jul","27 Jul","3 Aug","10 Aug","17 Aug","24 Aug","31 Aug","7 Sep"],
+            "series":[{"name":"Sensors","tone":"key","values":[11520,11840,11310,11760,12105,11560,12012,13480]},
+                      {"name":"People","tone":"ink","values":[5910,6080,5830,6010,6150,5980,6010,6332]},
+                      {"name":"Schedules","values":[2930,2960,2900,2970,3010,2940,3020,3186]},
+                      {"name":"Teammates","values":[600,600,570,590,640,570,700,788]}],
+            "height":84,"alt":"Weekly agent turns by trigger over eight weeks. Sensor turns rise from about 12,000 to 13,480 in the last week."}</script></figure>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 drivers and drags: exact reconciliation of the change -->
+  <section class="s-sec" data-part="drivers">
+    <div class="s-wrap">
+      <div class="s-sec__head">
+        <span class="s-eyebrow is-sm">Drivers</span>
+        <h2 class="s-h2">What moved the total</h2>
+        <p class="s-lede" data-evidence="confirmed">The change of <b data-total="turns-change" data-v="2044">+2,044</b> turns splits exactly across the four triggers. Sensor-started turns account for most of it.</p>
+      </div>
+      <div class="s-split">
+        <div class="s-well is-card" data-figure="drivers">
+          <div class="s-fig-head"><h3 class="s-h3">Change in agent turns by trigger</h3><p class="s-small">Against the matched prior week. Share of the total change after each value.</p></div>
+          <figure class="s-shape" data-shape="variance"><script type="application/json">{"rows":[["Sensors",12012,13480],["People in chat",6010,6332],["Schedules",3020,3186],["Teammates",700,788]],
+            "total":2044,"fmt":"int","reconcile":"turns-change","alt":"Change in agent turns by trigger: sensors +1,468, people +322, schedules +166, teammates +88; total +2,044."}</script></figure>
+        </div>
+        <div class="s-stack">
+          <p class="s-p" data-evidence="confirmed"><b>Supported:</b> sensor-started turns account for <span data-calc="1468/2044*100">71.8%</span> of the increase. This is arithmetic on the run log.</p>
+          <p class="s-p"><b>Not supported yet:</b> that new sensors created this week are behind it. The source has no sensor creation dates. <span class="s-claim" data-evidence="unknown"></span></p>
+          <p class="s-note">Keep the two statements apart: a share of a change says where it happened, not why.</p>
+        </div>
+      </div>
+      <div class="s-well is-card" style="margin-top:calc(16 * var(--u))" data-figure="breakdown">
+        <div class="s-fig-head"><h3 class="s-h3">Agent turns by trigger</h3><p class="s-small">The exact breakdown behind both charts. Contribution is each trigger’s share of the change.</p></div>
+        <figure class="s-shape" data-shape="tablegraph"><script type="application/json">{"rows":[["Sensors",13480,12012],["People in chat",6332,6010],["Schedules",3186,3020],["Teammates",788,700]],
+          "labelHead":"Trigger","valueLabel":"7–13 Sep","priorLabel":"Prior week","fmt":"int","reconcile":"turns","alt":"Agent turns by trigger with share, prior week, change and contribution."}</script></figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 exposure: risk, concentration, gap to target -->
+  <section class="s-sec" data-part="exposure">
+    <div class="s-wrap">
+      <div class="s-sec__head">
+        <span class="s-eyebrow is-sm">Exposure</span>
+        <h2 class="s-h2">Where the risk sits</h2>
+        <p class="s-lede">One target is missed and one is met. Load concentrates on weekday mornings and early evenings.</p>
+      </div>
+      <div class="s-split">
+        <div class="s-well is-card" data-figure="targets">
+          <div class="s-fig-head"><h3 class="s-h3">Failed turns and first-minute response against target</h3><p class="s-small">Orange misses its target; the tick is the target; the green band is the target range.</p></div>
+          <figure class="s-shape" data-shape="bullet"><script type="application/json">{"rows":[
+            {"label":"Failed-turn rate","value":2.9,"target":2.5,"band":[0,2.5],"max":4,"unit":"%","fmt":"pct1","better":"lower"},
+            {"label":"Turns started within one minute","value":96.4,"target":95,"band":[95,100],"max":100,"unit":"%","fmt":"pct1","better":"higher"}],
+            "alt":"Failed-turn rate 2.9% against a 2.5% target: missed. Turns started within one minute 96.4% against 95%: met."}</script></figure>
+          <p class="s-note" style="margin-top:calc(10 * var(--u))">Both targets are team planning guides, not certified service levels.</p>
+        </div>
+        <div class="s-well is-card" data-figure="load">
+          <div class="s-fig-head"><h3 class="s-h3">Agent turns by day and two-hour block</h3><p class="s-small">Orange blocks reach the 540-turn planning guide: Tuesday to Thursday.</p></div>
+          <figure class="s-shape" data-shape="heatmap"><script type="application/json">{"rows":["Mon","Tue","Wed","Thu","Fri","Sat","Sun"],"cols":["00","02","04","06","08","10","12","14","16","18","20","22"],
+            "values":[[46,30,38,153,489,515,427,450,462,504,401,302],[50,34,42,168,537,566,470,495,507,554,440,331],[51,34,43,171,547,576,478,504,517,564,448,337],[49,33,41,164,524,553,459,484,496,541,430,324],[42,28,35,141,452,477,396,417,427,466,371,279],[40,24,24,60,139,208,248,258,268,278,248,191],[38,23,23,57,132,198,236,246,255,265,236,181]],
+            "threshold":540,"thresholdLabel":"540 or more","reconcile":"turns","alt":"Agent turns by day and two-hour block. Peaks of 541 to 576 turns fall on Tuesday to Thursday at 08:00 to 12:00 and 18:00 to 20:00."}</script></figure>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- the claims ledger: what the data can and cannot say -->
+  <section class="s-sec" data-part="claims">
+    <div class="s-wrap">
+      <div class="s-sec__head">
+        <span class="s-eyebrow is-sm">Claims</span>
+        <h2 class="s-h2">What the data can and cannot say</h2>
+        <p class="s-lede">Each claim carries its evidence level. Claims the source cannot settle become data requests.</p>
+      </div>
+      <div class="s-table">
+        <table class="s-tab s-ledger">
+          <thead><tr><th scope="col">Claim</th><th scope="col">Level</th><th scope="col">What would settle it</th><th scope="col">Source</th></tr></thead>
+          <tbody>
+            <tr data-evidence="confirmed"><td>Agent turns rose 9.4% against the matched prior week.</td><td><span class="s-claim" data-evidence="confirmed"></span></td><td>Settled.</td><td>Run log, daily counts</td></tr>
+            <tr data-evidence="confirmed"><td>Sensor-started turns account for 71.8% of the increase.</td><td><span class="s-claim" data-evidence="confirmed"></span></td><td>Settled; the four triggers reconcile to +2,044.</td><td>Run log, by trigger</td></tr>
+            <tr data-evidence="confirmed"><td>It is the largest weekly change in the eight weeks shown.</td><td><span class="s-claim" data-evidence="confirmed"></span></td><td>Settled for eight weeks only; a longer history would test it further.</td><td>Run log, weekly counts</td></tr>
+            <tr data-evidence="correlated"><td>The extra load caused the rise in failed turns.</td><td><span class="s-claim" data-evidence="correlated"></span></td><td>Failure reasons and queue wait by hour, matched to load.</td><td>Not in the source</td></tr>
+            <tr data-evidence="unknown"><td>New sensors created this week caused the sensor rise.</td><td><span class="s-claim" data-evidence="unknown"></span></td><td>Sensor creation dates by workspace.</td><td>Not in the source</td></tr>
+            <tr data-evidence="unknown"><td>More workers would lower the failed-turn rate.</td><td><span class="s-claim" data-evidence="unknown"></span></td><td>Worker use, queue wait, failure reasons and cost per worker-hour.</td><td>Not in the source</td></tr>
+            <tr data-evidence="suspected"><td>Longer sensor intervals would cut empty turns without missing events.</td><td><span class="s-claim" data-evidence="suspected"></span></td><td>A controlled trial on a sample of sensors, with missed-event counts.</td><td>Not in the source</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 decision queue: action gates -->
+  <section class="s-sec" data-part="decisions">
+    <div class="s-wrap">
+      <div class="s-sec__head">
+        <span class="s-eyebrow is-sm">Decisions</span>
+        <h2 class="s-h2">What to approve, hold and decline</h2>
+        <p class="s-lede">The report can authorise learning before it can authorise intervention.</p>
+      </div>
+      <div class="s-decisions">
+        <article class="s-decision is-signal" data-kind="investigate">
+          <h3 class="s-decision__title">Diagnose the rise in failed turns</h3>
+          <dl>
+            <div data-field="evidence"><dt>Evidence</dt><dd>Failed-turn rate 2.1% → 2.9%, over the 2.5% target.</dd></div>
+            <div data-field="missing"><dt>Missing</dt><dd>Failure reasons, by trigger, workspace and hour; queue wait at peak.</dd></div>
+            <div data-field="owner"><dt>Owner</dt><dd>Platform on-call lead</dd></div>
+            <div data-field="review"><dt>Review</dt><dd>Next weekly review</dd></div>
+            <div data-field="status"><dt>Status</dt><dd>Proposed</dd></div>
+            <div data-field="source"><dt>Source</dt><dd>Run log; KPI band</dd></div>
+          </dl>
+        </article>
+        <article class="s-decision" data-kind="defer">
+          <h3 class="s-decision__title">Hold new worker capacity</h3>
+          <dl>
+            <div data-field="evidence"><dt>Evidence</dt><dd>Turns +9.4%; seven two-hour blocks reach the 540-turn guide.</dd></div>
+            <div data-field="missing"><dt>Missing</dt><dd>Worker use, queue wait, throughput per worker, cost per worker-hour.</dd></div>
+            <div data-field="owner"><dt>Owner</dt><dd>Infrastructure lead</dd></div>
+            <div data-field="review"><dt>Review</dt><dd>After one week of queue metrics</dd></div>
+            <div data-field="status"><dt>Status</dt><dd>Held</dd></div>
+            <div data-field="source"><dt>Source</dt><dd>Heatmap; claims ledger</dd></div>
+          </dl>
+        </article>
+        <article class="s-decision" data-kind="reject">
+          <h3 class="s-decision__title">Do not change the default sensor interval yet</h3>
+          <dl>
+            <div data-field="evidence"><dt>Evidence</dt><dd>64.1% of sensor turns ended with nothing to do.</dd></div>
+            <div data-field="missing"><dt>Missing</dt><dd>Missed-event counts at longer intervals; a trial design.</dd></div>
+            <div data-field="owner"><dt>Owner</dt><dd>Product lead</dd></div>
+            <div data-field="review"><dt>Review</dt><dd>When a trial is designed</dd></div>
+            <div data-field="status"><dt>Status</dt><dd>Declined for now</dd></div>
+            <div data-field="source"><dt>Source</dt><dd>KPI band; claims ledger</dd></div>
+          </dl>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7 evidence and provenance: trust panel + metric contracts -->
+  <section class="s-sec" data-part="evidence">
+    <div class="s-wrap">
+      <div class="s-sec__head">
+        <span class="s-eyebrow is-sm">Evidence</span>
+        <h2 class="s-h2">Source, checks and definitions</h2>
+      </div>
+      <div class="s-trust">
+        <dl>
+          <div data-trust="mode"><dt>Data mode</dt><dd>Synthetic. The numbers were made to show the method; no real workspace or organization is described.</dd></div>
+          <div data-trust="source"><dt>Source</dt><dd>A synthetic run log: one row per agent turn, rolled up to days, hours and triggers for this page.</dd></div>
+          <div data-trust="generated"><dt>Generated</dt><dd>30 September 2026, static page.</dd></div>
+          <div data-trust="period"><dt>Period</dt><dd>7–13 September 2026 (Monday to Sunday), against 31 August – 6 September 2026.</dd></div>
+          <div data-trust="cutoff"><dt>Cutoff</dt><dd>Not captured. The export has no extraction time, so the last day is not proven complete.</dd></div>
+          <div data-trust="qa"><dt>Checks</dt><dd><ul><li>Days, triggers and two-hour blocks each sum to 23,786 turns.</li><li>Trigger changes sum to the total change, +2,044.</li><li>No duplicate turn ids; no unknown triggers.</li></ul></dd></div>
+          <div data-trust="definitions"><dt>Definitions</dt><dd>Metric definitions v1.0, below.</dd></div>
+          <div data-trust="scope"><dt>Access</dt><dd>Internal: platform team.</dd></div>
+          <div data-trust="caveats"><dt>Caveats</dt><dd>Synthetic data proves nothing about real agents. The source has no failure reasons, queue waits or costs. Targets are planning guides.</dd></div>
+        </dl>
+        <details class="s-more">
+          <summary>Metric definitions v1.0</summary>
+          <div class="s-table">
+            <table class="s-tab s-contract">
+              <thead><tr><th scope="col">Metric</th><th scope="col">Meaning</th><th scope="col">Source</th><th scope="col">Grain</th><th scope="col">Calculation</th><th scope="col">Exclusions</th><th scope="col">Comparison</th><th scope="col">Owner</th><th scope="col">Action</th></tr></thead>
+              <tbody>
+                <tr data-metric="turns"><td>Agent turns</td><td>Units of agent work started by any trigger</td><td>Run log</td><td>One row per turn</td><td>Count of turn ids, Monday 00:00 to Sunday 24:00, workspace time</td><td>Test workspaces; turns cancelled before start</td><td>Matched prior week</td><td>Platform lead</td><td>Capacity and reliability review</td></tr>
+                <tr data-metric="failed-rate"><td>Failed-turn rate</td><td>Share of turns that ended in an error</td><td>Run log, outcome</td><td>One row per turn</td><td>Failed turns ÷ agent turns × 100</td><td>As agent turns</td><td>Matched prior week; target 2.5%</td><td>Platform on-call lead</td><td>Over target opens a failure diagnosis</td></tr>
+                <tr data-metric="empty-share"><td>Empty sensor turns</td><td>Sensor turns that ended without an action</td><td>Run log, outcome code</td><td>One row per sensor turn</td><td>Turns coded “nothing to do” ÷ sensor turns × 100</td><td>Turns without an outcome code</td><td>Matched prior week</td><td>Product lead</td><td>Input to sensor-interval guidance</td></tr>
+                <tr data-metric="first-minute"><td>First-minute starts</td><td>Share of turns started within one minute of their trigger</td><td>Run log, timestamps</td><td>One row per turn</td><td>Turns with start − trigger ≤ 60 s ÷ agent turns × 100</td><td>As agent turns</td><td>Target 95%</td><td>Platform lead</td><td>Under target opens a queue review</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </details>
+        <p class="s-counted">Counts are turns in the synthetic run log. Percentages are rounded to one decimal; derived values are recomputed from the counts on this page.</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="s-foot">
+  <div class="s-wrap">
+    <img data-brand="logo" class="s-logo" alt="Shift Labs">
+    <span>Shift Labs · Agent operations · Weekly review</span>
+    <span class="s-foot__end">Source: synthetic run log, 7–13 September 2026</span>
+  </div>
+</footer>
+<!-- shift:js -->
+</body>
+</html>

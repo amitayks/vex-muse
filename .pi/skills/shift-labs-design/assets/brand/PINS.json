@@ -1,0 +1,50 @@
+{
+ "source": "shift-labs-ai/assets (main) avatars/svg/*.svg + avatars/png/original.png, kept untouched in official/",
+ "derivation": "scripts/trim_logo.py official/ avatars/ \u2014 removes only the white 512x512 background rect; paths byte-identical; viewBox = the logo's own border (lip outer edge)",
+ "logo.svg": "bae4d33ad8c94c66e9884cdfab393514bf3508310fe7a46cb12dbbba97364a35",
+ "logo.png": "7af004f97873684ec1fd6b46a8960211980116ba152dd80e02511a84a09ace50",
+ "avatars": {
+  "amber": "0e585f809187db824bc62f3443da0559d41658cebe27367b1f3fe97240341a7a",
+  "charcoal": "e9cd19cc6fbf3867246f1c73c0d158aeaf7da6228de1ca6d6815e6e3ec481dac",
+  "coral": "2b6db58f838d79d799a6526134f699a6072971915cc1883cb80cef9870dd0bae",
+  "eggplant": "ad5e98961cadfd56a65f9554c6eb4a6e502a2e26c39dc03ea87704f9bfc1dc2c",
+  "emerald": "5174a8d00bbf9d73fabbbfc6274cbc0d2c16c6454cf5beff7eb29689fe68b9ff",
+  "lavender": "6807ab50c415e4aeecba3227bd1a1f5e78af7d9177e86d2ba381eb89451fe8dd",
+  "midnight": "0341225fe901ed63f61d974f605f2ccf37701db63764717451d136a87e916fee",
+  "mint": "8f02875c8b422dccc53ab06921f6e228b9da33fb43208bd8693aa9b1cfb0ffce",
+  "ocean-dark": "3001032b287eae3181e3dc1c945fc96e7b088c1525e7fce0924cea4ac8960e44",
+  "ocean": "795f8c82ecfdf679289d79c107458034b5c08ea599c5dbb47fd1e76fade47380",
+  "original": "bae4d33ad8c94c66e9884cdfab393514bf3508310fe7a46cb12dbbba97364a35",
+  "peach": "b556e43cf1ea860e39d399d372c7984868448cbcfe91508903ae55946def3446",
+  "rose": "b0342c231bfec0a5c30ef94f24e063b4a698fd5292127ab53e85a8ee37bb37dc",
+  "sky": "206a6d48b681cc5201036259c9d262b06938b34c08374a99a88c4c15d81c427e",
+  "slate": "49fc0c4919314aeb41e11f34cce91b526fac99063df39109f99abbc98c31c912",
+  "white": "5b3bfab769fc18a43fbc5945c55cff7333d6997a87abf5f7a4f9b24c68e864ff"
+ },
+ "official": {
+  "amber.svg": "30f5a266811b3617cb3da3a1dc234ad5dbc4d5d72bd8a82ab96b813b19c1324b",
+  "charcoal.svg": "396873f4f60561a2185b73b5a16f2cc722f26906026f6a20a965f750ad7d152a",
+  "coral.svg": "87f8a72bd387e2486962d0cbbdd3647f11091d931a081d7cfc8392e7bab49d3a",
+  "eggplant.svg": "f075d27c7ac567ee04b2ddb7f283170d812c959d55dba2a830d582b383736fee",
+  "emerald.svg": "724b65b7eeed3c843a0b12e09c55757b04b9e061c4dcfbf32c5a66d5f5bfe75e",
+  "generate.sh": "23ac79c52603d6cd5a4c2c8eba785490e6848d920d1ee13349b59dc2c864cc47",
+  "lavender.svg": "f7833ffa6a3007b2812e3675e8d354174ef4da3fe5ef254f94c8725868d09ee6",
+  "midnight.svg": "37814e46103c7fa727512ef8185f11e212b80f32072d45ae79e5a99e87ca3035",
+  "mint.svg": "ae1d41cddc346c08d1aefac615b06fbb583403cf5eb8935633e9855fa7807b47",
+  "ocean-dark.svg": "838e7ffb2053f93bc6e6ed4d1618ccd5c27ad099576f6c37d93a1d6010fa3abc",
+  "ocean.svg": "839dbc4d5c78831682b8c3dd01c2fbf881ceed962b4559012f7cf953d067d910",
+  "original.png": "c07bec3be0e88545f125254ba8dce369de19779aa16b46bc66e87af080649b04",
+  "original.svg": "d11d7d7f0b89ea65ed2f0325bfa70d28aa389f87aba95fb6f2c405e7d580490d",
+  "peach.svg": "0dbf2e722d97588121ea1474212443f24459ab32a545fcaf16e843cdd1b165b1",
+  "rose.svg": "d6de244fb76e0a12cc324133855661ea34dcf7b61638ff7de72c4a951025579d",
+  "sky.svg": "2aa35218e5226ddbe45ec52425aef1de113ea593267828beb94a2daf2a7c247d",
+  "slate.svg": "f88078fa1f5feaf52e6dcf418c7adebe67d104e9c9191cd775751cdaa57d3fe7",
+  "white.svg": "47170bd04edbb5d4cd3c6d29997442e26be56675805418870961e690ddcebe99"
+ },
+ "frame": [
+  162.89,
+  130.73,
+  232.0,
+  232.75
+ ]
+}

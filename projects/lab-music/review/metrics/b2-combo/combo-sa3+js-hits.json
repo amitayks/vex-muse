@@ -1,0 +1,58 @@
+{
+ "file": "tests/edit/b2-combo.master.mp3",
+ "brief": "b2-cinematic-hits",
+ "duration": 30.0,
+ "duration_err_s": 0.0,
+ "lufs": -13.7,
+ "true_peak_db": -0.9,
+ "lra": 5.0,
+ "bpm": 90.02,
+ "grid_resid_ms": 9.4,
+ "bpm_candidates": [
+  90.0,
+  89.5,
+  90.5,
+  180.0
+ ],
+ "bpm_err_pct": 0.02,
+ "bpm_octave_err_pct": 0.02,
+ "bpm_factor": 1,
+ "key": "D major",
+ "key_conf": 0.046,
+ "key_relation": "parallel",
+ "hits": [
+  {
+   "t": 8.0,
+   "found": 7.999,
+   "err_ms": -1,
+   "jump_db": 15.2,
+   "strength": 1.39
+  },
+  {
+   "t": 16.0,
+   "found": 15.999,
+   "err_ms": -1,
+   "jump_db": 5.4,
+   "strength": 0.84
+  },
+  {
+   "t": 24.0,
+   "found": 23.998,
+   "err_ms": -2,
+   "jump_db": 25.0,
+   "strength": 1.44
+  }
+ ],
+ "hits_mae_ms": 1,
+ "hits_within_100ms": 3,
+ "hits_min_jump_db": 5.4,
+ "end_level_db": -70.7,
+ "lead_silence_s": 0.0,
+ "tail_silence_s": 0.61,
+ "rolloff99_hz": 8247,
+ "hf_above_16k_db": -26.4,
+ "clip_frac": 0.0,
+ "stereo_width": 0.512,
+ "centroid_hz": 3588,
+ "onsets_per_s": 0.4
+}

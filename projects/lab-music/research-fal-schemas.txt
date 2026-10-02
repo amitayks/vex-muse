@@ -1,0 +1,150 @@
+######## google/lyria-3.5
+Lyria35Input required: ['prompt']
+  prompt: enum=None default=None | The text prompt describing the music you want to generate. Include genre, mood, instrumentation, tempo, vocals, and structure for best results. Lyria 3.5 supports full-length songs up to a few minutes
+  image_url: enum=None default=None | Optional image URL to use as visual inspiration for music generation. The model will create music that matches the mood and theme of the image.
+  negative_prompt: enum=None default= | Negative prompting is not supported by Lyria 3.5.
+######## fal-ai/lyria3/pro
+Lyria3ProInput required: ['prompt']
+  prompt: enum=None default=None | The text prompt describing the music you want to generate. Include genre, mood, instrumentation, tempo, and vocal style for best results. Lyria 3 supports vocals, lyrics, and multi-language generation
+  negative_prompt: enum=None default= | Negative prompting is not supported by Lyria 3.
+  image_url: enum=None default=None | Optional image URL to use as inspiration for music generation. The model will create music that matches the mood and theme of the image.
+######## fal-ai/lyria3
+Lyria3Input required: ['prompt']
+  prompt: enum=None default=None | The text prompt describing the music you want to generate. Include genre, mood, instrumentation, tempo, and vocal style for best results. Lyria 3 supports vocals, lyrics, and multi-language generation
+  negative_prompt: enum=None default= | Negative prompting is not supported by Lyria 3.
+  image_url: enum=None default=None | Optional image URL to use as inspiration for music generation. The model will create music that matches the mood and theme of the image.
+######## elevenlabs/music/v2.5
+MusicV25Input required: None
+  prompt: enum=None default=None | The text prompt describing the music to generate
+  composition_plan: enum=None default=None | The chunk-based composition plan for the music
+  force_instrumental: enum=None default=False | If true, guarantees that the generated song will be instrumental. If false, the song may or may not be instrumental depending on the prompt. Can only be used with prompt.
+  seed: enum=None default=None | Random seed to initialize the music generation process. Can only be used with composition_plan. The same seed with the same parameters gives more consistent results, but exact reproducibility is not g
+  output_format: enum=['mp3_22050_32', 'mp3_24000_48', 'mp3_44100_32', 'mp3_44100_64', 'mp3_44100_96', 'mp3_44100_128', 'mp3_44100_192', 'mp3_48000_128', 'mp3_48000_192', 'mp3_48000_240', 'mp3_48000_320', 'pcm_8000', 'pcm_16000', 'pcm_22050', 'pcm_24000', 'pcm_32000', 'pcm_44100', 'pcm_48000', 'ulaw_8000', 'alaw_8000', 'opus_480
+  music_length_ms: enum=None default=None | The length of the song to generate in milliseconds. Used only in conjunction with prompt. Must be between 3000ms and 600000ms. Optional - if not provided, the model will choose a length based on the p
+######## minimax/music-3
+Music3Input required: ['prompt', 'lyrics']
+  num_inference_steps: enum=None default=30 | Number of flow-matching Euler steps per 8-second denoising chunk. More steps improve quality at the cost of speed.
+  duration: enum=None default=60 | Upper bound on the generated audio length in seconds. The model may stop earlier; the actual duration is returned in the output.
+  lyrics: enum=None default=None | The lyrics to sing. Structure tags such as [intro], [verse], [pre-chorus], [chorus], [post-chorus], [bridge], [instrumental], [solo] and [outro] must each be on their own line; text on the same line a
+  prompt: enum=None default=None | Music description: style, mood, vocals, instrumentation and arrangement. For precise control use a Structured Caption with global metadata (genre, BPM, key, emotional progression), vocal details, and 
+  seed: enum=None default=None | Random seed for reproducibility. If not provided, a random seed will be used.
+  guidance_scale: enum=None default=1.7 | Classifier-free guidance scale of the flow-matching stage.
+######## fal-ai/minimax-music/v2.6
+MinimaxMusicV26Input required: ['prompt']
+  lyrics: enum=None default= | Lyrics of the song. Use \n to separate lines. Supports structure tags: [Intro], [Verse], [Pre Chorus], [Chorus], [Post Chorus], [Hook], [Bridge], [Interlude], [Transition], [Build Up], [Break], [Inst]
+  prompt: enum=None default=None | A description of the music style, mood, genre, and scenario. 10-2000 characters.
+  lyrics_optimizer: enum=None default=False | When true and lyrics is empty, auto-generates lyrics from the prompt.
+  audio_setting: enum=None default=None | Audio configuration settings
+  is_instrumental: enum=None default=False | When true, generates vocal-free instrumental music.
+######## fal-ai/stable-audio-3/medium/text-to-audio
+StableAudio3MediumTextToAudioInput required: ['prompt']
+  seed: enum=None default=None | Random seed for reproducible outputs. Omit for a random seed.
+  guidance_scale: enum=None default=1 | Classifier-free guidance scale. Higher values follow the prompt more strictly. Only effective on base (non-distilled) checkpoints.
+  enable_prompt_expansion: enum=None default=False | If True, the prompt will be expanded using an LLM for more detailed and higher quality results.
+  sync_mode: enum=None default=False | If True, the audio is returned inline as a data URI and the result is not saved to the request history.
+  output_format: enum=['mp3', 'wav', 'flac', 'ogg', 'opus', 'm4a', 'aac'] default=mp3 | Container format for the generated audio output.
+  bitrate: enum=None default=192k | Audio bitrate for compressed output formats (e.g., mp3, aac, opus). Format e.g. '192k' or '320k'. Ignored for lossless formats (wav, flac).
+  num_inference_steps: enum=None default=8 | Number of sampling steps. Post-trained (distilled) checkpoints look good with the default 8 and gain little from going higher.
+  negative_prompt: enum=None default= | Text description of qualities to avoid in the output.
+  duration: enum=None default=30 | Duration of the generated audio in seconds. The medium model supports up to 380 seconds (~6m20s).
+  prompt: enum=None default=None | Text description of the audio to generate.
+  enable_safety_checker: enum=None default=True | Enable NSFW content safety checking.
+######## fal-ai/stable-audio-3/medium/audio-outpainting
+StableAudio3MediumAudioOutpaintingInput required: ['prompt', 'audio_url']
+  extend_seconds_after: enum=None default=0 | Seconds of new audio to generate after the source audio.
+  seed: enum=None default=None | Random seed for reproducible outputs. Omit for a random seed.
+  guidance_scale: enum=None default=1 | Classifier-free guidance scale. Higher values follow the prompt more strictly. Only effective on base (non-distilled) checkpoints.
+  enable_prompt_expansion: enum=None default=False | If True, the prompt will be expanded using an LLM for more detailed and higher quality results.
+  sync_mode: enum=None default=False | If True, the audio is returned inline as a data URI and the result is not saved to the request history.
+  output_format: enum=['mp3', 'wav', 'flac', 'ogg', 'opus', 'm4a', 'aac'] default=mp3 | Container format for the generated audio output.
+  bitrate: enum=None default=192k | Audio bitrate for compressed output formats (e.g., mp3, aac, opus). Format e.g. '192k' or '320k'. Ignored for lossless formats (wav, flac).
+  num_inference_steps: enum=None default=8 | Number of sampling steps. Post-trained (distilled) checkpoints look good with the default 8 and gain little from going higher.
+  extend_seconds_before: enum=None default=0 | Seconds of new audio to generate before the source audio.
+  negative_prompt: enum=None default= | Text description of qualities to avoid in the output.
+  prompt: enum=None default=None | Text description guiding the extension content.
+  enable_safety_checker: enum=None default=True | Enable NSFW content safety checking.
+  audio_url: enum=None default=None | Source audio to extend.
+######## fal-ai/stable-audio-3/medium/audio-to-audio
+StableAudio3MediumAudioToAudioInput required: ['prompt', 'audio_url']
+  audio_url: enum=None default=None | Source audio to transform.
+  seed: enum=None default=None | Random seed for reproducible outputs. Omit for a random seed.
+  guidance_scale: enum=None default=1 | Classifier-free guidance scale. Higher values follow the prompt more strictly. Only effective on base (non-distilled) checkpoints.
+  enable_prompt_expansion: enum=None default=False | If True, the prompt will be expanded using an LLM for more detailed and higher quality results.
+  sync_mode: enum=None default=False | If True, the audio is returned inline as a data URI and the result is not saved to the request history.
+  output_format: enum=['mp3', 'wav', 'flac', 'ogg', 'opus', 'm4a', 'aac'] default=mp3 | Container format for the generated audio output.
+  bitrate: enum=None default=192k | Audio bitrate for compressed output formats (e.g., mp3, aac, opus). Format e.g. '192k' or '320k'. Ignored for lossless formats (wav, flac).
+  num_inference_steps: enum=None default=8 | Number of sampling steps. Post-trained (distilled) checkpoints look good with the default 8 and gain little from going higher.
+  negative_prompt: enum=None default= | Text description of qualities to avoid in the output.
+  duration: enum=None default=30 | Duration of the generated audio in seconds. The medium model supports up to 380 seconds (~6m20s).
+  prompt: enum=None default=None | Text description guiding how the source audio should be transformed.
+  enable_safety_checker: enum=None default=True | Enable NSFW content safety checking.
+  init_noise_level: enum=None default=0.9 | How much noise to add to the source audio. 1.0 fully replaces the audio with noise (pure generation); 0.1 keeps the source close to the input. 0.5 sits halfway between.
+######## fal-ai/stable-audio-25/text-to-audio
+StableAudio25TextToAudioInput required: ['prompt']
+  seed: enum=None default=None | 
+  sync_mode: enum=None default=False | If `True`, the media will be returned as a data URI and the output data won't be available in the request history.
+  prompt: enum=None default=None | The prompt to generate audio from
+  num_inference_steps: enum=None default=8 | The number of steps to denoise the audio for
+  guidance_scale: enum=None default=1 | How strictly the diffusion process adheres to the prompt text (higher values make your audio closer to your prompt).
+  seconds_total: enum=None default=190 | The duration of the audio clip to generate
+######## sonilo/v1.1/text-to-music
+V11TextToMusicInput required: ['prompt']
+  num_samples: enum=None default=1 | How many distinct music tracks to generate.
+  prompt: enum=None default=None | Text prompt describing the music to generate.
+  duration: enum=None default=90 | Requested output duration in seconds (max 600). Also used for billing (one billable unit per second per sample, rounded up; each sample under 10s bills as 10s).
+######## bytedance/seed-audio-1.0
+SeedAudio10Input required: ['prompt']
+  volume: enum=None default=1 | Volume. 1.0 is normal volume, 0.5 is half, 2.0 is double.
+  speed: enum=None default=1 | Speech speed. 1.0 is normal speed, 0.5 is half speed, 2.0 is double speed.
+  multilingual: enum=None default=False | Use the multilingual model variant, which handles non-English and mixed-language prompts better.
+  image_url: enum=None default=None | A single reference image URL (jpeg/png/webp, up to 10MB). Cannot be combined with audio references.
+  voice: enum=None default=None | Voice to use for synthesis: either a preset voice name or a cloned voice id.
+  prompt: enum=None default=None | Prompt or text to synthesize. Reference audio inputs by order with @Audio1, @Audio2, @Audio3.
+  output_format: enum=['wav', 'mp3', 'pcm', 'ogg_opus'] default=mp3 | Output audio format.
+  pitch: enum=None default=0 | Voice pitch shift in semitones. 0 is normal pitch, -12 lowers by one octave, 12 raises by one octave.
+  sample_rate: enum=[8000, 16000, 24000, 32000, 44100, 48000] default=24000 | Sample rate of the output audio in Hz.
+  audio_urls: enum=None default=None | Up to 3 reference audio URLs, referenced in prompt as @Audio1, @Audio2, @Audio3. Each clip: up to 30s, 10MB, wav/mp3/pcm/ogg_opus.
+######## fal-ai/ace-step
+AceStepInput required: ['tags']
+  tag_guidance_scale: enum=None default=5 | Tag guidance scale for the generation.
+  lyrics: enum=None default= | Lyrics to be sung in the audio. If not provided or if [inst] or [instrumental] is the content of this field, no lyrics will be sung. Use control structures like [verse], [chorus] and [bridge] to contr
+  number_of_steps: enum=None default=27 | Number of steps to generate the audio.
+  lyric_guidance_scale: enum=None default=1.5 | Lyric guidance scale for the generation.
+  granularity_scale: enum=None default=10 | Granularity scale for the generation process. Higher values can reduce artifacts.
+  duration: enum=None default=60 | The duration of the generated audio in seconds.
+  guidance_type: enum=['cfg', 'apg', 'cfg_star'] default=apg | Type of CFG to use for the generation process.
+  guidance_scale: enum=None default=15 | Guidance scale for the generation.
+  tags: enum=None default=None | Comma-separated list of genre tags to control the style of the generated audio. Can also be supplied as `prompt`.
+  guidance_interval_decay: enum=None default=0 | Guidance interval decay for the generation. Guidance scale will decay from guidance_scale to min_guidance_scale in the interval. 0.0 means no decay.
+  seed: enum=None default=None | Random seed for reproducibility. If not provided, a random seed will be used.
+  minimum_guidance_scale: enum=None default=3 | Minimum guidance scale for the generation after the decay.
+  guidance_interval: enum=None default=0.5 | Guidance interval for the generation. 0.5 means only apply guidance in the middle steps (0.25 * infer_steps to 0.75 * infer_steps)
+  scheduler: enum=['euler', 'heun'] default=euler | Scheduler to use for the generation process.
+######## fal-ai/diffrhythm
+DiffrhythmInput required: ['lyrics']
+  scheduler: enum=['euler', 'midpoint', 'rk4', 'implicit_adams'] default=euler | The scheduler to use for the music generation.
+  num_inference_steps: enum=None default=32 | The number of inference steps to use for the music generation.
+  style_prompt: enum=None default=None | The style prompt to use for the music generation.
+  music_duration: enum=['95s', '285s'] default=95s | The duration of the music to generate.
+  lyrics: enum=None default=None | The prompt to generate the song from. Must have two sections. Sections start with either [chorus] or a [verse].
+  reference_audio_url: enum=None default=None | The URL of the reference audio to use for the music generation.
+  cfg_strength: enum=None default=4 | The CFG strength to use for the music generation.
+######## fal-ai/demucs
+DemucsInput required: ['audio_url']
+  overlap: enum=None default=0.25 | Overlap between segments (0.0 to 1.0). Higher values may improve quality but increase processing time.
+  segment_length: enum=None default=None | Length in seconds of each segment for processing (minimum 1). Smaller values use less memory but may reduce quality. Default is model-specific.
+  shifts: enum=None default=1 | Number of random shifts for equivariant stabilization. Higher values improve quality but increase processing time.
+  model: enum=['htdemucs', 'htdemucs_ft', 'htdemucs_6s', 'hdemucs_mmi', 'mdx', 'mdx_extra', 'mdx_q', 'mdx_extra_q'] default=htdemucs_6s | Demucs model to use for separation
+  stems: enum=None default=['vocals', 'drums', 'bass', 'other', 'guitar', 'piano'] | Specific stems to extract. If None, extracts all available stems. Available stems depend on model: vocals, drums, bass, other, guitar, piano (for 6s model)
+  audio_url: enum=None default=None | URL of the audio file to separate into stems
+  output_format: enum=['wav', 'mp3'] default=mp3 | Output audio format for the separated stems
+######## fal-ai/sam-audio/separate
+SamAudioSeparateInput required: ['audio_url', 'prompt']
+  audio_url: enum=None default=None | URL of the audio file to process (WAV, MP3, FLAC supported)
+  reranking_candidates: enum=None default=1 | Number of candidates to generate and rank. Higher improves quality but increases latency and cost.
+  output_format: enum=['wav', 'mp3'] default=wav | Output audio format.
+  prompt: enum=None default=None | Text prompt describing the sound to isolate.
+  chunk_overlap: enum=None default=5 | Overlap duration (in seconds) between chunks for crossfade blending.
+  acceleration: enum=['fast', 'balanced', 'quality'] default=balanced | The acceleration level to use.
+  max_chunk_duration: enum=None default=60 | Maximum audio duration (in seconds) to process in a single pass. Longer audio will be chunked with overlap and blended.
+  predict_spans: enum=None default=False | Automatically predict temporal spans where the target sound occurs.

@@ -1,0 +1,61 @@
+{
+ "file": "projects/lab-music/gen/b2-cinematic-hits/lyria3.mp3",
+ "brief": "b2-cinematic-hits",
+ "duration": 30.77,
+ "duration_err_s": 0.77,
+ "lufs": -10.2,
+ "true_peak_db": 0.7,
+ "lra": 10.7,
+ "bpm": 90.02,
+ "grid_resid_ms": 5.0,
+ "bpm_candidates": [
+  90.0,
+  180.0,
+  180.25,
+  179.25
+ ],
+ "bpm_err_pct": 0.02,
+ "bpm_octave_err_pct": 0.02,
+ "bpm_factor": 1,
+ "key": "C# minor",
+ "key_conf": 0.884,
+ "key_relation": "other",
+ "hits": [
+  {
+   "t": 8.0,
+   "found": 7.976,
+   "err_ms": -24,
+   "jump_db": -1.0,
+   "strength": 0.63
+  },
+  {
+   "t": 16.0,
+   "found": 15.929,
+   "err_ms": -71,
+   "jump_db": 6.3,
+   "strength": 0.63
+  },
+  {
+   "t": 24.0,
+   "found": 23.975,
+   "err_ms": -25,
+   "jump_db": 2.9,
+   "strength": 0.91
+  }
+ ],
+ "hits_mae_ms": 40,
+ "hits_within_100ms": 3,
+ "hits_min_jump_db": -1.0,
+ "end_level_db": -11.9,
+ "lead_silence_s": 0.14,
+ "tail_silence_s": 0.0,
+ "rolloff99_hz": 6524,
+ "hf_above_16k_db": -37.8,
+ "clip_frac": 1e-05,
+ "stereo_width": 0.577,
+ "centroid_hz": 2827,
+ "onsets_per_s": 1.72,
+ "asr_full": "\u7b2c\u4e00\u7ae0 \u7570\u6b21\u5143\u76f8\u8ac7 \u7b2c1\u7ae0 \u7570\u6b21\u5143\u76f8\u8ac7 \u7b2c1\u7ae0 \u7570\u6b21\u5143\u76f8\u8ac7",
+ "asr_text": "\u7b2c\u4e00\u7ae0 \u7570\u6b21\u5143\u76f8\u8ac7 \u7b2c1\u7ae0 \u7570\u6b21\u5143\u76f8\u8ac7 \u7b2c1\u7ae0 \u7570\u6b21\u5143\u76f8\u8ac7",
+ "phantom_words": 2
+}

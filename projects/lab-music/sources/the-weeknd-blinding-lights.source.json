@@ -1,0 +1,45 @@
+{
+ "url": "https://www.youtube.com/watch?v=o6ytLPKscrU",
+ "via": "modal",
+ "kind": "song",
+ "query": "The Weeknd Blinding Lights",
+ "fetched_at": "2026-09-26T14:26:41+0000",
+ "title": "The Weeknd - Blinding Lights (Official Lyric Video)",
+ "uploader": "The Weeknd",
+ "duration": 204,
+ "extractor": "youtube",
+ "acodec": "opus",
+ "abr": 131.167,
+ "file": "the-weeknd-blinding-lights.webm",
+ "fallback_from": [
+  {
+   "url": "https://www.youtube.com/watch?v=fHI8X4OXluQ",
+   "via": "local",
+   "error": " manually pass cookies. Also see  https://github.com/yt-dlp/yt-dlp/wiki/Extractors#exporting-youtube-cookies  for tips on effectively exporting YouTube cookies\n"
+  },
+  {
+   "url": "https://www.youtube.com/watch?v=fHI8X4OXluQ",
+   "via": "modal",
+   "error": "ki/Extractors#exporting-youtube-cookies  for tips on effectively exporting YouTube cookies\\n\"}\nStopping app - uncaught exception raised locally: SystemExit(1).\n"
+  },
+  {
+   "url": "https://www.youtube.com/watch?v=fHI8X4OXluQ",
+   "via": "modal",
+   "error": "ning: Received Status.RESOURCE_EXHAUSTED\nApp create rate limit exceeded. Please wait and retry.\nfor /modal.client.ModalClient/AppCreate (768c69eb). Retrying...\n"
+  },
+  {
+   "url": "https://www.youtube.com/watch?v=o6ytLPKscrU",
+   "via": "local",
+   "error": " manually pass cookies. Also see  https://github.com/yt-dlp/yt-dlp/wiki/Extractors#exporting-youtube-cookies  for tips on effectively exporting YouTube cookies\n"
+  },
+  {
+   "url": "https://www.youtube.com/watch?v=o6ytLPKscrU",
+   "via": "modal",
+   "error": "ning: Received Status.RESOURCE_EXHAUSTED\nApp create rate limit exceeded. Please wait and retry.\nfor /modal.client.ModalClient/AppCreate (d87d5d68). Retrying...\n"
+  }
+ ],
+ "input_lufs": -7.15,
+ "input_tp": 1.91,
+ "norm_file": "the-weeknd-blinding-lights.norm.mp3",
+ "norm_lufs": -14.0
+}

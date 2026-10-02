@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1080, height=1920">
+<title>Muse lab — collage motion (THE HOME STUDIO)</title>
+<script src="assets/js/gsap.min.js"></script>
+<script src="assets/js/collage.js"></script>
+<style>
+  @font-face { font-family: "CHead"; src: url("assets/fonts/Anton.ttf"); }
+  @font-face { font-family: "CMono"; src: url("assets/fonts/IBMPlexMono-Medium.ttf"); }
+  @font-face { font-family: "CSerif"; src: url("assets/fonts/InstrumentSerif-Regular.ttf"); }
+  :root { --ink:#1B1916; --blue:#1D4F91; --red:#C4382B; --paper:#E9DFCB; }
+  body { margin:0; background:#000; }
+  #root { position:relative; width:1080px; height:1920px; overflow:hidden; background:#D6C7AE; }
+  .layer, .cam, .zoom { position:absolute; left:0; top:0; width:1080px; height:1920px; }
+  .bg { position:absolute; inset:0; background:url("assets/paper_bg.jpg") center/cover; }
+  .abs { position:absolute; }
+  .sh { position:absolute; filter: drop-shadow(2px 5px 5px rgba(40,28,14,.32)); }
+  .sh-lo { filter: drop-shadow(1px 3px 3px rgba(40,28,14,.28)); }
+  .page { position:absolute; left:26px; top:150px; width:1028px; height:1562px; background:url("assets/paper_sheet.jpg") center/cover; }
+  img.cut { position:absolute; display:block; }
+  .hdr { position:absolute; left:66px; right:66px; top:192px; display:flex; align-items:center; gap:18px;
+         font-family:"CMono"; font-size:24px; letter-spacing:.14em; color:var(--ink); }
+  .hdr .rule { flex:1; height:2px; background:var(--ink); }
+  .ink { -webkit-mask-image:url("assets/ink.png"); mask-image:url("assets/ink.png"); -webkit-mask-size:640px; mask-size:640px; }
+  .hl { position:absolute; left:58px; font-family:"CHead"; font-size:156px; line-height:1; color:var(--ink); white-space:nowrap; }
+  .year { position:absolute; font-family:"CHead"; font-size:400px; line-height:1; color:var(--blue); letter-spacing:-.01em; }
+  .note { position:absolute; font-family:"CMono"; font-size:26px; line-height:1.36; color:var(--ink); white-space:pre; }
+  .label { position:relative; background:url("assets/paper_label.jpg") center/cover; font-family:"CMono"; font-size:48px;
+           letter-spacing:.04em; color:var(--ink); padding:18px 30px 30px; white-space:nowrap; }
+  .label svg { position:absolute; left:0; bottom:8px; width:100%; height:26px; overflow:visible; }
+  .label path, svg.pen path { fill:none; stroke:var(--red); stroke-width:7; stroke-linecap:round; stroke-linejoin:round; opacity:.92; }
+  .strip { position:absolute; background:url("assets/paper_blue.jpg") center/cover; }
+  .tape { position:absolute; width:170px; height:46px; background:url("assets/tape.png") center/cover; opacity:.92; }
+  .news { position:relative; width:360px; height:350px; background:url("assets/paper_label.jpg") center/cover; filter:grayscale(.35) brightness(.97);
+          padding:26px 26px 0; box-sizing:border-box; color:var(--ink); font-family:"CSerif"; }
+  .news .mast { font-size:30px; text-align:center; border-bottom:2px solid var(--ink); border-top:2px solid var(--ink); padding:4px 0 2px; letter-spacing:.02em; }
+  .news .nh { font-size:56px; line-height:.94; margin:14px 0 12px; }
+  .news .cols { display:grid; grid-template-columns:1fr 1fr; gap:6px 16px; }
+  .news .cols i { display:block; height:7px; background:rgba(27,25,22,.38); }
+  .band { position:absolute; inset:0; background:url("assets/paper_label.jpg") center/cover; }
+  .cap { position:absolute; left:40px; right:40px; text-align:center; font-family:"CSerif"; font-size:40px; color:var(--ink); }
+  .prog { position:absolute; left:0; right:0; height:60px; }
+  .prog .line { position:absolute; left:470px; width:140px; top:11px; height:2px; background:var(--ink); }
+  .prog .dot { position:absolute; top:0; width:24px; height:24px; border-radius:50%; border:2px solid var(--ink); background:var(--paper); box-sizing:border-box; }
+  .prog .on { border-color:var(--red); background:var(--red); }
+  .prog .lbl { position:absolute; top:34px; width:60px; text-align:center; font-family:"CMono"; font-size:19px; color:var(--ink); }
+  .foot { position:absolute; font-family:"CMono"; font-size:15px; line-height:1.4; letter-spacing:.06em; color:rgba(27,25,22,.75); white-space:pre; }
+  #flapSvg { position:absolute; left:0; top:0; width:1080px; height:1920px; overflow:visible; pointer-events:none;
+             filter: drop-shadow(-14px -10px 18px rgba(20,14,8,.38)); }
+  #grain { position:absolute; inset:-64px; background:url("assets/grain.png"); opacity:.10; mix-blend-mode:multiply; pointer-events:none; }
+  .endcard { position:absolute; inset:0; background:url("assets/paper_blue.jpg") center/cover; }
+</style>
+</head>
+<body>
+<div id="root" data-composition-id="collage" data-start="0" data-width="1080" data-height="1920" data-duration="18.28125" data-fps="30">
+  <audio id="bed" data-start="0" data-duration="18.28125" data-track-index="9" data-volume="1" src="assets/bed.wav"></audio>
+
+  <!-- END CARD (under everything; revealed by the peel) -->
+  <div id="end" class="layer">
+    <div class="endcard"></div>
+    <div class="sh" id="endLabelSh" style="left:80px; top:690px;">
+      <div class="label" id="endLabel" style="width:920px; height:470px; box-sizing:border-box; padding:40px 56px;">
+        <div class="hl ink" id="endT1" style="position:relative; left:0; font-size:190px; line-height:.95;">THE HOME</div>
+        <div class="hl ink" id="endT2" style="position:relative; left:0; font-size:190px; line-height:.95;">STUDIO.</div>
+      </div>
+    </div>
+    <div class="sh" id="endCas" style="left:770px; top:455px;"><img class="cut" src="assets/cassette.png" style="position:relative; width:260px;"></div>
+    <div class="note" id="endSub" style="left:0; right:0; top:1200px; text-align:center; color:#EFE6D2; font-size:28px; letter-spacing:.2em;">EPISODE 01  ·  1979 — 1983</div>
+  </div>
+
+  <!-- CHAPTER 2 (peeled away at the end) -->
+  <div id="peel2" class="layer">
+   <div id="ch2" class="layer">
+    <div id="zoom2" class="zoom"><div id="cam2" class="cam">
+      <div class="bg"></div>
+      <div class="sh"><div class="page" id="page2"></div></div>
+      <div class="hdr" id="hdr2"><span class="t">THE HOME STUDIO</span><span class="rule" id="rule2"></span><span class="n">02 / 02</span></div>
+      <div class="strip" id="ray1" style="left:170px; top:1330px; width:1100px; height:120px; transform-origin:0% 50%;"></div>
+      <div class="strip" id="ray2" style="left:170px; top:1330px; width:1100px; height:96px; transform-origin:0% 50%;"></div>
+      <div class="strip" id="ray3" style="left:170px; top:1330px; width:1100px; height:108px; transform-origin:0% 50%;"></div>
+      <div class="sh" id="cp1" style="left:640px; top:560px;"><img class="cut" src="assets/cassette.png" style="position:relative; width:250px;"></div>
+      <div class="sh" id="cp2" style="left:800px; top:720px;"><img class="cut" src="assets/cassette.png" style="position:relative; width:250px;"></div>
+      <div class="sh" id="cp3" style="left:600px; top:830px;"><img class="cut" src="assets/cassette.png" style="position:relative; width:250px;"></div>
+      <div class="sh" id="cp4" style="left:790px; top:960px;"><img class="cut" src="assets/cassette.png" style="position:relative; width:250px;"></div>
+      <div class="sh" id="cp5" style="left:590px; top:1070px;"><img class="cut" src="assets/cassette.png" style="position:relative; width:250px;"></div>
+      <div class="sh" id="cp6" style="left:810px; top:1170px;"><img class="cut" src="assets/cassette.png" style="position:relative; width:250px;"></div>
+      <div class="sh" id="cp7" style="left:680px; top:1250px;"><img class="cut" src="assets/cassette.png" style="position:relative; width:250px;"></div>
+      <div class="sh" id="orig2" style="left:90px; top:598px;"><img class="cut" src="assets/cassette.png" style="position:relative; width:480px;"></div>
+      <div class="sh" id="hand2" style="left:-20px; top:1010px;"><img class="cut" src="assets/hand.png" style="position:relative; width:520px;"></div>
+      <div class="sh" id="boom2" style="left:600px; top:1250px;"><img class="cut" src="assets/boombox.png" style="position:relative; width:420px;"></div>
+      <div class="sh" id="lab83" style="left:64px; top:540px;"><div class="label" style="width:210px;"><span>1983</span><svg viewBox="0 0 210 26" preserveAspectRatio="none"><path id="mk83"/></svg></div></div>
+      <div class="sh" id="labDub" style="left:700px; top:520px;"><div class="label" style="width:170px;"><span>DUB</span></div></div>
+      <svg class="pen abs" id="arrowSvg" style="left:0; top:0; width:1080px; height:1920px; overflow:visible;"><path id="arrow"/><path id="arrowHead"/></svg>
+      <div class="sh" id="labShare" style="left:330px; top:1390px;"><div class="label" style="width:250px;"><span>SHARE</span><svg viewBox="0 0 250 26" preserveAspectRatio="none"><path id="mkShare"/></svg></div></div>
+      <div class="hl ink" id="h2a" style="top:224px;">ONE TAPE.</div>
+      <div class="hl ink" id="h2b" style="top:372px;">MANY COPIES.</div>
+      <div class="sh sh-lo" id="band2" style="left:40px; top:1560px; width:1000px; height:84px;"><div class="band" id="band2i"></div></div>
+      <div class="cap" id="cap2" style="top:1574px;">Dubbing turned one mixtape into a network.</div>
+      <div class="prog" style="top:1668px;">
+        <div class="line"></div><div class="dot" style="left:458px;"></div><div class="dot" style="left:598px;"></div>
+        <div class="dot on" style="left:458px;"></div><div class="dot on" id="pd2" style="left:598px;"></div>
+        <div class="lbl" style="left:440px;">01</div><div class="lbl" style="left:580px;">02</div>
+      </div>
+      <div class="foot" id="ft2a" style="left:66px; top:1666px;">DUB
+REPEAT
+TRADE</div>
+      <div class="foot" id="ft2b" style="right:66px; top:1666px; text-align:right;">SIDE A
+SIDE B
+C-90</div>
+    </div></div>
+   </div>
+  </div>
+  <svg id="flapSvg" viewBox="0 0 1080 1920"><defs>
+    <linearGradient id="flapGrad" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#B9AB93"/><stop offset=".18" stop-color="#EFE6D3"/><stop offset=".7" stop-color="#E6DBC6"/><stop offset="1" stop-color="#D9CCB4"/>
+    </linearGradient></defs><polygon id="flap" points="" fill="url(#flapGrad)"/></svg>
+
+  <!-- CHAPTER 1 -->
+  <div id="ch1" class="layer">
+    <div id="zoom1" class="zoom"><div id="cam1" class="cam">
+      <div class="bg"></div>
+      <div class="sh" id="page1sh"><div class="page" id="page1"></div></div>
+      <div class="strip" id="strip1" style="left:10px; top:1265px; width:800px; height:200px;"></div>
+      <div class="hdr" id="hdr1"><span class="t" id="hdr1t">THE HOME STUDIO</span><span class="rule" id="rule1"></span><span class="n" id="hdr1n">01 / 02</span></div>
+      <div class="sh" id="room1" style="left:392px; top:560px;"><img class="cut" src="assets/bedroom.png" style="position:relative; width:650px;"></div>
+      <div class="year ink" id="year1" style="left:30px; top:560px;">1979</div>
+      <div class="abs" id="teen1" style="left:392px; top:560px;"><img class="cut" src="assets/bedroom_teen.png" style="position:relative; width:650px;"></div>
+      <div class="tape" id="tp1" style="left:340px; top:588px;"></div>
+      <div class="tape" id="tp2" style="left:925px; top:548px;"></div>
+      <div class="note" id="note1" style="left:66px; top:1000px;">One kid.
+Four tracks.
+A whole band.</div>
+      <div class="sh" id="news1" style="left:668px; top:1300px;"><div class="news" id="news1i"><div class="mast">The Evening Record</div><div class="nh">Home taping is on the rise</div><div class="cols"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div></div>
+      <div class="sh" id="cas1" style="left:40px; top:1150px;"><img class="cut" src="assets/cassette.png" style="position:relative; width:400px;"></div>
+      <div class="sh" id="lab4t" style="left:96px; top:1450px;"><div class="label" style="width:290px;"><span>4-TRACK</span><svg viewBox="0 0 290 26" preserveAspectRatio="none"><path id="mk4t"/></svg></div></div>
+      <div class="hl ink" id="h1a" style="top:224px;">IT STARTED</div>
+      <div class="hl ink" id="h1b" style="top:372px;">IN A BEDROOM</div>
+      <div class="sh sh-lo" id="band1" style="left:40px; top:1560px; width:1000px; height:84px;"><div class="band" id="band1i"></div></div>
+      <div class="cap" id="cap1" style="top:1574px;">Cheap four-tracks put a studio on the bedroom floor.</div>
+      <div class="prog" id="prog1" style="top:1668px;">
+        <div class="line"></div><div class="dot" style="left:458px;"></div><div class="dot" style="left:598px;"></div>
+        <div class="dot on" id="pd1" style="left:458px;"></div>
+        <div class="lbl" style="left:440px;">01</div><div class="lbl" style="left:580px;">02</div>
+      </div>
+      <div class="foot" id="ft1a" style="left:66px; top:1666px;">BEDROOMS
+TAPE
+FRIENDS</div>
+      <div class="foot" id="ft1b" style="right:66px; top:1666px; text-align:right;">SMALL
+GEAR
+BIG SOUND</div>
+    </div></div>
+  </div>
+
+  <!-- carrier: the ch1 cassette crossing the cut into ch2 -->
+  <div class="sh" id="carry" style="left:90px; top:598px;"><img class="cut" src="assets/cassette.png" style="position:relative; width:480px;"></div>
+  <div id="grain"></div>
+</div>
+
+<script>
+const BPM = 128, B = 60 / BPM, at = (bar, beat = 0) => (bar * 4 + beat) * B, DUR = at(9, 3);
+const $ = (s) => document.querySelector(s);
+const tl = gsap.timeline({ paused: true });
+const K = Collage.init({ fps: 30, step: 15 });
+
+// ---------- paper cuts (static) ----------
+K.torn($("#page1"), { amp: 11, seed: 3 });  K.torn($("#page2"), { amp: 11, seed: 8 });
+K.torn($("#strip1"), { amp: 16, seed: 21 });
+["#ray1", "#ray2", "#ray3"].forEach((s, i) => K.torn($(s), { amp: 12, seed: 40 + i, edges: "tbr" }));
+K.torn($("#tp1"), { amp: 6, seed: 5, edges: "lr" });  K.torn($("#tp2"), { amp: 6, seed: 6, edges: "lr" });
+K.torn($("#news1i"), { amp: 8, seed: 12 });
+document.querySelectorAll(".label").forEach((el, i) => K.torn(el, { amp: 6, seed: 60 + i }));
+K.torn($("#band1i"), { amp: 7, seed: 70 });  K.torn($("#band2i"), { amp: 7, seed: 71 });
+$("#mk4t").setAttribute("d", Collage.wobble(10, 12, 280, 14, { seed: 2, amp: 4 }));
+$("#mk83").setAttribute("d", Collage.wobble(10, 13, 200, 11, { seed: 3, amp: 4 }));
+$("#mkShare").setAttribute("d", Collage.wobble(10, 12, 240, 14, { seed: 4, amp: 4 }));
+$("#arrow").setAttribute("d", "M 800 640 C 980 820, 900 1200, 590 1395");
+$("#arrowHead").setAttribute("d", "M 628 1362 L 588 1398 L 640 1405");
+
+// ---------- CHAPTER 1 (bars 0–3) ----------
+gsap.set(["#ch2", "#carry", "#orig2", "#end"], { autoAlpha: 0 });
+K.enter($("#page1sh"), "slide", 0, { dx: 0, dy: 700, spin: 1, dur: 0.2 });
+K.enter($("#strip1"), "slap", 2 / 15, { rot: -3, from: 1.2 });
+K.enter($("#room1"), "drop", at(0, 1), { rot: -1.5 });
+K.enter($("#teen1"), "drop", at(0, 1), { rot: -1.5 });
+K.type($("#hdr1t"), at(0, 2), { cps: 45 });
+K.enter($("#rule1"), "stretch", at(0, 2) + 0.1, { dur: 0.3 });
+K.type($("#hdr1n"), at(0, 2) + 0.3, { cps: 30 });
+K.enter($("#prog1"), "drop", at(0, 2) + 0.2, { from: -30, spin: 0, dur: 0.2 });
+K.stamp($("#h1a"), at(0, 3), { cps: 16 });
+K.stamp($("#h1b"), at(1, 1), { cps: 16 });
+K.enter($("#year1"), "slap", at(2, 0), { rot: 0, from: 1.5, spin: -4 });
+K.enter($("#tp1"), "stretch", at(2, 1), { rot: -32 });
+K.enter($("#tp2"), "stretch", at(2, 1) + 2 / 15, { rot: 30, origin: "100% 50%" });
+K.enter($("#cas1"), "drop", at(2, 2), { rot: -9 });
+K.enter($("#news1"), "slide", at(2, 2) + 0.13, { rot: 4, dx: 520, dy: 60 });
+K.enter($("#lab4t"), "slap", at(2, 3), { rot: -4 });
+K.draw($("#mk4t"), at(2, 3) + 0.15, 0.22);
+K.type($("#note1"), at(2, 3) + 0.25, { cps: 45 });
+K.enter($("#band1"), "slap", at(3, 0), { from: 1.04, spin: 0 });
+K.type($("#cap1"), at(3, 0) + 0.07, { cps: 75 });
+K.enter($("#pd1"), "pop", at(3, 1));
+[["#ft1a", at(3, 1)], ["#ft1b", at(3, 1) + 0.1]].forEach(([s, t]) => K.type($(s), t, { cps: 60 }));
+// camera: slow push while it builds (smooth, not stepped)
+tl.fromTo("#cam1", { scale: 1 }, { scale: 1.03, duration: at(3, 2), ease: "none", transformOrigin: "540px 960px" }, 0);
+
+// ---------- ZOOM-THROUGH: into the cassette, cut on the downbeat, the cassette carries into ch2 ----------
+{
+  const s = 1.03, P = [240, 1150 + 400 * 417 / 494 / 2], C = [540, 960];
+  const Pc = [C[0] + s * (P[0] - C[0]), C[1] + s * (P[1] - C[1])];     // cassette centre on screen after the push
+  const T = [540, 900], k = 920 / 400;                                  // where/how big it is at the cut
+  tl.set("#zoom1", { transformOrigin: `${Pc[0]}px ${Pc[1]}px` }, 0);
+  tl.to("#zoom1", { x: T[0] - Pc[0], y: T[1] - Pc[1], scale: k / s, duration: at(4) - at(3, 2), ease: "power3.in" }, at(3, 2));
+  tl.set("#ch1", { autoAlpha: 0 }, at(4)).set("#ch2", { autoAlpha: 1 }, at(4));
+  // carrier: CSS home = its ch2 place (centre 330,800, width 480); start = the zoomed ch1 cassette
+  const H = [90 + 240, 598 + 480 * 417 / 494 / 2];
+  gsap.set("#carry", { rotation: -6 });
+  tl.set("#carry", { autoAlpha: 1 }, at(4));
+  tl.fromTo("#carry", { x: T[0] - H[0], y: T[1] - H[1], scale: 920 / 480, rotation: -9 },
+            { x: 0, y: 0, scale: 1, rotation: -6, duration: 0.42, ease: "back.out(1.2)", immediateRender: false }, at(4));
+  tl.set("#carry", { autoAlpha: 0 }, at(4, 1)); tl.set("#orig2", { autoAlpha: 1 }, at(4, 1));
+  gsap.set("#orig2", { rotation: -6 });
+  tl.fromTo("#zoom2", { scale: 1.12 }, { scale: 1, duration: B, ease: "expo.out", transformOrigin: "540px 900px" }, at(4));
+}
+
+// ---------- CHAPTER 2 (bars 4–7) ----------
+K.type($("#hdr2 .t"), at(4, 1), { cps: 45 });
+K.type($("#hdr2 .n"), at(4, 1) + 0.3, { cps: 30 });
+K.enter($("#rule2"), "stretch", at(4, 1) + 0.1, { dur: 0.3 });
+K.stamp($("#h2a"), at(4, 1) + 0.1, { cps: 16 });
+[["#ray1", -58], ["#ray2", -36], ["#ray3", -15]].forEach(([s, r], i) => K.enter($(s), "stretch", at(4, 3) + i * 2 / 15, { rot: r, dur: 0.2 }));
+K.stamp($("#h2b"), at(5, 0), { cps: 16 });
+const cps = [["#cp1", 8], ["#cp2", -7], ["#cp3", 13], ["#cp4", -12], ["#cp5", 5], ["#cp6", -5], ["#cp7", 10]];
+cps.forEach(([s, r], i) => {                                            // one tape -> 2 -> 4 -> 8, on the beats
+  const t = i < 1 ? at(5, 0) : i < 3 ? at(5, 1) + (i - 1) * 2 / 15 : at(5, 2) + (i - 3) * 2 / 15;
+  K.enter($(s), "slap", t, { rot: r, from: 1.3 });
+});
+K.enter($("#lab83"), "slap", at(5, 3), { rot: -3 });  K.draw($("#mk83"), at(5, 3) + 0.15, 0.2);
+K.enter($("#hand2"), "slide", at(6, 0), { rot: 4, dx: 0, dy: 950, spin: -4, dur: 0.4 });
+K.enter($("#boom2"), "drop", at(6, 1), { rot: -3 });
+K.enter($("#labDub"), "slap", at(6, 2), { rot: -6 });
+K.draw($("#arrow"), at(6, 2) + 0.12, 0.35); K.draw($("#arrowHead"), at(6, 2) + 0.47, 0.08);
+K.enter($("#labShare"), "slap", at(6, 3), { rot: 4 });  K.draw($("#mkShare"), at(6, 3) + 0.15, 0.2);
+K.enter($("#band2"), "slap", at(6, 3) + 0.2, { from: 1.04, spin: 0 });
+K.type($("#cap2"), at(6, 3) + 0.27, { cps: 75 });   // done ~13.5 s: >= 1 s hold before the peel
+K.enter($("#pd2"), "pop", at(7, 0) + 0.2);
+[["#ft2a", at(7, 0)], ["#ft2b", at(7, 0) + 0.1]].forEach(([s, t]) => K.type($(s), t, { cps: 60 }));
+tl.fromTo("#cam2", { scale: 1 }, { scale: 1.025, duration: at(7, 3) - at(4, 1), ease: "none", transformOrigin: "540px 960px", immediateRender: false }, at(4, 1));
+
+// ---------- PEEL to the end card (bar 7 beat 3 -> bar 8 beat 1), then the title lands on the next beat ----------
+K.peel($("#peel2"), $("#flap"), $("#flapGrad"), at(7, 3), at(8, 1) - at(7, 3), { w: 1080, h: 1920, dir: [-1, -0.85] });
+tl.set("#end", { autoAlpha: 1 }, at(7, 3));
+K.enter($("#endLabelSh"), "slap", at(8, 1), { rot: -2, from: 1.25 });
+K.stamp($("#endT1"), at(8, 1) + 0.1, { cps: 18 });
+K.stamp($("#endT2"), at(8, 3), { cps: 18 });
+K.type($("#endSub"), at(9, 0) + 0.1, { cps: 40 });
+K.enter($("#endCas"), "slap", at(9, 1), { rot: 14, from: 1.6, spin: -10 });
+
+K.boil($("#grain"));
+K.finish(tl, DUR);
+window.__timelines = window.__timelines || {};
+window.__timelines["collage"] = tl;
+</script>
+</body>
+</html>
