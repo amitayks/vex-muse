@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>__TITLE__</title>
+<style>
+@font-face { font-family: "Display"; src: url("assets/fonts/display.ttf"); }
+html, body { margin: 0; width: __W__px; height: __H__px; overflow: hidden; background: #0B0B0E; }
+#root { position: relative; width: __W__px; height: __H__px; overflow: hidden; background: #0B0B0E; }
+#fx { position: absolute; left: 0; top: 0; display: block; }
+#title { position: absolute; left: 0; right: 0; bottom: 7%; text-align: center; z-index: 10;
+  font: 9vh/1 "Display"; color: #ECE7DD; letter-spacing: 0.02em; }
+</style>
+</head>
+<body>
+<div id="root" data-composition-id="main" data-start="0" data-width="__W__" data-height="__H__" data-duration="__DUR__" data-fps="__FPS__">
+  <audio id="bgm" data-start="0" data-duration="__DUR__" data-track-index="9" data-volume="1" src="assets/audio/mix.wav"></audio>
+  <canvas id="fx"></canvas>
+  <div id="title">__TITLE__</div>
+</div>
+<script src="assets/js/gsap.min.js"></script>
+<script src="assets/js/hf-shaders.iife.js"></script>
+<script src="assets/js/beats.js"></script>
+<script>
+/* One WebGPU layer (shaders) under DOM type, both pure functions of t.
+   GPU: PRESET -> HFShaders.mount -> per-frame props in gpuFrame(t) -> HFShaders.bindToHyperFrames.
+   DOM: the paused GSAP timeline. Rules: skill webgpu-shaders (constant `speed`, no SIM/NET components,
+   compile-time props never change mid-timeline, the torus pose stays near face-on). */
+const W = __W__, H = __H__, DUR = __DUR__;
+const BEATS = window.BEATS;                       // seconds from comp start (assets/js/beats.js)
+const beatAt = (t) => { let i = 0; while (i + 1 < BEATS.length && BEATS[i + 1] <= t + 1e-6) i++; return i; };
+const kick = (t) => { const b = beatAt(t); return t >= BEATS[0] ? Math.exp(-(t - BEATS[b]) * 9) : 0; };
+
+// ---- GPU layer: every component needs a stable id; `speed` props stay constant ----
+const pose = (t) => ({ type: 'torus3D', radius: 0.3, tube: 0.12,
+  rotX: 90 + 25 * Math.sin(t * 0.7), rotY: 18 * Math.sin(t * 0.9 + 1), rotZ: 18 * Math.sin(t * 0.6 + 2) });
+const PRESET = { components: [
+  { type: 'FlowingGradient', id: 'bg', props: { colorA: '#05040a', colorB: '#2a1a5e', colorC: '#ff4d6a', colorD: '#ffb347', speed: 0.6 } },
+  { type: 'Chrome', id: 'hero', props: { shape: pose(0), center: { x: 0.5, y: 0.4 } } },
+] };
+const canvas = document.getElementById('fx');
+const fx = HFShaders.mount(canvas, PRESET, { width: W, height: H });
+function gpuFrame(t, [layer]) {
+  layer.set('hero', { shape: pose(t), scale: 1 + 0.06 * kick(t) });
+}
+HFShaders.bindToHyperFrames(fx, gpuFrame);
+
+// ---- DOM layer: paused GSAP timeline, registered synchronously ----
+gsap.set('#title', { autoAlpha: 0 });
+const tl = gsap.timeline({ paused: true });
+tl.fromTo('#title', { autoAlpha: 0, y: 40 }, { autoAlpha: 1, y: 0, duration: 0.25, ease: 'power3.out' }, BEATS[Math.min(4, BEATS.length - 1)]);
+tl.set({}, {}, DUR);
+window.__timelines = window.__timelines || {};
+window.__timelines['main'] = tl;
+</script>
+</body>
+</html>

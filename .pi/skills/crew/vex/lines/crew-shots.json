@@ -1,0 +1,58 @@
+{
+ "name": "crew-shots",
+ "description": "Shooting: one item per shot. The cinematographer makes the start frame (critic + director storyboard gate), the actors perform when the shot is acted, the cinematographer shoots takes, the critic judges every take, the director approves the take.",
+ "columns": [
+  {
+   "name": "project",
+   "type": "string",
+   "indexed": true
+  },
+  {
+   "name": "id",
+   "type": "string",
+   "unique": true
+  },
+  {
+   "name": "dir",
+   "type": "string"
+  }
+ ],
+ "dispatchLimit": 5,
+ "maxItemAgeSec": 5400,
+ "steps": [
+  {
+   "name": "frame",
+   "job": "Role: cinematographer, making this shot's start frame (the storyboard frame). Load and follow skill cast-and-sets (consistency from reference sheets) and the project bible. Inputs: the item's data (the shot from shots.json) plus <dir>/bible/tokens.md, <dir>/assets.json and the approved sheets under <dir>/cast/. Make 1-2 candidate start frames with fal-ai/nano-banana-pro/edit using the cast/set key images as references (16:9, 2K, jpeg), composed for the action and the 2.39:1 centre band, nobody looking into the lens unless briefed. Write them to <dir>/plates/<id>/frame/. Log spend to <dir>/ledger.jsonl. Record the step with vex.factory.step.complete: {\"files\": [absolute paths], \"kind\": \"image\", \"summary\": \"<2 lines>\"}. Never edit shared project files."
+  },
+  {
+   "name": "frame_critic",
+   "kind": "bash",
+   "command": "python3 /data/workspaces/<workspace>/.pi/skills/crew/scripts/critic_step.py",
+   "timeoutSec": 1200
+  },
+  {
+   "name": "storyboard",
+   "kind": "human",
+   "question": "Director: is this start frame approved for the shot (continue), re-made (redo), or is the shot dropped (close)?"
+  },
+  {
+   "name": "perform",
+   "job": "Role: the actor(s) in this shot. Load and follow skill performance. Inputs: the item's data (the shot from shots.json: id, read, cast, lines, eyelines, duration) plus <dir>/cast/ and <dir>/assets.json. If the shot has no acting, record {\"files\": [], \"skipped\": true}. Otherwise make the drivers and re-voiced lines under <dir>/plates/<id>/perform/. Record {\"files\": [...], \"kind\": \"video\", \"lines\": [...], \"summary\": ...}; on failure vex.factory.step.fail with the reason."
+  },
+  {
+   "name": "shoot",
+   "job": "Role: cinematographer for this shot. Load and follow skill seedance-plates and the field notes it cites; use the perform step's files when present (motion-control). Make 2 takes of the shot under <dir>/plates/<id>/ from its start frame and shot brief, draft first, logging spend to <dir>/ledger.jsonl. Record the step with vex.factory.step.complete: {\"files\": [absolute paths you wrote], \"kind\": \"video\", \"summary\": \"<2 lines>\"}. If the unit cannot be made, vex.factory.step.fail with the reason. Never edit shared project files (brief, bible, tokens, assets.json, shots.json, edit, mix)."
+  },
+  {
+   "name": "critic",
+   "kind": "bash",
+   "command": "python3 /data/workspaces/<workspace>/.pi/skills/crew/scripts/critic_step.py",
+   "timeoutSec": 1800
+  },
+  {
+   "name": "approve",
+   "kind": "human",
+   "question": "Director: use the critic's best take for this shot (continue), re-shoot (redo), or drop the shot (close)?"
+  }
+ ]
+}

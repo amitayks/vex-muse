@@ -4,7 +4,7 @@ description: Plan a music video shot by shot against song.json - sections as act
 license: MIT
 metadata:
   author: muse
-  version: "1.3.0"
+  version: "1.4.0"
 ---
 
 # storyboard — the video exists on paper first
@@ -59,6 +59,12 @@ as `A → B because <meaning>` on a beat.
   the calm zone explicitly. Text over footage gets a zone that is dark or
   light enough for its colour (or a local scrim), checked at 360 px.
 - One center per frame. Screen direction consistent across a sequence.
+- **Set map before any frame** (the principal, 2026-10-07: "that logic is the most important in films").
+  For every set write in the bible: who sits or stands where, and for EACH camera position which side
+  of frame every window, door, person and light source is on, and which way each person looks to see
+  the others. A reverse shot mirrors the sides: facing a left-seat pilot, her side window is frame-right
+  and the windscreen is behind the camera. Every start frame and take is checked against the map
+  (crew rubrics `frame.md` / `take.md`, item geography); one wrong side fails it.
 
 ## shots.json contract
 `[{id,t0,t1,section,thread,technique,set,cast[],event,camera,text:{mode,zone,words:[w indexes]},transition:{in,out},sfx[],plate:{audio_slice:[a,b],offset,prompt_notes}}]`
@@ -74,4 +80,4 @@ Fix, then gate.
 Every second of the song belongs to exactly one shot; every shot has an
 event, a transition in and out, a text mode, and reads that fit; the hook
 is ≤2 s; `shots.json` validates against song.json (t0<t1, beat-snapped,
-word indexes exist); spend estimate for plates written.
+word indexes exist); every set has its map in the bible; spend estimate for plates written.

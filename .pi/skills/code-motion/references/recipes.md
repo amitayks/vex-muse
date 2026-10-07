@@ -92,3 +92,22 @@ amplitude decays over 0.3 s, new offset every 1/9 of it; reset x/y with a `tl.se
 ## Remotion alpha layer in HyperFrames
 `<video id="lyr" data-start="0" data-duration="4" data-track-index="2" data-volume="0" src="assets/lyric.webm" muted playsinline>`
 positioned `inset:0` above the plate. Every `<audio>`/`<video>` needs an `id`; no `crossorigin`.
+
+## Agent cursor on the beat (UI inserts, agent demos, launch films)
+Motion = the vendored Cua motion lab (82 human-like cursor motions, MIT); timing = ours.
+1. Spec the clicks in stage px with their times from the grid (`at(bar, beat)`), one leg per
+   style: `{style, seed, notBefore, clicks:[{at, target:{id,x,y,w,h}, action?:'hover'}]}`.
+   Shipped styles: `signature_arc` (default), `spring_settle`, `magnetic`, `comet_swoop`,
+   `adaptive`, `classic`; any lab id also works (`--styles`; e.g. `dc-squash-pop`, `dc-lift-hop`).
+2. `node .pi/skills/code-motion/scripts/cursor_track.mjs spec.json track.json` → each click lands
+   on its time (< 1 ms), inside its target; `hover` = arrive on time without a click. It keeps
+   each move's own speed and waits before it; it prints `speedup` per move: > 1.5x looks rushed
+   → widen the window (click on 2 + 4, not every beat) or drop a click.
+3. Copy `assets/cursor/cursor-fx.js`; in the per-frame update:
+   `CursorFX.draw(ctx2d, track.cursors[i], t, {size: 56, unit: 1.5, color})` on a full-frame
+   canvas — trail, speed glow, magnet glow, click ripple, press squish, lift shadow, heading,
+   all pure f(t). The art is our own arrowhead (never the Cua body mark).
+4. Sound and UI hang off the same events (`click`, `press`, `arrive`, `snap`): write them to
+   the score (js-scoring) so every click is audible on the frame it lands.
+Check: zone-test the track in node at the render fps (cursor body vs text/HUD rects), then
+frame-study. Demo: `projects/lab-cursor-motion/` (build.mjs = spec, score, zone check).

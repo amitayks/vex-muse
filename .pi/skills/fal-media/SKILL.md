@@ -5,7 +5,7 @@ license: MIT
 compatibility: Env FAL_KEY; python3 (stdlib). Network to queue.fal.run and rest.alpha.fal.ai.
 metadata:
   author: muse
-  version: "1.2.0"
+  version: "1.3.2"
 ---
 
 # fal-media — every paid pixel goes through one door
@@ -30,6 +30,7 @@ the script is what writes the ledger.
 |---|---|---|
 | Character / set / style frames | `fal-ai/nano-banana-pro`, `/edit` | best identity lock across edits; multi-image reference |
 | Alt look, typography-heavy frames | `openai/gpt-image-2`, `/edit` | strong text rendering, graphic design |
+| Plates whose placement/scale must be exact (box layout) | `blackforestlabs/flux-3/text-to-image`, `/edit-image` | $0.024 per output MP; ≤10 `image_urls`, each ≤4 MP; caption with `<id>` tags + JSON rows inside `prompt`; edits re-tint and resize the frame — not for start/end pairs |
 | Base plates with performance + audio timing | `bytedance/seedance-2.5/reference-to-video` | ≤30 images, ≤10 audio (1.8–30.2 s each), ≤10 videos; cite as @Image1/@Audio1/@Video1; `draft:true` → 480p + `draft_id` |
 | Animate a still | `bytedance/seedance-2.5/image-to-video` | start + optional `end_image_url` for controlled transitions |
 | Finish a draft at 1080p | `bytedance/seedance-2.5/draft/complete` | same account, within 7 days |
@@ -41,6 +42,7 @@ the script is what writes the ledger.
 | Stems | `fal-ai/demucs` (`htdemucs_ft`, 4 stems) | $0.0007 per input second; `song-map` Modal route is ~10× cheaper |
 | Isolate any sound by text | `fal-ai/sam-audio/separate` | $0.05 per 30 s |
 | SFX / voice isolation | `fal-ai/elevenlabs/sound-effects/v2`, `fal-ai/elevenlabs/audio-isolation` | $0.002/s, $0.10/min |
+| Speech (TTS, library voice ids) | `fal-ai/elevenlabs/tts/eleven-v4-turbo` (default), `/eleven-v4`, `/eleven-v3` | $0.04 / $0.08 / $0.10 per 1000 input characters (`kchar` rate) |
 
 Rates live in `RATES` inside the script (per second / image / call /
 minute / started block; audio lengths are probed from the downloaded

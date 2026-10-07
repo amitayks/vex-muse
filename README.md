@@ -19,7 +19,7 @@ This repo is a **forkable Vex workspace**: drop it into a workspace, add keys, a
 ## What's inside
 
 - `AGENTS.md` — the director's identity: how it thinks, where it breaks (M1–M8), rails, money.
-- `.pi/skills/` — 23 skills; `mv-director` is the master workflow and routes to the rest.
+- `.pi/skills/` — 29 skills; `mv-director` is the master workflow and routes to the rest.
 - `.agents/skills/` (+ mirror in `.claude/skills/`) — 10 HyperFrames skills from
   [heygen-com/hyperframes](https://github.com/heygen-com/hyperframes) (Apache-2.0), pinned in `.agents/.skill-lock.json`.
 - `studio/` — Muse's fork of [ClaudeAnimationBase](https://github.com/JohnHeibel/ClaudeAnimationBase)
@@ -37,6 +37,7 @@ This repo is a **forkable Vex workspace**: drop it into a workspace, add keys, a
 - **cast-and-sets** — Design a video's cast and locations with image models so they stay on-model through every generation
 - **code-motion** — Build motion graphics entirely in code
 - **collage-motion** — Build mixed-media paper-collage motion
+- **crew** — Open and run a project's own film crew on Vex factory lines
 - **fal-media** — Call fal.ai generative models (image, image-edit, video, lip-sync, background removal, upscaling, music, stems, SFX) through Muse's stdlib c
 - **js-scoring** — Compose and render music and musical sound design in JavaScript (WebAudio, rendered offline and deterministic in headless Chrome to WAV)
 - **kinetic-lyrics** — Design and animate lyric typography as motion graphics inside a music video
@@ -44,9 +45,11 @@ This repo is a **forkable Vex workspace**: drop it into a workspace, add keys, a
 - **music-source** — Get any song, beat, instrumental, soundtrack/OST, a cappella, loop or SFX as a first-class asset
 - **mv-director** — The master workflow for making a music video, lyric video, animated short or any audio-driven visual piece end to end
 - **p5-paper-engine** — Paint and animate hand-made-looking 2D frames in JavaScript with Muse's studio (fork of ClaudeAnimationBase
+- **performance** — Act a character on camera without filming a person
 - **reference-mesh** — Research and grow Muse's reference compendium
 - **render-review** — Render a video from the studio (local previews or the render farm), encode it with the final audio mix, and review it like a stranger
 - **rotoscope-paint** — Draw over generated video plates in JavaScript so only the painting is seen
+- **scene-writing** — Write a short film scene (15-120 s of screen time) that plays as real life, not theatre
 - **seedance-plates** — Generate video base plates with Seedance 2.5 (reference-to-video / image-to-video) using character sheets, set images and the exact sliced s
 - **shift-labs-design** — Make every Shift Labs (makers of Vex) deck, report, research note, dashboard or figure on-brand, honest and decision-ready
 - **skill-authoring** — How a Shift skill is written, maintained, and bound — the one methodology
@@ -56,6 +59,9 @@ This repo is a **forkable Vex workspace**: drop it into a workspace, add keys, a
 - **style-bible** — Design and lock a video's visual style so every generated and hand-painted frame reads as one world
 - **svg-transform** — Design and animate SVG transformations as storytelling
 - **track-edit** — Edit music on its own bar grid, sample-accurate and click-free
+- **video-critic** — Let a multimodal model WATCH AND LISTEN to a whole video and answer as a film editor, DP and re-recording mixer
+- **voice-reply** — Answer with a spoken voice note
+- **webgpu-shaders** — Put GPU shader effects into a video, frame-exact, with the open-source Shaders library (shaders.com, npm `shaders`, 199 WebGPU components, MIT)
 - **x-post** — Secondary utility for posting a finished piece to X (Twitter)
 
 ## Rails that ship with it

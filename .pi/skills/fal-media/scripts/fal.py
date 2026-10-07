@@ -23,6 +23,26 @@ KEY = os.environ.get("FAL_KEY", "")
 # Approximate USD rates (checked 2026-09-26 on fal model pages). Update via LEARNINGS when they move.
 # unit: 'sec' = per output second, 'img' = per image, 'call' = flat.
 RATES = {
+    "fal-ai/kling-video/v3/pro/image-to-video":  {"unit": "sec", "any": 0.112},   # audio off; checked 2026-10-07
+    "fal-ai/kling-video/v3/4k/image-to-video":   {"unit": "sec", "any": 0.42},    # audio on or off; checked 2026-10-07
+    # Veo 3.1 rates are AUDIO OFF (send generate_audio:false); audio on is +50-100 %. Checked 2026-10-07.
+    "fal-ai/veo3.1/fast/image-to-video":         {"unit": "sec", "720p": 0.10, "1080p": 0.10, "4k": 0.30},
+    "fal-ai/veo3.1/fast/first-last-frame-to-video": {"unit": "sec", "720p": 0.10, "1080p": 0.10, "4k": 0.30},
+    "fal-ai/veo3.1/image-to-video":              {"unit": "sec", "720p": 0.20, "1080p": 0.20, "4k": 0.40},
+    "fal-ai/veo3.1/first-last-frame-to-video":   {"unit": "sec", "720p": 0.20, "1080p": 0.20, "4k": 0.40},
+    # Veo 3.1 Fast text-to-video, AUDIO ON (fal pricing API 0.15/s, 2026-10-07)
+    "fal-ai/veo3.1/fast":                        {"unit": "sec", "720p": 0.15, "1080p": 0.15, "4k": 0.35},
+    # Performance transfer (model pages, 2026-10-07). Recast: the pricing API's "0.05 units" is NOT per second; the page says $0.30/s 768P, $0.45/s 1080P
+    "minimax/h3-max/recast":                     {"unit": "sec", "768P": 0.30, "1080P": 0.45},
+    "fal-ai/kling-video/v3/pro/motion-control":  {"unit": "sec", "any": 0.168},
+    "fal-ai/kling-video/v3/standard/motion-control": {"unit": "sec", "any": 0.126},
+    "fal-ai/wan-motion":                         {"unit": "sec", "any": 0.06},
+    "fal-ai/elevenlabs/voice-changer":           {"unit": "per", "per": 60, "any": 0.30},   # assumed per started minute (unverified)
+    # MiniMax H3 Max: promo rates until 2026-10-15, then 480P 0.05 / 768P 0.08 / 1080P 0.16
+    "minimax/h3-max/camera-controls":            {"unit": "sec", "480P": 0.03, "768P": 0.048, "1080P": 0.096},
+    "minimax/h3-max/image-to-video":             {"unit": "sec", "480P": 0.03, "768P": 0.048, "1080P": 0.096},
+    "alibaba/wan-3.0-prime/image-to-video":      {"unit": "sec", "480p": 0.068, "720p": 0.14, "1080p": 0.28},
+    "fal-ai/marigold-v2":                        {"unit": "img", "any": 0.03},
     "bytedance/seedance-2.5/reference-to-video": {"unit": "sec", "480p": 0.2205, "720p": 0.2838, "1080p": 1.164},
     "bytedance/seedance-2.5/image-to-video":     {"unit": "sec", "480p": 0.2205, "720p": 0.4730, "1080p": 1.164},
     "bytedance/seedance-2.5/text-to-video":      {"unit": "sec", "480p": 0.2205, "720p": 0.4730, "1080p": 1.164},
@@ -35,6 +55,9 @@ RATES = {
     "fal-ai/nano-banana-2/edit":                 {"unit": "img", "any": 0.08},
     "openai/gpt-image-2":                        {"unit": "img", "any": 0.20},
     "openai/gpt-image-2/edit":                   {"unit": "img", "any": 0.20},
+    # FLUX 3 Image bills per output megapixel (fal pricing API, 2026-10-04); estimated from the returned width x height, rounded up
+    "blackforestlabs/flux-3/text-to-image":      {"unit": "mp", "any": 0.024},
+    "blackforestlabs/flux-3/edit-image":         {"unit": "mp", "any": 0.024},
     "fal-ai/bria/background/remove":             {"unit": "img", "any": 0.018},
     "fal-ai/sam-3/image":                        {"unit": "img", "any": 0.005},
     "bria/video/background-removal/v3":          {"unit": "sec", "any": 0.03},
@@ -70,6 +93,11 @@ RATES = {
     "fal-ai/sam-audio/separate":                 {"unit": "per", "per": 30, "any": 0.05},
     "fal-ai/elevenlabs/sound-effects/v2":        {"unit": "sec", "any": 0.002},
     "fal-ai/elevenlabs/audio-isolation":         {"unit": "min", "any": 0.10},
+    # TTS bills per 1000 input characters (voice-casting note, seen 2026-10-06)
+    "fal-ai/elevenlabs/tts/eleven-v3":           {"unit": "kchar", "any": 0.10},
+    "fal-ai/elevenlabs/text-to-dialogue/eleven-v3": {"unit": "kchar", "any": 0.10},
+    "fal-ai/elevenlabs/tts/eleven-v4":           {"unit": "kchar", "any": 0.08},
+    "fal-ai/elevenlabs/tts/eleven-v4-turbo":     {"unit": "kchar", "any": 0.04},
 }
 AUDIO_EXT = (".mp3", ".wav", ".m4a", ".flac", ".ogg", ".opus", ".aac")
 
@@ -133,6 +161,14 @@ def probe_secs(u):
 def estimate(endpoint, inp, res, files=None, in_secs=None):
     r = RATES.get(endpoint)
     if not r: return None
+    if r["unit"] == "kchar":
+        txt = inp.get("text") or "".join(str(x.get("text", "")) for x in (inp.get("inputs") or []) if isinstance(x, dict))
+        return round(r["any"] * len(txt) / 1000, 5) if txt else None
+    if r["unit"] == "mp":
+        import math
+        ims = (res.get("images") or []) if isinstance(res, dict) else []
+        mp = sum((i.get("width") or 0) * (i.get("height") or 0) for i in ims if isinstance(i, dict)) / 1e6
+        return round(r["any"] * math.ceil(mp), 4) if mp else None
     if r["unit"] == "img":
         n = len(set(media_urls(res))) or int(inp.get("num_images", 1))   # unique: SAM repeats its mask URL
         return round(r["any"] * n, 4)
@@ -181,7 +217,7 @@ def download(urls, out):
     return files
 
 def run(endpoint, inp, out=None, ledger=None, tag=None, wait=True):
-    if not KEY: die("FAL_KEY not set — ask the principal for a secure handoff (vex.variables.workspace.request)")
+    if not KEY: die("FAL_KEY not set — ask the principal for a secure handoff (vex.secrets.request)")
     in_secs = None
     for v in (inp.values() if isinstance(inp, dict) else []):
         if isinstance(v, str) and v.startswith("@file:") and v.endswith(AUDIO_EXT + (".webm",)):

@@ -5,7 +5,7 @@ license: MIT
 compatibility: Node 22+ (hyperframes, remotion, gsap, flubber installed per project), tools/env.sh (ffmpeg, CHROME_PATH, $PY).
 metadata:
   author: muse
-  version: "1.2.0"
+  version: "1.4.1"
 ---
 
 # code-motion — the frame is a function of time, and I write the function
@@ -41,7 +41,12 @@ layers. Seedance = performance plates. All layers read the same `song.json`.
   `fromTo` for every entrance; custom per-frame effects (HUD, timecode, grain jitter, shockwaves,
   masks) are pure functions of `t`, called from one proxy tween spanning the whole duration.
 - Recipes (iris from the motif, per-letter mask rise, bracket snap, whip-reflow, morph gizmo, dot
-  landing as full stop, CSS `path()` window onto a plate, seeded shake, grain): `references/recipes.md`.
+  landing as full stop, CSS `path()` window onto a plate, seeded shake, grain, agent cursor on the
+  beat): `references/recipes.md`.
+- WebGPU shader layers (Shaders: materials on 3D shapes, shader backgrounds, filters, transitions):
+  skill `webgpu-shaders` (scaffold, driver, determinism gate, Modal `--webgpu` render).
+- Agent cursors: never hand-tween them. `scripts/cursor_track.mjs` (Cua motion lab, vendored) gives
+  human motion with every click on its beat; `assets/cursor/cursor-fx.js` draws it as f(t).
 - Env for every CLI call: `source tools/env.sh; export HYPERFRAMES_NO_TELEMETRY=1
   HYPERFRAMES_BROWSER_PATH=$CHROME_PATH`. Never `publish`, never `feedback` (public channels).
 - Loop: `npx hyperframes lint <comp>` (0 errors) → `snapshot <comp> --at <beat times>` → read the PNGs →
