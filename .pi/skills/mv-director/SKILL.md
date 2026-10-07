@@ -4,7 +4,7 @@ description: The master workflow for making a music video, lyric video, animated
 license: MIT
 metadata:
   author: muse
-  version: "1.3.1"
+  version: "1.4.0"
 ---
 
 # mv-director — from a one-line ask to a finished cut
@@ -81,9 +81,12 @@ Present to the principal at three checkpoints only (don't wait on him in between
 each; (b) first full cut (v1); (c) final. He can steer anywhere; silence
 means continue.
 
-## 3. Parallel work
-Long projects split into chapters (song sections). For real parallelism I
-create a factory line (`vex.factory.line.create`, read the Vex factory docs
+## 3. Parallel work — the crew
+Every project with more than a handful of shots or more than one character gets its own crew:
+skill `crew` (lines `<slug>-script`, `<slug>-cast`, `<slug>-shots`; writers, casting + actors,
+cinematographer per shot, an independent critic, me answering every gate). Takes and cuts are judged
+with `video-critic` before the principal sees them. Older chapter-line pattern, still valid for painted
+chapters: create a factory line (`vex.factory.line.create`, read the Vex factory docs
 first) named `mv-<slug>-chapters`: one item per chapter, one agent station
 per step that binds a skill + acceptance (`skill:p5-paper-engine` → "sheet
 per shot reviewed, no page errors"), `dispatchLimit` 2 (this box has 2

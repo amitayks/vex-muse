@@ -1,0 +1,42 @@
+{
+ "name": "crew-script",
+ "description": "Writers' room: one item per concept angle. Writer drafts the scene, an independent critic (Gemini) judges it against the script rubric, the writer revises, the director approves.",
+ "columns": [
+  {
+   "name": "project",
+   "type": "string",
+   "indexed": true
+  },
+  {
+   "name": "angle",
+   "type": "string"
+  },
+  {
+   "name": "dir",
+   "type": "string"
+  }
+ ],
+ "dispatchLimit": 3,
+ "maxItemAgeSec": 3600,
+ "steps": [
+  {
+   "name": "write",
+   "job": "Role: a writer in this project's writers' room. Load and follow skill scene-writing (.pi/skills/scene-writing/SKILL.md). Inputs: the item's data (project, dir, angle, brief) plus <dir>/brief.md and <dir>/bible/ if present. Write the scene for this angle to <dir>/scripts/<angle>.md, meeting the skill's acceptance check. Record the step with vex.factory.step.complete: {\"files\": [absolute paths you wrote], \"kind\": \"text\", \"summary\": \"<2 lines>\"}. If the unit cannot be made, vex.factory.step.fail with the reason. Never edit shared project files (brief, bible, tokens, assets.json, shots.json, edit, mix)."
+  },
+  {
+   "name": "critic",
+   "kind": "bash",
+   "command": "python3 /data/workspaces/<workspace>/.pi/skills/crew/scripts/critic_step.py",
+   "timeoutSec": 1800
+  },
+  {
+   "name": "revise",
+   "job": "Role: the same maker as the first step. Read the critic verdict files listed in the critic step output (vex.factory.item.get shows it). Fix every defect you agree with in your own files; for each one you reject, give the reason. Use the same skill as before. Record {\"files\": [...], \"kind\": \"text\", \"fixed\": [...], \"rejected\": [{\"defect\": ..., \"why\": ...}]}."
+  },
+  {
+   "name": "approve",
+   "kind": "human",
+   "question": "Director: accept this script draft for the concept pick?"
+  }
+ ]
+}

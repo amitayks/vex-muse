@@ -1,3 +1,4 @@
 # LEARNINGS — cast-and-sets
 One line per lesson, dated, as intent.
 - 2026-09-29 A face/turnaround sheet as image reference over-conditions wide framings (close-up-sized head on a distant figure) and whole sheets import their multi-head layout: give wide shots a distance-ladder reference (CU/MS/FS/WS/EWS on plain floor, weight falling with distance) or text only, and carry the full canon plus an explicit ethnicity/skin descriptor in every prompt (escape-velocity-case §4).
+- 2026-10-07 action-01 Brandt: make every sheet view in one edit step from the key. An edit of an edit did not fix the defect it named and over-sharpened the skin. A behind view needs the helmet-stripe position, 'all hair tucked in' and 'panel as a dark soft band' named in the prompt, or the model adds a brown ponytail and readable dials. Cast frames are identity references; the set comes from the canon (crew set-canon rule).

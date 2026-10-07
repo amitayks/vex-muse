@@ -1,0 +1,42 @@
+{
+ "name": "crew-cast",
+ "description": "Casting: one item per main character or extras group. Casting director + actor design the face sheet and audition voices, the critic judges the sheet, the maker revises, the director approves.",
+ "columns": [
+  {
+   "name": "project",
+   "type": "string",
+   "indexed": true
+  },
+  {
+   "name": "character",
+   "type": "string"
+  },
+  {
+   "name": "dir",
+   "type": "string"
+  }
+ ],
+ "dispatchLimit": 3,
+ "maxItemAgeSec": 3600,
+ "steps": [
+  {
+   "name": "design",
+   "job": "Role: casting director and this character's actor. Load and follow skills cast-and-sets and performance. Inputs: the item's data (project, dir, character, brief) plus <dir>/bible/bible.md and tokens.md. Make the character's key image and sheet under <dir>/cast/<character>/ and audition 3 library voices on one of the character's lines (performance skill, voice section). Log spend to <dir>/ledger.jsonl through fal-media. Record the step with vex.factory.step.complete: {\"files\": [absolute paths you wrote], \"kind\": \"image\", \"summary\": \"<2 lines>\"}. If the unit cannot be made, vex.factory.step.fail with the reason. Never edit shared project files (brief, bible, tokens, assets.json, shots.json, edit, mix)."
+  },
+  {
+   "name": "critic",
+   "kind": "bash",
+   "command": "python3 /data/workspaces/<workspace>/.pi/skills/crew/scripts/critic_step.py",
+   "timeoutSec": 1800
+  },
+  {
+   "name": "revise",
+   "job": "Role: the same maker as the first step. Read the critic verdict files listed in the critic step output (vex.factory.item.get shows it). Fix every defect you agree with in your own files; for each one you reject, give the reason. Use the same skill as before. Record {\"files\": [...], \"kind\": \"image\", \"fixed\": [...], \"rejected\": [{\"defect\": ..., \"why\": ...}]}."
+  },
+  {
+   "name": "approve",
+   "kind": "human",
+   "question": "Director: is this character cast (face sheet + voice) on-model and approved?"
+  }
+ ]
+}

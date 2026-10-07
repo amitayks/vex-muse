@@ -1,0 +1,42 @@
+{
+ "name": "crew-design",
+ "description": "Real design: one item per thing that appears on screen (machine, building, place, procedure, kit). A specialist in a new session designs it for real, the critic checks domain truth, the specialist revises, the director approves. Cast, sets and shots are drawn from these specs.",
+ "columns": [
+  {
+   "name": "project",
+   "type": "string",
+   "indexed": true
+  },
+  {
+   "name": "unit",
+   "type": "string"
+  },
+  {
+   "name": "dir",
+   "type": "string"
+  }
+ ],
+ "dispatchLimit": 5,
+ "maxItemAgeSec": 3600,
+ "steps": [
+  {
+   "name": "design",
+   "job": "Role: the specialist named in the item data (field), working as a real professional on a real product. Load skill crew (section 'Everything on screen is real'). Inputs: the item's data (unit, field, brief) plus <dir>/scripts/<script> (the scene) and <dir>/bible/bible.md, and any approved specs already in <dir>/design/. Design the thing for real: how it works, numbers, materials, colours (hex), parts, behaviour in each scene event, and a 'Depiction' section (views the camera needs, signature details, what is never shown, prompt-ready wording). Write <dir>/design/<unit>.md. Do not edit shared files; if the script must change for truth, list the exact edits in a 'Script notes' section for the director. Record the step with vex.factory.step.complete: {\"files\": [absolute path], \"kind\": \"text\", \"summary\": \"<2 lines>\"}."
+  },
+  {
+   "name": "critic",
+   "kind": "bash",
+   "command": "python3 /data/workspaces/<workspace>/.pi/skills/crew/scripts/critic_step.py",
+   "timeoutSec": 1200
+  },
+  {
+   "name": "revise",
+   "job": "Role: the same specialist. Read the critic verdict files listed in the critic step output (vex.factory.item.get shows it). Fix every defect you agree with in <dir>/design/<unit>.md; for each one you reject, give the reason from your field. Record {\"files\": [...], \"kind\": \"text\", \"fixed\": [...], \"rejected\": [{\"defect\": ..., \"why\": ...}]}."
+  },
+  {
+   "name": "approve",
+   "kind": "human",
+   "question": "Director: is this design true, complete and approved as the source for cast, sets and shots?"
+  }
+ ]
+}

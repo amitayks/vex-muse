@@ -5,7 +5,7 @@ license: MIT
 compatibility: tools/env.sh (Chrome, ffmpeg, $PY with modal); MODAL_TOKEN_ID/SECRET for GPU renders; GitHub Actions `render.yml` as CPU fallback.
 metadata:
   author: muse
-  version: "1.5.0"
+  version: "1.6.1"
 ---
 
 # render-review — done means watched
@@ -15,6 +15,10 @@ metadata:
   `npx hyperframes render <comp> --quality draft --fps 30` to review (~31 s per
   8 s of 1080p), `--quality delivery --fps 60` for the final. Painted layers
   still come from the farm below.
+- **WebGPU code-motion cuts** (shader layers, skill `webgpu-shaders`): HyperFrames
+  cannot render them here. Render on Modal: `HF_COMP=<comp> $PY -m modal run
+  .pi/skills/render-review/scripts/modal_hf.py --comp <comp> --timeline main --duration <s>
+  --out <mp4> --audio <wav> --fps 30 --chunks 32 --webgpu --cpu 8` (~2 min for 32 s of 1080p30).
 - **Where (painted p5 frames)**: this box (2 CPU, software WebGL, ~75 s/frame) is for sheets,
   strips and stills only. Full renders go to **Modal GPUs** (default, pay per
   second, nothing idle; measured 0.23–0.3 s per 1080p watercolor frame on an

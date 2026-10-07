@@ -1,0 +1,9 @@
+# LEARNINGS — webgpu-shaders
+- 2026-10-07 A WebGPU library with its own rAF clock is made frame-exact by seeking to an ABSOLUTE time (dt = T − engine elapsed, signed) and by starving its requestRender; prove it with shuffled-order and after-idle hashes before any render.
+- 2026-10-07 Only SwiftShader on Vulkan presents a WebGPU canvas on a GPU-less host; the ANGLE-SwiftShader GL flags give an empty canvas, and `hyperframes render` rejects fallback adapters: capture with our own scripts.
+- 2026-10-07 A hero 3D ring that spins freely goes edge-on (a pill): every Euler angle tilts the torus axis. Bound the pose near face-on and sample it over the whole timeline before rendering.
+- 2026-10-07 Inlining third-party bundles into the comp makes lint fail on their internals (Math.random, rAF, performance.now): keep them as external <script src>.
+- 2026-10-07 Cancelling a local `modal run` leaves its ephemeral app running (30 containers kept billing): `modal app list`, then `modal app stop <id> --yes`.
+- 2026-10-07 A preset mounted on a canvas that is display:none measured 0x0, so the engine sized to the canvas attributes (300x150) and size-normalised effects (Dither cells, Halftone dots) came out ~3x coarse in the comp but fine in the grid tool. The driver now sets canvas attributes and the renderer size synchronously at mount.
+- 2026-10-07 ImageTexture loads after the first frames (fetch -> createImageBitmap), so early captures showed an empty texture; the driver waits for the engine's natural-size registration of every image url before `ready`.
+- 2026-10-07 (1.1.1): The skill renders through another skill's script (render-review modal_hf.py --webgpu). A zip of this skill alone could not render on the principal's machine. Declare a cross-skill script in compatibility with its minimum version, and ship that script with the skill.

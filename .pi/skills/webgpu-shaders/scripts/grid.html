@@ -1,0 +1,11 @@
+<!doctype html><html><head><meta charset="utf-8"><style>html,body{margin:0;background:#0b0b0e}canvas{display:block}</style></head>
+<body><div id="host"></div><script src="../assets/driver/hf-shaders.iife.js"></script>
+<script>
+// Used by material_grid.mjs: mount one preset, seek to t, keep it for the screenshot, then destroy.
+window.renderOne = async (spec, t, w, h) => {
+  const host = document.getElementById('host'); host.innerHTML = '';
+  const c = document.createElement('canvas'); host.appendChild(c);
+  const l = await HFShaders.mount(c, spec, { width: w, height: h }); await l.ready; await l.seek(t); window.__cur = l;
+};
+window.destroyCur = () => { try { window.__cur && window.__cur.destroy(); } catch (e) {} };
+</script></body></html>

@@ -1,0 +1,15 @@
+# LEARNINGS — crew
+One line per lesson, dated, as intent.
+- 2026-10-07 In the WhatsApp chat only a turn's final message is delivered; text written before tool calls is lost. Report to the principal with reply_to_message or as the final text.
+- 2026-10-07 action-01: the first script critic scored 10/10 on every item with zero defects (a rubber stamp). The critic now uses a calibrated scale and must always name the 3 weakest moments; the director still reads the work.
+- 2026-10-07 action-01 writers' room: 3 items ran write → critic → revise → director gate in about 12 min for $0.14 of critic spend. The critic's located defects (two-person grapple, 9 bombers in one shot) were real and the writers fixed them.
+- 2026-10-07 Never call send_file in the same parallel batch as the Write that creates the file; it can run first and fail with 'not found'.
+- 2026-10-07 (the principal) Everything shown in a scene is designed for real by a specialist in a new session (a blueprint gets architects). Look alone is not enough; the thing must work.
+- 2026-10-07 The frame critic missed nothing it was told about: without the set map it never flagged the flipped window, but with the map in its context it scored geography 0. Always send the set map as critic context.
+- 2026-10-07 (the principal) The reverse cockpit frame changed the window architecture (thin posts + overhead glass became a small boxed window). Even with the forward frame as reference, the critic caught the mic-boom side and the visor but missed the windows. Sets come from one canon; the director checks architecture by eye.
+- 2026-10-07 action-01 cast: a voice-only unit recorded as kind "text" with mp3 files would crash the text critic (read_text on audio) and be judged on the scene-script rubric. Audio files in a text record now go to the critic as one listening reel, and item data kind "voice" selects rubric voice.md.
+- 2026-10-07 action-01 cast/kovac: the critic bash station runs without tools/env.sh, so ffmpeg was not on PATH and every image/video verdict crashed to score 0 with no defects (looks like a harsh fail, is a transport error). critic.py now puts tools/bin on PATH itself; a score-0 verdict with no defects means: read critic/<unit>-*.json, re-run by hand.
+- 2026-10-07 action-01 bravo: an image maker listed .md/.py/.json next to its .jpg files, the critic's ffmpeg step crashed, and the step recorded score 0 with no verdict file (not a judgement). Image and video makers list only media in "files" (notes go in other keys); a score of 0 with no defects means a broken critic run, so re-run it on media only.
+- 2026-10-07 The critic step crashed when a maker listed notes (.md) among image files; it now filters files by kind and existence.
+- 2026-10-07 Factory bash steps do not source tools/env.sh, so ffmpeg was missing and the critic wrote no verdict. critic.py now puts tools/bin on PATH itself.
+- 2026-10-07 An inline comment added to a one-line dict in critic_step.py swallowed the rest of the line and broke the station for 2 min (no run hit it). Run py_compile on every station script right after an edit.
