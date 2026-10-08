@@ -50,7 +50,8 @@ for i, (name, _) in enumerate(items):
 blocking = [{"where": d.get("where"), "what": d.get("what"), "p_real": ans.get(f"defect_{j}", {}).get("noul")}
             for j, d in enumerate(majors) if (ans.get(f"defect_{j}", {}).get("noul") or 0) >= 0.5]
 conf = min([v["confidence"] or 0 for v in res.values()] or [0])
-decision = "pass" if p >= thr and not blocking else ("redo" if p < 0.3 or blocking else "ask")
+# Jev only re-weighs the critic's claims; it cannot see the work. Low confidence = the claims are doubtful -> the director decides.
+decision = "ask" if conf < 0.6 else ("pass" if p >= thr and not blocking else ("redo" if p < 0.3 or blocking else "ask"))
 outj = {"p_pass": round(p, 3), "decision": decision, "min_confidence": conf, "items": res, "blocking": blocking,
         "model": r.get("model"), "usage": r.get("usage")}
 out.write_text(json.dumps(outj, indent=1)); print(json.dumps(outj)[:4000])

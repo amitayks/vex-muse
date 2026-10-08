@@ -1,0 +1,34 @@
+{
+ "domain": "grade",
+ "about": "Rules for colour and light per shot. Hard numbers (palette coverage, cool/warm ratio, luminance) are measured in code and stated in the unit; Jev judges fit to the beat and the arc. Source: bible palette arc.",
+ "rules": [
+  {
+   "id": "arc",
+   "type": "noul",
+   "q": "The colour of this shot fits its place in the palette arc (amber and char before the drop, white water at the drop, a clean cool sky only after the climb-out).",
+   "want": true,
+   "weight": 2
+  },
+  {
+   "id": "rest_area",
+   "type": "noul",
+   "q": "The frame has one calm rest area (smoke, sky or a wall of haze) where the eye can rest.",
+   "want": true,
+   "weight": 1
+  },
+  {
+   "id": "light_source",
+   "type": "noul",
+   "q": "Every light in the frame has a source in the world (the low sun through smoke, fire from below, the windows of the cockpit); nothing is lit by an invisible studio light.",
+   "want": true,
+   "weight": 1
+  },
+  {
+   "id": "accent_discipline",
+   "type": "noul",
+   "q": "The only saturated man-made colour is the tanker's yellow and red, and the only near-white is the water and the steam.",
+   "want": true,
+   "weight": 1
+  }
+ ]
+}

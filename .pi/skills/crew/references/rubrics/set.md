@@ -4,3 +4,4 @@ Judge a design sheet for a set, a location or a vehicle (several views of one pl
 3. readability: it reads at phone size in one glance; the silhouette and one signature colour or shape are clear.
 4. fit: it matches the brief and the project bible (era, palette, light, world); no real-world markings, text, numbers or insignia.
 5. usability: the views cover the angles the script needs, with clean light and space for action, so video models can start shots from them.
+Direction check (read before judging any screen direction): a vehicle flies toward where its NOSE points. In a view from directly below, the nose side of the frame is the direction of travel. A camera looking straight up is a mirror of the map. Describe what you see before you call a direction wrong.

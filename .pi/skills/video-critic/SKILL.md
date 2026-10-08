@@ -37,7 +37,7 @@ Every prompt demands timecodes (mm:ss.s) for every claim.
   you act on with a frame strip or the transcript before spending money on a fix.
 - It samples video sparsely (~100 tokens/s at 360p). Sub-second events (a 3-frame grab, a flash) can be
   missed: pair it with `framestudy.py` for cut and motion numbers.
-- It is a critic, not the director: its fix list is input. the principal's eye decides taste.
+- It is a critic, not the director: its fix list is input. The principal's eye decides taste.
 
 ## Acceptance
 The out file exists, has timecoded findings for every section asked, the cost is in the ledger, and each
