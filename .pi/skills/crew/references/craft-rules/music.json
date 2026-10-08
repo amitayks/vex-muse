@@ -1,0 +1,61 @@
+{
+ "domain": "music",
+ "about": "Rules for the score under a dialogue-driven action scene. State = Gemini listening notes + measured cue analysis (tempo, energy per second, onsets vs cut times) + the beat it sits under. Sources: Masters of the Air study, sound-design skill.",
+ "rules": [
+  {
+   "id": "voice_room",
+   "type": "noul",
+   "q": "Under the spoken lines, the music leaves the voice clear: no lead melody, vocals or busy mid-range under the words.",
+   "want": true,
+   "weight": 2,
+   "when": "dialogue"
+  },
+  {
+   "id": "silence_threat",
+   "type": "noul",
+   "q": "This is a beat where silence is the threat, and the music is silent or almost silent here.",
+   "want": true,
+   "weight": 2,
+   "when": "silence"
+  },
+  {
+   "id": "energy_follows_story",
+   "type": "score",
+   "q": "How well does the music's energy in this section follow the story's escalation (rise into the drop, release after)?",
+   "criteria": [
+    "Against the story",
+    "Flat or neutral",
+    "Follows the story"
+   ],
+   "pass": 2,
+   "weight": 2
+  },
+  {
+   "id": "hit_on_event",
+   "type": "noul",
+   "q": "The music's biggest hit lands within one frame of the main event of this section (the measured onset error is given).",
+   "want": true,
+   "weight": 2,
+   "when": "event"
+  },
+  {
+   "id": "film_not_stock",
+   "type": "score",
+   "q": "Does this sound like score written for this film, or like generic stock trailer music?",
+   "criteria": [
+    "Generic stock trailer music",
+    "Competent but generic",
+    "Score for this scene"
+   ],
+   "pass": 1,
+   "weight": 1
+  },
+  {
+   "id": "world_fit",
+   "type": "noul",
+   "q": "The instruments and textures fit the film's world (wildfire, aircraft, heat, smoke) and do not fight the sound design (engines, fire roar, radio).",
+   "want": true,
+   "weight": 1
+  }
+ ]
+}

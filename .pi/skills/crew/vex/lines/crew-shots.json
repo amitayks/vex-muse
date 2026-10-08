@@ -22,13 +22,17 @@
  "steps": [
   {
    "name": "frame",
-   "job": "Role: cinematographer, making this shot's start frame (the storyboard frame). Load and follow skill cast-and-sets (consistency from reference sheets) and the project bible. Inputs: the item's data (the shot from shots.json) plus <dir>/bible/tokens.md, <dir>/assets.json and the approved sheets under <dir>/cast/. Make 1-2 candidate start frames with fal-ai/nano-banana-pro/edit using the cast/set key images as references (16:9, 2K, jpeg), composed for the action and the 2.39:1 centre band, nobody looking into the lens unless briefed. Write them to <dir>/plates/<id>/frame/. Log spend to <dir>/ledger.jsonl. Record the step with vex.factory.step.complete: {\"files\": [absolute paths], \"kind\": \"image\", \"summary\": \"<2 lines>\"}. Never edit shared project files."
+   "job": "Role: cinematographer, making this shot's start frame. Load skill cast-and-sets and the project bible. Inputs: the item's data (the shot) plus <dir>/bible/tokens.md and <dir>/assets.json. BUILD RULE: the base image of every frame is the approved MASTER for this camera (assets.json shot_refs[id][0], or the set canon / family_frames for the camera family), edited with nano-banana-pro/edit; add people and vehicles from their approved masters (shot_refs). Never generate a frame from text alone. Follow the bible Geography and the specs' frame maps. 16:9, 2K, jpeg, under <dir>/plates/<id>/frame/. SELF-GATE (mandatory before recording): run python3 /data/workspaces/<workspace>/.pi/skills/crew/scripts/canon_check.py <frame> <dir>/checklists.json <dir>/plates/<id>/frame/canon_check.json --family <assets.json shot_family_check[id]> --shot <the item data saved as <dir>/plates/<id>/item.json> --ledger <dir>/ledger.jsonl. Fix every NO by another Nano edit of the same frame with the masters as references (max 3 rounds). Fix props by a LOCAL edit or a finish note, never by re-editing the whole frame with another approved frame as image 2 (it copies that frame and loses the shot). Record only a frame that passes; if it cannot pass in 3 rounds, record it with the remaining fails listed. Log spend to <dir>/ledger.jsonl. Record {\"files\": [chosen frame first], \"kind\": \"image\", \"canon_check\": path, \"summary\": ...}. Never edit shared project files."
   },
   {
    "name": "frame_critic",
    "kind": "bash",
    "command": "python3 /data/workspaces/<workspace>/.pi/skills/crew/scripts/critic_step.py",
    "timeoutSec": 1200
+  },
+  {
+   "name": "frame_revise",
+   "job": "Role: the same cinematographer as the frame step. Read the frame critic's verdict files (vex.factory.item.get shows the critic step output) and any director answer in the item history. Fix every real defect by Nano edit of your best candidate, WITH the item's refs (canon set + faces) as references; for each defect you reject, give the reason (check direction claims yourself: a vehicle moves where its nose points; reverse cockpit views mirror the sides). Write to <dir>/plates/<id>/frame/. Record {\"files\": [the chosen frame first], \"kind\": \"image\", \"fixed\": [...], \"rejected\": [...]}. SELF-GATE (mandatory before recording): run python3 /data/workspaces/<workspace>/.pi/skills/crew/scripts/canon_check.py <frame> <dir>/checklists.json <dir>/plates/<id>/frame/canon_check.json --family <assets.json shot_family_check[id]> --shot <the item data saved as <dir>/plates/<id>/item.json> --ledger <dir>/ledger.jsonl. Fix every NO by another Nano edit of the same frame with the masters as references (max 3 rounds). Fix props by a LOCAL edit or a finish note, never by re-editing the whole frame with another approved frame as image 2 (it copies that frame and loses the shot). Record only a frame that passes; if it cannot pass in 3 rounds, record it with the remaining fails listed."
   },
   {
    "name": "storyboard",
@@ -48,6 +52,10 @@
    "kind": "bash",
    "command": "python3 /data/workspaces/<workspace>/.pi/skills/crew/scripts/critic_step.py",
    "timeoutSec": 1800
+  },
+  {
+   "name": "retake",
+   "job": "Role: the same cinematographer (and actors). Read the take critic's verdicts and any director answer. If the best take passes, record it unchanged as {\"files\": [best take], \"kind\": \"video\", \"span\": [start, end]} with the usable span. If not, make at most ONE new take that fixes the named defects (same rules as the shoot step), and record the better of the two. Never more than 3 takes per shot in total. Also run canon_check.py on the best take (video: it checks 3 frames) with the shot's family; a take with a NO on a blocking item does not pass."
   },
   {
    "name": "approve",

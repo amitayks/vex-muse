@@ -25,7 +25,11 @@ unit0 = str(data.get("id") or data.get("angle") or data.get("character") or "ite
 extra = {k: v for k, v in data.items() if k not in ("dir", "rubric", "rubrics", "project")}
 if extra:                                   # the unit's own brief (shot, character) goes to the critic as context
     c2 = cdir / f"{unit0}-ctx.md"
-    c2.write_text("THIS UNIT:\n" + json.dumps(extra, indent=1) + "\n\n" + (ctx.read_text() if ctx.exists() else ""))
+    scr = d / "scripts" / str(data.get("script", "")) if data.get("script") else None
+    dec = d / "assets.json"
+    c2.write_text("THIS UNIT:\n" + json.dumps(extra, indent=1) + "\n\n" + (ctx.read_text() if ctx.exists() else "")
+                  + ("\n\nCURRENT SCRIPT (the director's latest version; its edits are decisions, not defects):\n" + scr.read_text()[:30000] if scr and scr.exists() else "")
+                  + ("\n\nDIRECTOR'S RECORD (assets.json):\n" + dec.read_text()[:6000] if dec.exists() else ""))
     ctx = c2
 unit = str(data.get("id") or data.get("angle") or data.get("character") or os.environ.get("VEX_ITEM_ID", "item"))
 # audio in a text record becomes a listening reel (critic.py)
@@ -39,11 +43,23 @@ for i, g in enumerate(groups):
     cmd = ["python3", str(S / "critic.py"), kind, rubric, str(out), *g, "--ledger", str(ledger)]
     if ctx.exists(): cmd += ["--context", str(ctx)]
     if data.get("critic_model"): cmd += ["--model", data["critic_model"]]
-    if kind == "image" and data.get("refs"): cmd += ["--refs", ",".join(data["refs"])]   # approved set/cast images
+    refs = data.get("refs") or []
+    if not refs and (d / "assets.json").exists():           # the director's per-shot canon list
+        refs = (json.loads((d / "assets.json").read_text()).get("shot_refs") or {}).get(str(data.get("id")), [])
+    refs = [r for r in refs if pathlib.Path(r).exists()][:4]
+    if kind == "image" and refs: cmd += ["--refs", ",".join(refs)]   # approved set/cast images
     r = subprocess.run(cmd, capture_output=True, text=True)
     v = json.loads(out.read_text()) if out.exists() else {"pass": False, "score": 0, "error": r.stderr[-400:]}
     verdicts.append({"file": g[0] if len(g) == 1 else g, "pass": v.get("pass"), "score": v.get("score"), "out": str(out),
                      "defects": v.get("defects", [])[:6]})
+if os.environ.get("JEV_API_KEY") or os.environ.get("TYPESAFE_API_KEY"):      # calibrated second opinion on each verdict
+    for v in verdicts:
+        jo = pathlib.Path(v["out"]).with_suffix(".jev.json")
+        cmd = ["python3", str(S / "jev_gate.py"), v["out"], rubric, str(jo)]
+        if kind == "text" and isinstance(v["file"], list) and len(v["file"]) == 1: cmd += ["--artifact", v["file"][0]]
+        r = subprocess.run(cmd, capture_output=True, text=True)
+        if jo.exists():
+            j = json.loads(jo.read_text()); v["jev"] = {k: j.get(k) for k in ("p_pass", "decision", "min_confidence")}
 best = max(verdicts, key=lambda v: (bool(v["pass"]), v["score"] or 0))
 print(json.dumps({"pass": bool(best["pass"]), "best": best["file"], "best_score": best["score"], "rubric": rubric,
                   "verdicts": verdicts})[:15000])

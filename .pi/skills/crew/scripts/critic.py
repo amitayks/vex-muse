@@ -42,7 +42,7 @@ def call(route, body):
 
 SYS = ("You are the independent critic on a film crew. You did not make this work and you owe the maker nothing. "
        "Judge only against the rubric and the project context. Scores are calibrated: 10 = nothing could be improved by a top "
-       "professional (rare), 8 = strong with clear weak spots, 7 = the pass line, 5 = needs rework. Always list at least the 3 "
+       "professional (rare), 8 = strong with clear weak spots, 7 = the pass line, 5 = needs rework. List at most 12 defects, most severe first, each field under 40 words. Always list at least the 3 "
        "weakest moments as defects, even when the work passes (severity minor), plus every real fault (severity major). "
        "Be specific: every defect names where it is "
        "(timecode mm:ss.s, line number, or region of the image), what is wrong, and the smallest fix. "
@@ -51,7 +51,7 @@ SYS = ("You are the independent critic on a film crew. You did not make this wor
        '"defects": [{"where": "...", "severity": "major|minor", "what": "...", "fix": "..."}], "verdict": "one sentence"}')
 prompt = "RUBRIC:\n" + pathlib.Path(rubric).read_text()
 if ctx: prompt += "\n\nPROJECT CONTEXT:\n" + pathlib.Path(ctx).read_text()[:20000]
-body = {"model": model, "system_prompt": SYS, "temperature": 0.2, "max_tokens": 12000, "reasoning": True}
+body = {"model": model, "system_prompt": SYS, "temperature": 0.2, "max_tokens": 30000, "reasoning": True}
 
 AUD = (".mp3", ".wav", ".m4a", ".flac", ".ogg", ".aac", ".opus")
 if kind == "text":

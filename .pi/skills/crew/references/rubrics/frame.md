@@ -5,3 +5,4 @@ Judge one start frame (a still that a video model will animate) for a shot in a 
 4. realism and AI tells: real skin, real light from the briefed sources, no extra fingers, no melted objects, no readable text or numbers.
 6. geography: compare the frame with the set map in the context (which seat each person sits in, which side of frame each window, door, person and light source must be on for this camera position, and which way each person looks). One wrong side is a fail (score 0 on this item), because it breaks the viewer's sense of space across the cut. Name the object and the side it should be on.
 5. continuity: light, smoke state, time of day and screen direction fit the neighbouring shots described in the context.
+Direction check: a vehicle moves toward where its NOSE points; a view from directly below or an up-looking camera mirrors the map. Describe what you see before you call a direction or a side wrong.

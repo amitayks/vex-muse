@@ -1,0 +1,111 @@
+{
+ "domain": "script",
+ "about": "Rules for a scene beat. Sources: the principal's notes (2026-10-07), the Masters of the Air study, scene-writing skill.",
+ "rules": [
+  {
+   "id": "speed",
+   "type": "choice",
+   "q": "What speed does this beat play at on screen?",
+   "criteria": {
+    "fast": "Fast action: quick cuts under about 1.5 s, things happening fast",
+    "slow": "A slow held event: long holds, talk, waiting, dread",
+    "medium": "In between: nothing fast, nothing held, a purposeless middle pace"
+   },
+   "pass": [
+    "fast",
+    "slow"
+   ],
+   "weight": 2,
+   "source": "the principal: fast action or slow events, never a medium curve"
+  },
+  {
+   "id": "speed_match",
+   "type": "noul",
+   "q": "The beat's labelled speed (FAST or SLOW in the beat sheet row) matches the shot durations and the action written in the scene text.",
+   "want": true,
+   "weight": 1,
+   "source": "two-speed law"
+  },
+  {
+   "id": "conversation",
+   "type": "noul",
+   "q": "The spoken lines are people answering and reacting to each other (replies, interruptions, cut-offs), not lines delivered to an audience.",
+   "want": true,
+   "weight": 2,
+   "when": "dialogue",
+   "source": "the principal: natural talk between two or more, never theatre"
+  },
+  {
+   "id": "exposition",
+   "type": "noul",
+   "q": "A character explains the plot, the situation or their own feelings in full sentences for the audience's benefit.",
+   "want": false,
+   "weight": 2,
+   "when": "dialogue",
+   "source": "scene-writing"
+  },
+  {
+   "id": "listener",
+   "type": "noul",
+   "q": "While someone speaks, the coverage shows a listener or the thing being talked about, not only the speaker.",
+   "want": true,
+   "weight": 1,
+   "when": "dialogue",
+   "source": "scene-writing; reference study"
+  },
+  {
+   "id": "one_read",
+   "type": "noul",
+   "q": "The beat has one clear thing the viewer must understand, and it happens on screen as a cause followed by a reaction.",
+   "want": true,
+   "weight": 2,
+   "source": "mv-director: one read per moment"
+  },
+  {
+   "id": "event",
+   "type": "noul",
+   "q": "Something changes between the start and the end of this beat (a situation, a decision, a position, a sound).",
+   "want": true,
+   "weight": 1,
+   "source": "M3 spectacle without event"
+  },
+  {
+   "id": "geography",
+   "type": "noul",
+   "q": "For every shot of this beat, the coverage states which way the people look or which way things move on screen.",
+   "want": true,
+   "weight": 1,
+   "source": "the principal: spatial logic is the most important thing in films"
+  },
+  {
+   "id": "sound_perspective",
+   "type": "noul",
+   "q": "Every shot of this beat states where we hear from (inside the aircraft, outside, intercom, radio, a speaker in open air), and that perspective fits where the camera is.",
+   "want": true,
+   "weight": 1,
+   "source": "reference study: inside vs outside, intercom vs radio"
+  },
+  {
+   "id": "jargon_real",
+   "type": "score",
+   "q": "How real does the professional talk and procedure sound to someone who does this job?",
+   "criteria": [
+    "Invented or wrong",
+    "Plausible but generic",
+    "Real working talk"
+   ],
+   "pass": 1,
+   "weight": 1,
+   "when": "dialogue",
+   "source": "the principal: everything on screen is real"
+  },
+  {
+   "id": "producible",
+   "type": "noul",
+   "q": "Every shot in this beat is something current AI video does well in 1-4 s (no long continuous acting, no fine hand work, no readable text, no crowd close-ups).",
+   "want": true,
+   "weight": 1,
+   "source": "scene-writing: writing for the models we have"
+  }
+ ]
+}
