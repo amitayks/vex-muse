@@ -107,3 +107,18 @@ projects/lab-music/**/*.mp3
 
 # unlicensed upstream references, fetched locally by tools/fetch-vendor.sh
 vendor/PDoomVideo/
+
+# 3D / splat / film media stays local (scripts, shot JSON, briefs and notes sync)
+*.ply
+*.spz
+*.glb
+*.blend
+*.blend1
+*.exr
+projects/lab-splats/mac/viewer/vendor/
+projects/*/**/*.mp4
+projects/*/**/*.mov
+projects/*/**/*.png
+projects/*/**/*.jpg
+!projects/lab-*/**/assets/**/*.png
+!projects/lab-*/**/assets/**/*.jpg

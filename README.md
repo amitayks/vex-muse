@@ -6,6 +6,34 @@ drawn over them, kinetic lyrics, sound design, render, review, re-render — fro
 
 This repo is a **forkable Vex workspace**: drop it into a workspace, add keys, and the agent runs.
 
+## What's new (2026-10-13)
+
+This update holds what the studio learned after the `crew` skill (8–13 Oct 2026). The main topic is film
+made on real 3D scenes instead of AI-video movement.
+
+- **Blender-first film.** A Blender scene makes the movement, the geometry, the cameras and the people;
+  a model only paints the look. New notes: `blender-field-notes` (render settings, numeric draft checks,
+  exposure metering, Cycles deadlock supervisor), `blender-people` ($0 rigged humans: MPFB + MakeHuman +
+  CMU mocap, crowd contact, strand hair, first-person camera gates).
+- **Render repaint.** `render-repaint` (a five-model video repaint test: Flux 3 edit-video leads) and
+  new tools in `tools/repaint/`: chunked paint with 8-frame handles, smoothstep seam cross-fades, a
+  display-matte composite for story text, and the LTX render-to-real pass with a strict-repaint anchor.
+- **Gaussian-splat worlds.** `splat-field-notes` and `projects/lab-splats/`: World Labs Marble client,
+  a gsplat farm on Modal (capture, train, film-lens render), worlds joined into one camera move with a
+  dust-wave transition, the Mac viewer and the Blender camera bridge.
+- **Sound for one-takes.** Beds driven by camera physics, events exported from Blender, SFX levelled by
+  ebur128 momentary loudness (`sound-design` LEARNINGS + an example mixer).
+- **Critics and the action bar.** `critic-models` (Gemini 3.1 Pro watches, Jev scores), the
+  `masters-of-the-air-case` and `gossip-goblin-trailer-case` studies, and project notes for `action-01`
+  (the first crew film), `lab-blender`, `lab-splats`, `splat-world-01`, `lab-cinematic`, `lab-shaders`,
+  `lab-cursor-motion`, `lab-flux3` and `lab-alphagen`.
+- **Optional Mac helper.** `local-muse-mac-helper`: a local copy of Muse on a Mac for Blender and long
+  renders (TASK / PROGRESS / DONE protocol, health checks).
+- **Updated:** `generation-field-notes`, `tool-selection`, `voice-casting`, `kinetic-typography`;
+  LEARNINGS in `fal-media`, `sound-design`, `webgpu-shaders`, `shift-labs-design`; `fal.py` rates
+  (LTX render-to-real per video megapixel, TripoSplat); `modal_hf.py` WebGL2 flag. `vendor/cua-motion-lab`
+  is now vendored, so `code-motion/scripts/cursor_track.mjs` runs from a fresh clone.
+
 ## Fork it
 
 1. Fork / use this repo as a template, then connect it to a Vex workspace (git sync) or copy the tree
@@ -25,12 +53,15 @@ This repo is a **forkable Vex workspace**: drop it into a workspace, add keys, a
 - `studio/` — Muse's fork of [ClaudeAnimationBase](https://github.com/JohnHeibel/ClaudeAnimationBase)
   (p5.js + p5.brush painting engine; offline fonts, page renders, soft-GL fixes — `studio/FORK.md`).
 - `vendor/` — pristine pinned upstream (see `vendor/PINS.md` for the refresh procedure).
-- `projects/lab-*` — the capability labs the skills build on (motion tools, collage, music, voice):
+- `projects/lab-*` — the capability labs the skills build on (motion tools, collage, music, voice, splats):
   sources, recipes and measured results; generated media is not shipped.
 - `knowledge/references/` — the reference compendium (music-video grammar, kinetic typography,
   anti-slop tells, tool selection, generation field notes, case studies).
 - `.runline/plugins/` — `xpost` (optional X posting behind an exact-preview approval gate).
-- `tools/` — `bootstrap.sh`, `killchrome.sh`, `x-callback/` worker, `fetch-vendor.sh`.
+- `tools/` — `bootstrap.sh`, `killchrome.sh`, `x-callback/` worker, `fetch-vendor.sh`, and `repaint/`
+  (the paint pass over Blender renders).
+- `projects/lab-splats/` — gaussian-splat sources (Marble client, Modal farm, world chains, Mac viewer);
+  no splat files or renders ship.
 
 ## Skills
 
