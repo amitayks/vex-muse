@@ -1,10 +1,10 @@
 {
- "fetched": 1790429171.5565147,
+ "fetched": 1791324047.5146477,
  "source": "https://raw.githubusercontent.com/dingyi/whatships.com/main/src/data/",
- "n": 2238,
+ "n": 2427,
  "commit": {
-  "sha": "c053bd6255",
-  "date": "2026-09-25T13:24:13Z",
-  "msg": "Publish X ticker, ImagineArt Pinterest, and Zingage showreel"
+  "sha": "b08900aa87",
+  "date": "2026-10-06T14:34:21Z",
+  "msg": "Publish six launch films from X.\n\nTreg Clay killer, DemoVerse, shadcn-m3e, Rho-1, flow-1, and Mistra"
  }
 }

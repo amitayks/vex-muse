@@ -1,0 +1,19 @@
+{
+ "about": "Example plan for paint_chunks.py: three chunks of a one-take. Cut chunks at whip peaks (view turn > 120 deg/s) or where a near surface fills > 60 % of the view; each chunk plus 2 x 8 handle frames must stay under 15 s.",
+ "fps": 24,
+ "size": [1280, 720],
+ "model": "blackforestlabs/flux-3/edit-video",
+ "usd_per_s": 0.03,
+ "max_frames": 359,
+ "look": "Turn this 3D render into real live-action footage shot on a cinema camera, neutral daylight white balance (no yellow cast), fine natural grain, true-to-life colour. Real skin, real hair, real fabric with natural folds.",
+ "keep": "Keep the camera move, the framing, the timing, the layout and every person's position, path, clothes colour and motion exactly the same. No logos, no stray signs, no watermark.",
+ "chunks": [
+  {"frames": [1, 340], "src": "draft/c_0001-0340.mp4", "version": "v2",
+   "prompt": "Aerial footage of a real modern city of glass and stone towers; the camera dives down a real reflective glass facade."},
+  {"frames": [341, 585], "src": "draft/c_0341-0585.mp4", "version": "v2",
+   "prompt": "First-person view walking through a real bright office lobby: polished stone floor, timber wall, steel turnstiles, real people walking."},
+  {"frames": [586, 866], "src": "draft/c_0586-0866.mp4", "version": "v2",
+   "prompt": "First-person view inside a real brushed-steel lift cab with a mirror wall and a floor display.",
+   "text_keep": "The floor display is a black glass panel with glowing amber digits: keep it black, keep the amber digits and keep the numbers exactly as they are in every frame."}
+ ]
+}
