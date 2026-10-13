@@ -56,10 +56,13 @@ RATES = {
     "openai/gpt-image-2":                        {"unit": "img", "any": 0.20},
     "openai/gpt-image-2/edit":                   {"unit": "img", "any": 0.20},
     # FLUX 3 Image bills per output megapixel (fal pricing API, 2026-10-04); estimated from the returned width x height, rounded up
+    # LTX 2.3 render-to-real bills per output video megapixel (width x height x frames), fal pricing API 2026-10-10
+    "fal-ai/ltx-2.3-quality/render-to-real":     {"unit": "vmp", "any": 0.0024075},
     "blackforestlabs/flux-3/text-to-image":      {"unit": "mp", "any": 0.024},
     "blackforestlabs/flux-3/edit-image":         {"unit": "mp", "any": 0.024},
     "fal-ai/bria/background/remove":             {"unit": "img", "any": 0.018},
     "fal-ai/sam-3/image":                        {"unit": "img", "any": 0.005},
+    "tripo3d/triposplat":                        {"unit": "call", "any": 0.05},    # image -> 3D gaussian splat PLY; checked 2026-10-10
     "bria/video/background-removal/v3":          {"unit": "sec", "any": 0.03},
     # Music / audio (fal pricing API, checked 2026-09-26). 'call' = flat per request, 'sec'/'min' = per output
     # second/minute (duration probed from the output file), 'per' = price per `per` seconds of output.
@@ -169,6 +172,15 @@ def estimate(endpoint, inp, res, files=None, in_secs=None):
         ims = (res.get("images") or []) if isinstance(res, dict) else []
         mp = sum((i.get("width") or 0) * (i.get("height") or 0) for i in ims if isinstance(i, dict)) / 1e6
         return round(r["any"] * math.ceil(mp), 4) if mp else None
+    if r["unit"] == "vmp":  # video megapixels: probe the downloaded video (w, h, frames)
+        import subprocess
+        for f in [f for f in (files or []) if f.endswith((".mp4", ".mov", ".webm"))]:
+            try:
+                o = subprocess.run(["ffprobe", "-v", "error", "-select_streams", "v:0", "-count_packets", "-show_entries", "stream=width,height,nb_read_packets", "-of", "csv=p=0", f], capture_output=True, text=True, timeout=120).stdout.strip().split(",")
+                w, h, n = int(o[0]), int(o[1]), int(o[2])
+                return round(r["any"] * w * h * n / 1e6, 4)
+            except Exception: pass
+        return None
     if r["unit"] == "img":
         n = len(set(media_urls(res))) or int(inp.get("num_images", 1))   # unique: SAM repeats its mask URL
         return round(r["any"] * n, 4)

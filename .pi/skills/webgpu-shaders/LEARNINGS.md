@@ -7,3 +7,14 @@
 - 2026-10-07 A preset mounted on a canvas that is display:none measured 0x0, so the engine sized to the canvas attributes (300x150) and size-normalised effects (Dither cells, Halftone dots) came out ~3x coarse in the comp but fine in the grid tool. The driver now sets canvas attributes and the renderer size synchronously at mount.
 - 2026-10-07 ImageTexture loads after the first frames (fetch -> createImageBitmap), so early captures showed an empty texture; the driver waits for the engine's natural-size registration of every image url before `ready`.
 - 2026-10-07 (1.1.1): The skill renders through another skill's script (render-review modal_hf.py --webgpu). A zip of this skill alone could not render on the principal's machine. Declare a cross-skill script in compatibility with its minimum version, and ship that script with the skill.
+- 2026-10-09 Build svgExtrude3D fields locally (512² signed, data: URL) — never send a mark to the vendor service; re-seek after the field loads.
+- 2026-10-09 Godrays brightness = node opacity; inside Glass children keep opacity 1. Glass refracts relative to canvas centre: move it by transform with counter-shifted children.
+- 2026-10-09 Measure night share (pixels < 8% luma) per layout; a 9:16 frame needs dimmer sky and rays than 16:9 for the same look.
+- 2026-10-09 (the principal) A strong flat logo is never extruded, cast in a material or turned in 3D — "u make it a toy". Shaders build the world around the mark (sky, light, plates); the mark stays the untouched artwork. Ask before any "motion exception" to a brand's own logo rule.
+- 2026-10-09 (the principal) A logo over a sky reads as "a sticker in front of the screen". Make the medium read the mark's silhouette:
+  - Bend the flow with the gradient of a BLURRED body, not the SDF gradient. The SDF gradient leaves medial-axis creases.
+  - Pile the gas up on the side it hits, add a mild self-shadow and pass wisps in front of the lower body only.
+  - Three tells bring the sticker back: a uniform bright band at the contour, a dark clearing around the figure, and gas showing through the mark's cut lines (fill the closed body with night).
+- 2026-10-09 For a brand sky, a hand-written WebGL2 shader beats library presets: you get full control of tone, dither and stars, every browser runs it, and it is a pure function of t. On the Modal renderer it needs `--enable-unsafe-swiftshader`, which is now in modal_hf.py GPU_ARGS.
+- 2026-10-09 A temporal dither plus full grain doubled the video bitrate (30.5 MB for a 7 s 1080p clip at CRF 16). A static IGN dither and half the grain gave 9.5 MB with no banding.
+- 2026-10-09 Every overlay layer composited after the tone map (front wisps, pulses) must take the same exposure and light ramp. If not, it shows as a pale patch while the scene is still dark.

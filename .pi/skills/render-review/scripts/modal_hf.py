@@ -42,7 +42,7 @@ const [,, chrome, tlid, f0s, f1s, fpss, crf, out, ws, hs, gpus] = process.argv; 
 // WebGPU on a GPU-less host: only SwiftShader on Vulkan presents a WebGPU canvas; the ANGLE-SwiftShader GL
 // flags HyperFrames uses lose the WebGPU instance ("A valid external Instance reference no longer exists").
 const GPU_ARGS = gpus === "1" ? ["--enable-unsafe-webgpu", "--enable-features=Vulkan", "--use-vulkan=swiftshader",
-  "--use-webgpu-adapter=swiftshader", "--use-angle=swiftshader"] : [];
+  "--use-webgpu-adapter=swiftshader", "--use-angle=swiftshader", "--enable-unsafe-swiftshader"] : [];
 const ff = spawn("ffmpeg", ["-v", "error", "-y", "-f", "image2pipe", "-framerate", String(fps), "-c:v", "mjpeg", "-i", "-",
   "-c:v", "libx264", "-preset", "slow", "-crf", crf, "-pix_fmt", "yuv420p", "-profile:v", "high",
   "-r", String(fps), out], { stdio: ["pipe", "inherit", "inherit"] });
