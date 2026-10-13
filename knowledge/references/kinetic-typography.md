@@ -4,7 +4,7 @@ tags: [lyrics, motion-graphics, retention, layout]
 audience: all
 half_life: 3650
 rights: safe
-seen: 2026-09-26
+seen: 2026-10-04
 ---
 # Kinetic lyric typography — text as a retention engine
 
@@ -41,6 +41,10 @@ Plus **none** for moments where text would compete with a visual payoff.
 - Don't repeat the picture: if the frame shows the thing, the text can be
   the feeling, or absent.
 - 9:16 cutdowns: hero text re-laid, not cropped.
+- Vertical app UI covers part of a 9:16 frame; keep lyrics out of it. Fractions of the frame
+  covered (top / bottom / left / right), from ffmpeg-skill's `scripts/_platforms.py`, unsourced, so check
+  against a real screenshot before relying on them: TikTok .10 / .22 / .05 / .14, Reels .08 / .20 /
+  .05 / .12, Shorts .06 / .18 / .05 / .12. Feed (16:9) destinations need only the usual 5 % title-safe border.
 
 **Voice contrast and moves (from [[code-motion-showreels]])**
 - Principle: give type roles (statement / human word / label) and contrast them in voice, not

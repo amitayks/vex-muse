@@ -4,8 +4,8 @@ tags: [speech, tts, casting, elevenlabs]
 audience: studio-internal
 half_life: 90
 rights: safe
-seen: 2026-09-28
-summary: Speech is the studio's newest capability. Covers access to ElevenLabs v3/v4 voices (direct key vs fal), the v3 vs v4 vs v4 Turbo bench (v4 default, but it re-renders library accents), how to cast accented voices without ears, QC of every take by transcription, and the pacing math that fits a narrated script to a target length.
+seen: 2026-10-10
+summary: Speech is the studio's newest capability. Covers access to ElevenLabs v3/v4 voices (direct key vs fal), the v3 vs v4 vs v4 Turbo bench (v4 Turbo is the default; v4 and Turbo re-render library accents), voice replies in chat (latency, natural settings, Hebrew open-model test, prices), how to cast accented voices without ears, QC of every take by transcription, and the pacing math that fits a narrated script to a target length.
 ---
 # Voice casting and narrated audio (ElevenLabs v3 / v4)
 
@@ -42,17 +42,19 @@ name the v4 bench ([[lab-voice]], `projects/lab-voice/`).
 - **Cost:** a full 5-minute drama (108 takes of ~800 words, plus re-records
   and auditions) cost about $1.30 in TTS.
 
-## Eleven v4 / v4 Turbo vs v3 (bench 2026-09-28)
+## Eleven v4 / v4 Turbo vs v3
 Measured in `projects/lab-voice/` ([[lab-voice]]): the Antioch cast via fal,
 7 lines × 2 takes × 3 models. Full tables: `outbox/eleven-v4-vs-v3.md`.
 
-**Status (2026-09-28).** These are Muse's defaults:
-- v4 through fal for new work;
-- v3 kept for broad-accent voices until each one is re-auditioned;
-- Turbo for drafts.
+**v4 Turbo is the default for all speech** (voice replies and studio TTS),
+by the principal's decision after a Hebrew A/B. The settings are
+`{stability: 0.35, speed: 1.1}` (Hebrew 1.05). The voice is Will (premade)
+until the principal chooses one. v3 is kept only for broad-accent library voices
+that Turbo re-renders. Re-audition them before casting.
 
-The principal's verdict on the A/B file (`outbox/eleven-v3-v4-turbo-AB.mp3`) was
-still pending.
+This replaces the bench verdict (v4 through fal for new work, Turbo for
+drafts), because the principal heard Turbo as the best in the Hebrew A/B
+(against v4 and Chatterbox).
 
 - **Published scoreboard** (Artificial Analysis, seen 2026-09-28):
   - **Provider-Voice arena Elo:** v4 1319 (#1), then Cartesia Sonic 3.6
@@ -99,7 +101,7 @@ still pending.
   order-robust ear preference went Turbo 3–0.
   - **Turbo still needs WER QC.** On 1 of 2 takes of a two-sentence
     whisper line it dropped the second sentence (WER 0.63).
-  - Use it for drafts and auditions. Finals are decided by the principal's ear.
+  - The principal's ear later made it the default (above).
 
 ## Casting accents without ears
 - **Search the library by accent word:** scouse, glasgow, paisley,
@@ -164,4 +166,48 @@ still pending.
   times. That JSON becomes the spine for music cues, SFX and picture, like
   `song.json` for a music video.
 
-Related: [[music-tools]] (music beds under a voice, ducking), [[tool-selection]].
+## Voice replies in chat
+- **Job:** turn an agent's final text answer into an audio file and send it.
+  Skill `voice-reply` wraps it as the runline action `voice.say`; the agent
+  sends the returned MP3 with `send_file` ([[lab-voice]]).
+- **Scripts:** `projects/lab-voice/tools/voice_reply.py` (one streaming call)
+  and `voice_reply_par.py` (sentence chunks in parallel, `previous_text` /
+  `next_text` for prosody, ffmpeg concat with stream copy).
+- **Direct free key, premade voice Roger, ~500 chars = ~33 s of speech:**
+  - v4 Turbo streaming: first audio 0.35-0.5 s (one 1.4 s outlier), full file 5.1-6.3 s;
+  - v4 streaming: first audio 0.7-0.9 s, full file 7.5-8.2 s;
+  - v4 Turbo, parallel chunks: full file 3.6-4.1 s (2-4 workers; the free key queues them).
+- **Transient 401 under parallel load:** two v4 runs with 4 workers failed with
+  401. The same calls passed one minute later. Use 2 workers and retry.
+- **WhatsApp delivery:** send MP3 (`audio/mpeg` plays inline as an audio
+  bubble). `.ogg` becomes a file card on the Vex Baileys adapter. It is an
+  audio bubble, not a push-to-talk voice note.
+- **Fastest design:** TTS each sentence while the answer is still being written.
+  The file is then ready ~1 s after the last sentence.
+- **Natural delivery without tags (v4, direct API):** `voice_settings`
+  `{stability: 0.35, speed: 1.1}` and a conversational premade voice
+  (Will, Chris or Eric). Result: ~167-171 wpm, WER 0 on all three.
+  - fal's v4 / v4 Turbo endpoints have `stability` but no `speed` or `style`.
+    Use the direct API when the pace must change.
+  - The blind pairwise ear picked the second clip in all 6 orders. It cannot
+    choose between these voices. The voice is the principal's call.
+  - Most of the human feel comes from the voice and from a script written
+    for the ear: short sentences, no lists, no links.
+- **Hebrew, open model vs ElevenLabs (one take each):**
+  - ElevenLabs v4 (Will, `language_code: he`): CER 0.8%, F0 spread 4.8 st.
+  - Chatterbox Multilingual via fal ($0.025/1k chars, 300-char cap):
+    CER 26%, flat (2.8 st), and it dropped the last sentence.
+  - The principal's ear: Chatterbox "reads each Hebrew word from its end to its
+    start". This looks like an RTL defect, not only an accent.
+  - v4 Turbo, same line (Will, stability 0.35, speed 1.05): CER 0.0%,
+    F0 spread 5.1 st, 2.1 s to generate. The principal chose Turbo.
+  - Open Hebrew TTS is not ready for team replies. Chatterbox is MIT;
+    OmniVoice (600+ languages) is CC-BY-NC, so no commercial use.
+- **ElevenLabs API pricing (seen 2026-10-06):** v4 $0.08/1k chars, v4 Turbo
+  $0.04/1k. Plans: Starter $6, Creator $22,
+  Pro $99, Scale $299. Each plan includes its price in characters at these
+  rates. The free plan includes 10k v4 or 20k Turbo characters a month.
+  When the studio's direct key had used its 10,000 free credits, every direct call
+  (sound generation included) returned HTTP 401 `quota_exceeded`; fal still worked.
+
+Related: [[music-tools]] (music beds under a voice, ducking), [[tool-selection]], [[gossip-goblin-trailer-case]] (trailer VO pacing and a speech-to-speech route).

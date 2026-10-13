@@ -112,6 +112,8 @@ wide framings, and give wide shots a distance reference or text only.
   - at least 5 treatments per chapter;
   - replace repetitive panels with pure motion design.
 - We have no depth-parallax tier. It is the cheap way to put a performance-free plate in motion.
+  A single-image 3D-scene generator does not fill this gap: its output is a diorama with cut edges
+  and an open top, so a camera move shows the seams (DistScene in [[tool-selection]]).
 
 ### 6. The multi-agent production pattern (with its bill)
 - **Research:** 5 parallel sweeps (recent events, longevity, deep SF memes, exact timeline quotes,

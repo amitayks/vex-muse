@@ -13,7 +13,13 @@ live here — it lives in `.pi/skills/` (start at `mv-director`).
   motion, not video-model output). Model and tool field notes
   ([[generation-field-notes]], [[tool-selection]]: HyperFrames / Remotion / SVG
   morphing; [[music-tools]]: fetching, editing and generating songs;
-  [[voice-casting]]: narrated speech and accented character voices). Zeitgeist
+  [[voice-casting]]: narrated speech and accented character voices). Film and
+  3D: the Blender-first rule ([[blender-field-notes]], [[blender-people]],
+  [[render-repaint]]: Blender makes the movement, a model paints the look),
+  gaussian-splat worlds ([[splat-field-notes]]), WebGPU shaders
+  ([[shaders-webgpu]]), critic models ([[critic-models]]), the action bar
+  ([[masters-of-the-air-case]], [[gossip-goblin-trailer-case]]) and the optional
+  Mac helper ([[local-muse-mac-helper]]). Zeitgeist
   dossiers per audience are added here with a `seen` date and a half-life.
   Brand dossiers too: [[shift-labs-brand]] backs skill `shift-labs-design`;
   interactive model: [[vex-interactive-explainers]].
