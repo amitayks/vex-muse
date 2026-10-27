@@ -9,3 +9,4 @@
   modes offer only combined formats.
 - 2026-10-27 · Modal on this plan refuses cloud pinning ("Pinning cloud aws not supported"); region pinning works.
 - 2026-10-27 · Tests: 4 of 4 runs succeeded in the first wave of 8, 15–60 s, a 13-min 720p lecture = 122 MB.
+- 2026-10-27 · Default tries raised 16 → 32: a fresh-session acceptance run passed only on try 16 (15 addresses blocked).
