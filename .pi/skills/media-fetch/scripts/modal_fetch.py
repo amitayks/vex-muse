@@ -78,7 +78,7 @@ ROUTES = [(r, f, c) for c in ("mweb", "tv_simply", "", "web_safari") for (r, f) 
 
 
 @app.local_entrypoint()
-def main(url: str, out: str, mode: str = "video", height: int = 1080, tries: int = 16, subs: str = ""):
+def main(url: str, out: str, mode: str = "video", height: int = 1080, tries: int = 32, subs: str = ""):
     t0 = time.time(); errors = []
     plan = [ROUTES[i % len(ROUTES)] for i in range(tries)]
     WAVE = 8  # containers started at once; the first success wins
